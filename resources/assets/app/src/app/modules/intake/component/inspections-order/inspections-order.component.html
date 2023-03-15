@@ -1,0 +1,60 @@
+<intake-header></intake-header>
+<br>
+<div class="row pb-4">
+  <div class="col-md-5">
+    <div class="card">
+        <div class="card-header comp_headers">
+          <h5>Quick Report Widgets</h5>
+        </div>
+        <div class="card-body">
+            <form (ngSubmit)="onSubmit()" autocomplete="off">
+                <p class="help-inline"><i class="fa fa-question-circle"></i > Begin entering new inspection by looking for that the "Order By" party in the database.</p>
+                  <br />
+                  <div class="form-group">
+                    <label for="lookup_first_name">First Name:</label>
+                    <input name="lookup_first_name" class="form-control" type="text" id="lookup_first_name" [(ngModel)]="order_by.lookup_first_name">
+                  </div>
+                  <div class="form-group">
+                      <label for="lookup_last_name">Last Name:</label>
+                      <input name="lookup_last_name" class="form-control" type="text" id="lookup_last_name" [(ngModel)]="order_by.lookup_last_name" required #lookup_last_name="ngModel"> 
+                      <div *ngIf="lookup_last_name.invalid && (orderBySubmitted || lookup_last_name.touched)" class="alert alert-danger"> 
+                        Last Name is Required
+                      </div>
+                      
+                      
+                  </div>
+                  <button class="btn btn-primary">Check Client Database</button> 
+            </form> 
+            <br>
+            <div id="client_lookup_results">
+              <div class="client_lookup_results_head">
+                  <h1>Results</h1>
+                  <span>( Select from list or choose New Entry )</span>
+              </div> 
+              <div class="client_lookup_results_body">
+                <div class="client_lookup_results_body_row">
+                  <a href="#">
+                    <span>John</span>
+                    <span>Doe</span>
+                    <span>john@example.com</span>
+                  </a>
+                </div>
+                <div class="client_lookup_results_body_row">
+                  <a href="#">
+                    <span>John</span>
+                    <span>Doe</span>
+                    <span>john@example.com</span>
+                  </a>
+                </div>
+              </div>   
+            </div> 
+        </div>
+    </div>      
+  </div> 
+</div>  
+    
+  
+  
+  
+  
+

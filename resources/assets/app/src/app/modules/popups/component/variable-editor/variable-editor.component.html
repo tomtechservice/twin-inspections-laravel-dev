@@ -1,0 +1,67 @@
+<!-- <div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title"></h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div> -->
+<div class="modal-body">
+<div id="variable_editor" title="Edit the Variables in the Code Data Fields">
+
+  <div class="form-group">
+      <div class="col-md-12">
+        <p class="help-inline"><i class="fa fa-question-circle"></i > The following code data fields require editing in order to use. Replace missing text with your report specific information.</p>
+      </div>
+  </div>
+  <div id="temp_var_text">
+    <ng-container  *ngIf="editFormDatas.finding?.length > 0">
+      <ng-container *ngFor="let findingEdit of editFormDatas.finding">
+        <h4 class="subtit var_mod h4-heading" *ngIf="findingEdit.type=='title'">{{findingEdit.value}}</h4>
+        <ng-container *ngIf="findingEdit.type=='text'">{{findingEdit.value}}</ng-container>
+        <ng-container *ngIf="findingEdit.type=='input'">
+          <input type="text" class="temp_var_input_box" [(ngModel)]="codeFindingInputArray[findingEdit.value]">
+        </ng-container> 
+      </ng-container>
+    </ng-container>
+
+    <ng-container  *ngIf="editFormDatas.recommendation?.length > 0">
+      <ng-container *ngFor="let recommendationEdit of editFormDatas.recommendation">
+        <h4 class="subtit var_mod h4-heading" *ngIf="recommendationEdit.type=='title'">{{recommendationEdit.value}}</h4>
+        <ng-container *ngIf="recommendationEdit.type=='text'">{{recommendationEdit.value}}</ng-container>
+        <ng-container *ngIf="recommendationEdit.type=='input'">
+          <input type="text" class="temp_var_input_box" [(ngModel)]="codeRecommendationInputArray[recommendationEdit.value]">
+        </ng-container> 
+      </ng-container>
+    </ng-container>
+
+    <ng-container  *ngIf="editFormDatas.notes?.length > 0">
+      <ng-container *ngFor="let notesEdit of editFormDatas.notes">
+        <h4 class="subtit var_mod h4-heading" *ngIf="notesEdit.type=='title'">{{notesEdit.value}}</h4>
+        <ng-container *ngIf="notesEdit.type=='text'">{{notesEdit.value}}</ng-container>
+        <ng-container *ngIf="notesEdit.type=='input'">
+          <input type="text" class="temp_var_input_box" [(ngModel)]="codeNoteInputArray[notesEdit.value]">
+        </ng-container> 
+      </ng-container>
+    </ng-container>
+  <br /><br><br>
+  <input name="temp_replaced_holder" id="temp_replaced_holder" type="hidden" value="" />
+  <input name="temp_all_fields_holder" id="temp_all_fields_holder" type="hidden" value="" />
+  <input name="temp_finding_holder" id="temp_finding_holder" type="hidden" value="" />
+  <input name="temp_recommendation_holder" id="temp_recommendation_holder" type="hidden" value="" />
+  <input name="temp_notes_holder" id="temp_notes_holder" type="hidden" value="" />
+  <input name="temp_extras_holder" id="temp_extras_holder" type="hidden" value="" />
+  
+  <input name="findings_notes_only_temp" id="findings_notes_only_temp" type="hidden" value="0" />
+  
+  <div class="row">
+      <div class="col-md-12">
+        <input id="edit_var_button" name="edit_var_button" class="btn btn-primary" type="button" value="  Save Edits  " (click)="replaceVarsInFields();" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary" (click)="activeModal.close('Close click')">Cancel</button>
+      </div>
+  </div>
+  
+     
+</div> 
+</div>
+<div class="modal-footer">
+  <!-- <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button> -->
+</div>

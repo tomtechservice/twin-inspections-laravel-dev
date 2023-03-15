@@ -1,0 +1,73 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Add Contractors:</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <h6 style="margin: 24px 0px 24px 0px; color : #6a0708">Sub Contractor Work Info</h6>
+  <form [formGroup]="subContractorForm" (ngSubmit)="onSubmit()">
+    <div class="form-group row">
+      <label for="selectSubContractor" class="col-md-3 col-form-label"><strong>Sub Contractor:</strong></label>
+      <div class="col-md-9">
+
+        <select class="form-control" id="selectSubContractor" formControlName="job_meta_contractor_id"
+          [ngClass]="{ 'is-invalid': submitted && f.job_meta_contractor_id.errors }">
+          <option value="">--SELECT--</option>
+          <option *ngFor="let subContractor of subContractors" [value]="subContractor.user_id">
+            {{subContractor.user_last_name}}<span *ngIf="subContractor.user_first_name">,
+              {{subContractor.user_first_name}}</span>
+          </option>
+        </select>
+
+        <div *ngIf="submitted && f.job_meta_contractor_id.errors">
+          <div *ngIf="f.job_meta_contractor_id.errors.required" class="error-msg">Sub Contractor is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPayment" class="col-md-3 col-form-label"><strong>Payment:</strong></label>
+      <div class="col-md-5">
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">$</div>
+          </div>
+          <input type="text" class="form-control" id="inputPayment" 
+          formControlName="job_meta_contractor_cost" />
+        </div>
+        <!-- <div *ngIf="submitted && f.job_meta_contractor_cost.errors">
+          <div *ngIf="f.job_meta_contractor_cost.errors.required" class="error-msg">Payment is required</div>
+        </div> -->
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputDate" class="col-md-3 col-form-label"><strong>Date:</strong></label>
+      <div class="col-md-9">
+        <input class="form-control" placeholder="mm/dd/yyyy" firstDayOfWeek="7" ngbDatepicker #d="ngbDatepicker"
+          (click)="d.toggle()" (dateSelect)="onDateSelect($event)" id="inputDate" 
+          formControlName="job_meta_contractor_date" [ngClass]="{ 'is-invalid': submitted && f.job_meta_contractor_date.errors }">
+        <div *ngIf="submitted && f.job_meta_contractor_date.errors">
+          <div *ngIf="f.job_meta_contractor_date.errors.required" class="error-msg">Date is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputWorkNotes" class="col-md-3 col-form-label"><strong>Work Notes:</strong></label>
+      <div class="col-md-9">
+        <textarea type="text" class="form-control" id="inputWorkNotes" row="3" 
+        formControlName="job_meta_contractor_notes"></textarea>
+        <!-- <div *ngIf="submitted && f.job_meta_contractor_notes.errors">
+          <div *ngIf="f.job_meta_contractor_notes.errors.required" class="error-msg">Work Notes is required</div>
+        </div> -->
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="" class="col-md-3 col-form-label"></label>
+      <div class="col-md-9">
+        <button class="btn btn-primary">Add Contractor Work Info</button>
+        &nbsp;&nbsp;&nbsp;
+        <button class="btn btn-primary" (click)="activeModal.dismiss('Cross click')">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

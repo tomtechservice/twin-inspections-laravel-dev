@@ -1,0 +1,362 @@
+<!-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3  " > -->
+    <div class="row">
+        <div class="col-md-12">
+           <div *ngIf="head ===true" class="collapse view-more" id="viewdetails2">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="checkbox" name="heading1" id="heading1" [(ngModel)]="card.heading1" #headingOne> 
+                                    Inspections Scheduled report 
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-control form-select-date" [(ngModel)]="dateRange.inspection_scheduled" #inspectionDate (change)='inspectiondateRange(inspectionDate.value)' >
+                                        <option value="0">--- Select ---</option>
+                                        <option value="1">Last 30 Days</option>
+                                        <option value="2">Last 90 Days</option>
+                                        <option value="4">Month to Date</option>
+                                        <option value="3">Year to Date</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div> 
+                        <div>
+                         <div class="row">
+                           <div class="col-md-6">
+                              <input type="checkbox" name="heading2" id="heading2" [(ngModel)]="card.heading2" #headingTwo> 
+                              Inspector Job Costing
+                           </div>
+                           <div class="col-md-6">
+                              <!-- <label>Date Range:</label> -->
+                                <select class="form-control form-select-date" [(ngModel)]="dateRange.job_cost" #jobrangeDate (change)='jobdateRange(jobrangeDate.value)' >
+                                  <option value="0">--- Select ---</option>
+                                  <option value="1">Last 30 Days</option>
+                                  <option value="2">Last 90 Days</option>
+                                  <option value="4">Month to Date</option>
+                                  <option value="3">Year to Date</option>
+                                </select>
+                            </div>
+                         </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                <input type="checkbox" name="heading3" id="heading3" [(ngModel)]="card.heading3" #headingThree> 
+                                Inspector Payroll(Payment)
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control form-select-date" [(ngModel)]="dateRange.payroll" #payrollrangeDate (change)='payrolldateRange(payrollrangeDate.value)' >
+                                  <option value="0">--- Select ---</option>
+                                  <option value="1">Last 30 Days</option>
+                                  <option value="2">Last 90 Days</option>
+                                  <option value="4">Month to Date</option>
+                                  <option value="3">Year to Date</option>
+                                </select>
+                            </div>
+                          </div>
+                          
+                        </div> 
+
+                        <div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                <input type="checkbox" name="heading3" id="heading3" [(ngModel)]="card.headingpayroll2" #headingPayroll2> 
+                                Inspector Payroll(Charge)
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control form-select-date" [(ngModel)]="dateRange.payroll2" #payrollrangeDate2 (change)='payrolldateRange2(payrollrangeDate2.value)' >
+                                  <option value="0">--- Select ---</option>
+                                  <option value="1">Last 30 Days</option>
+                                  <option value="2">Last 90 Days</option>
+                                  <option value="4">Month to Date</option>
+                                  <option value="3">Year to Date</option>
+                                </select>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                      
+                     
+
+
+                     <div class="col-md-4">
+                        <p><input type="checkbox" name="heading5" id="heading5" [(ngModel)]="card.heading5" #headingFive> Calls to Termite Sales (from Fonality server)</p> 
+                        <p><input type="checkbox" name="heading6" id="heading6" [(ngModel)]="card.heading6" #headingSix> Total Revenue Month to Date.</p>
+                     </div>
+
+                     <div class="col-md-4">
+                        <div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                <input type="checkbox" name="heading4" id="heading4" [(ngModel)]="card.heading4" #headingFour> 
+                                Inspector Estimated v Actual
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control form-select-date" [(ngModel)]="dateRange.estimated" #estimatedrangeDate (change)='estimateddateRange(estimatedrangeDate.value)' >
+                                    <option value="0">--- Select ---</option>
+                                    <option value="1">Last 30 Days</option>
+                                    <option value="2">Last 90 Days</option>
+                                    <option value="4">Month to Date</option>
+                                    <option value="3">Year to Date</option>
+                                  </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                    <div class="col-md-4">
+                        <p><input type="checkbox" name="headingWidget"  [(ngModel)]="card.headingWidget" #headingFive> Quick Report Widgets</p>
+                    </div>
+                     <div class="col-md-4">
+                        <p><input type="checkbox" name="headingWantsEarlier"  [(ngModel)]="card.wantsEarlier" #headingWantsEarlier> Wants Earlier</p>
+                     </div>
+                 
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                      <button type="button" class="btn btn-primary pull-right" type="button"
+                      (click)="toggleCard()">Save
+                      </button>
+                    </div>
+                </div>
+             
+             
+            </div>
+            <p>
+              <a class="btn btn-danger btn-sm pull-right btn-tap" data-toggle="collapse" data-target="#viewdetails2" (click)="toggleHead()">Dashboard Settings</a>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+       <div class="col-md-12">
+          <div class="page-title">
+             <div>
+                <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
+                <h4>Overview, stats, chat and more</h4>
+             </div>
+          </div>
+       </div>
+    </div>
+    <div id="no_breadcrumbs">
+    </div>
+    <div class="row">
+      <div></div>
+
+    </div>
+    
+    <div class="row pb-4">     
+      <div class="col-md-12">
+         <div id="accordion-widget" [hidden]="!card.headingWidget">
+             <div class="card">
+               <div class="card-header" id="headingWidget">
+                 <h5 class="mb-0 mt-0">
+                     <a role="button" data-toggle="collapse"  href="#collapseWidget" aria-expanded="true" aria-controls="collapseWidget">
+                       Quick Report Widgets
+                     </a>
+                 </h5>
+               </div>
+           
+               <div id="collapseWidget" class="collapse show" aria-labelledby="headingWidget" data-parent="#accordion-widget">
+                 <div class="card-body">
+                     <app-quick-widget></app-quick-widget>
+                 </div>
+               </div>
+             </div>   
+         </div>
+      </div>
+    </div>
+    <!-- wants earlier -->
+    <div class="row pb-4" *ngIf="inspector">     
+        <div class="col-md-12">
+           <div id="wants-earlier" [hidden]="!card.wantsEarlier" >
+               <div class="card">
+                 <div class="card-header" id="headingWantsEarlier">
+                   <h5 class="mb-0 mt-0">
+                       <a role="button" data-toggle="collapse"  href="#wantsEarlier" aria-expanded="true" aria-controls="wantsEarlier">
+                         Wants Earlier
+                       </a>
+                   </h5>
+                 </div>
+             
+                 <div id="wantsEarlier" class="collapse show" aria-labelledby="headingWantsEarlier" data-parent="#wants-earlier">
+                   <div class="card-body">
+                       <app-wants-earlier></app-wants-earlier>
+                   </div>
+                 </div>
+               </div>   
+           </div>
+        </div>
+      </div>
+    <div class="row pb-4">     
+      <div class="col-md-12">
+         <div id="accordion-two" [hidden]="!card.heading2">
+             <div class="card">
+               <div class="card-header" id="headingTwo">
+                 <h5 class="mb-0 mt-0">
+                     <!-- Collapsible Group Item #1 <a  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">+</a> -->
+                     <a role="button" data-toggle="collapse"  href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                       Inspector Job Costing
+                     </a>
+                 </h5>
+               </div>
+           
+               <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion-two">
+                 <div class="card-body">
+                     <app-jobcosting [count]=dateRange.job_cost></app-jobcosting>
+                 </div>
+               </div>
+             </div>   
+         </div>
+      </div>
+    </div>
+    
+    <div class="row pb-4">
+         <div class="col-md-12">
+            <div id="accordion" [hidden]="!card.heading1">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h5 class="mb-0 mt-0">
+                        <!-- Collapsible Group Item #1 <a  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">+</a> -->
+                        <a role="button" data-toggle="collapse"  href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                          Inspections Scheduled report
+                        </a>
+                    </h5>
+                  </div>
+              
+                  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <!-- Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. -->
+                        <app-inspections-scheduled [count]=dateRange.inspection_scheduled></app-inspections-scheduled>
+                    </div>
+                  </div>
+                </div>   
+            </div>
+         </div>
+    </div>
+    
+
+    <div class="row pb-4">
+        <div class="col-md-12">
+           <div id="accordion-three" [hidden]="!card.heading3">
+               <div class="card">
+                 <div class="card-header" id="headingThree">
+                   <h5 class="mb-0 mt-0">
+                        <a role="button" data-toggle="collapse"  href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                          Inspector Payroll(Payment)
+                       </a>
+                   </h5>
+                 </div>
+             
+                 <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion-three">
+                   <div class="card-body">
+                      <app-payroll [count]=dateRange.payroll></app-payroll>
+                   </div>
+                 </div>
+               </div>   
+           </div>
+        </div>
+    </div>
+
+
+
+    <div class="row pb-4">
+      <div class="col-md-12">
+         <div id="accordion-payroll" [hidden]="!card.headingpayroll2">
+             <div class="card">
+               <div class="card-header" id="headingpayroll2">
+                 <h5 class="mb-0 mt-0">
+                      <a role="button" data-toggle="collapse"  href="#collapsePayroll" aria-expanded="true" aria-controls="collapsePayroll">
+                        Inspector Payroll(Charge)
+                     </a>
+                 </h5>
+               </div>
+           
+               <div id="collapsePayroll" class="collapse show" aria-labelledby="headingpayroll2" data-parent="#accordion-payroll">
+                 <div class="card-body">
+                    <app-accounting-report-payroll [count]=dateRange.payroll2></app-accounting-report-payroll>
+                 </div>
+               </div>
+             </div>   
+         </div>
+      </div>
+  </div>
+
+
+
+    <div class="row pb-4">
+      <div class="col-md-12">
+         <div id="accordion-four" [hidden]="!card.heading4">
+             <div class="card">
+               <div class="card-header" id="headingFour">
+                 <h5 class="mb-0 mt-0">
+                     <!-- Collapsible Group Item #1 <a  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">+</a> -->
+                     <a role="button" data-toggle="collapse"  href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                        Inspector Estimated v Actual
+                     </a>
+                 </h5>
+               </div>
+           
+               <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion-four">
+                 <div class="card-body">
+                    <app-estimated-actual [count]=dateRange.estimated></app-estimated-actual>
+                 </div>
+               </div>
+             </div>   
+         </div>
+      </div>
+    </div>
+
+    <div class="row pb-4">
+        <div class="col-md-12">
+           <div id="accordion-five" [hidden]="!card.heading5">
+               <div class="card">
+                 <div class="card-header" id="headingFive">
+                   <h5 class="mb-0 mt-0">
+                       <!-- Collapsible Group Item #1 <a  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">+</a> -->
+                       <a role="button" data-toggle="collapse"  href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                          Calls to Termite Sales (from Fonality server)
+                       </a>
+                   </h5>
+                 </div>
+             
+                 <div id="collapseFive" class="collapse show" aria-labelledby="headingFive" data-parent="#accordion-five">
+                   <div class="card-body">
+                     
+                   </div>
+                 </div>
+               </div>   
+           </div>
+        </div>
+    </div>
+    <div class="row pb-4">    
+      <div class="col-md-12">
+         <div id="accordion-six" [hidden]="!card.heading6">
+             <div class="card">
+               <div class="card-header" id="headingSix">
+                 <h5 class="mb-0 mt-0">
+                     <!-- Collapsible Group Item #1 <a  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">+</a> -->
+                     <a role="button" data-toggle="collapse"  href="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
+                        Total Revenue Month to Date.
+                     </a>
+                 </h5>
+               </div>
+           
+               <div id="collapseSix" class="collapse show" aria-labelledby="headingSix" data-parent="#accordion-six">
+                 <div class="card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                 </div>
+               </div>
+             </div>   
+         </div>
+      </div>
+    </div>
+
+
+    
+ <!-- </div> -->

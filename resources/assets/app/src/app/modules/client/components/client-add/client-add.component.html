@@ -1,0 +1,291 @@
+<div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="page-title">
+        <div>
+          <h1><i class="fa fa-book"></i> {{headingText}} </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="breadcrumbs">
+  <ul class="breadcrumb">
+    <li>
+      <i class="fa fa-dashboard"></i>
+      <span class="divider"></span>
+      <a>Dashboard</a>
+      <span class="divider">
+        <i class="fa fa-angle-right"></i>
+      </span>
+      Client
+      <span class="divider">
+        <i class="fa fa-angle-right"></i>
+      </span>
+    </li>
+    <li class="active"> {{headingText}}</li>
+  </ul>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    {{headingText}}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+          <div class="alert alert-danger" *ngIf="error_message!=''">
+              <strong>Error!</strong>
+              {{error_message}}
+          </div>
+        <div class='row' [hidden]="company_reference_id">
+            <div class="col-md-12">
+                <span class="help-inline"><i class="fa fa-question-circle"></i> All fields required unless noted</span>
+                <a routerLink="/account/carddetails/{{clientId}}" style="float: right;" ><button type="button" class="btn btn-primary"><i class="fa fa-credit-card"></i> Credit Card</button></a>
+            </div>    
+        </div>
+        <br>
+        
+        <form role="form" [formGroup]="clientDetailsForm" (ngSubmit)="onSubmit()">
+          <input id="company_id" name="company_id" type="hidden" value="0" >
+          <div class='row' formGroupName="new_client">
+            <input id="client_reference_id" formControlName="client_reference_id" type="hidden" value="0" >
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>First Name</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" formControlName="client_first_name" placeholder="First Name">
+                  <div *ngIf="submitted && clientDetailsForm.get('new_client.client_first_name').invalid" class="text-danger">
+                    <p *ngIf="clientDetailsForm.get('new_client.client_first_name').hasError('required')">Client first name is  a required field</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Last Name</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" placeholder="Last Name" formControlName="client_last_name">
+                  <div *ngIf="submitted && clientDetailsForm.get('new_client.client_last_name').invalid" class="text-danger">
+                    <p *ngIf="clientDetailsForm.get('new_client.client_last_name').hasError('required')">Client last name is  a required field</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Company</b></label>
+                <div class="col-md-8">
+                  <div style="text-align:right;">
+                    <span class="comp_search_link" (click)='openFormModal()'>lookup company</span> or... <span class="comp_search_link" (click)='newCompany()'>enter new</span>
+                  </div>
+                  <input [ngClass]="{warning: readonly}"  class="form-control" type="text" placeholder="Company Name" formControlName='company_name' >
+                  <span class="help-inline">(optional)</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 new-company-cont" formGroupName="new_company" *ngIf='displayNewCompanyFields'>
+              <h3>More Company Info</h3>
+              <!-- <input id="company_reference_id" name="company_reference_id" type="hidden" value="0" > -->
+              <div class="form-group row" [hidden]="company_reference_id">
+                <label class="col-md-3 col-form-label"><b>Twin Termite Reference Id</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" placeholder='Optional In-House Ref. Id' formControlName='company_reference_id'>
+                  <span class="help-inline">(optional)</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Street Address</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" placeholder="Company Street Address" formControlName='company_address1'>
+                  <span class="help-inline">(optional)</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Apt., Suite, etc</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" placeholder="Company Apt., Suite, etc" formControlName='company_address2'>
+                  <span class="help-inline">(optional)</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>City</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" placeholder="Company City" formControlName='company_city'>
+                  <span class="help-inline">(optional)</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Company State:</b></label>
+                <div class="col-md-8">
+                  <select class="form-control" formControlName='company_state'>
+                    <option value=''>--Choose Company State--</option>
+                    <option *ngFor="let state of states " [value]="state.id">{{state.name}}</option>
+                  </select>
+                  <span class="help-inline">(optional)</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Zip Code</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" placeholder='Company Zip Code' formControlName='company_zip'>
+                  <span class="help-inline">(optional)</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Company Phone</b></label>
+                <div class="col-md-8">
+                  <input class="form-control" type="text"  mask="(000) 000-0000" formControlName='company_phone'>
+                  <span class="help-inline">(optional)</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Company Type</b></label>
+                <div class="col-md-8">
+                  <select class="form-control" formControlName='company_type'>
+                      <option value=""> - Choose Company Type - </option>    
+                      <option value="Realtor">Realtor</option>
+                      <option value="Title/Escrow">Title/Escrow</option>
+                      <option value="Other">Other</option>
+                  </select>
+                  <span class="help-inline">(optional)</span>
+                </div>
+              </div>
+            </div> 
+            
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Client Type</b></label>
+                <div class="col-md-8">
+                    <select class="form-control" formControlName='client_type'>
+                      <option value="" >--Choose Client Type--</option>
+                      <option value="Primary">Primary</option>
+                      <option value="Realtor">Realtor</option>
+                      <option value="Title/Escrow">Title/Escrow</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    <div *ngIf="submitted && clientDetailsForm.get('new_client.client_type').invalid" class="text-danger">
+                        <p *ngIf="clientDetailsForm.get('new_client.client_type').hasError('required')">Please select any client type</p>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Street Address</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" placeholder="Street Address" formControlName='client_address1'>
+                  <div *ngIf="submitted && clientDetailsForm.get('new_client.client_address1').invalid" class="text-danger">
+                      <p *ngIf="clientDetailsForm.get('new_client.client_address1').hasError('required')">Client street address is  a required field</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Apt., Suite, etc</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" placeholder="Apt., Suite, etc" formControlName='client_address2'>
+                  <span class="help-inline">(optional)</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>City</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" placeholder="City" formControlName="client_city">
+                  <div *ngIf="submitted && clientDetailsForm.get('new_client.client_city').invalid" class="text-danger">
+                      <p *ngIf="clientDetailsForm.get('new_client.client_city').hasError('required')">Client city is  a required field</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>State</b></label>
+                <div class="col-md-8">
+                  <select class="form-control" formControlName='client_state'>
+                      <option value=''>--Choose State--</option>
+                      <option *ngFor="let state of states " [value]="state.id">{{state.name}}</option>
+                  </select>
+                  <div *ngIf="submitted && clientDetailsForm.get('new_client.client_state').invalid" class="text-danger">
+                      <p *ngIf="clientDetailsForm.get('new_client.client_state').hasError('required')">Client state is  a required field</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Zip Code</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" placeholder="Zip Code" formControlName='client_zip'>
+                  <div *ngIf="submitted && clientDetailsForm.get('new_client.client_zip').invalid" class="text-danger">
+                      <p *ngIf="clientDetailsForm.get('new_client.client_zip').hasError('required')">Client zip is  a required field</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Phone</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" mask="(000) 000-0000" formControlName='client_phone'>
+                  <div *ngIf="submitted && clientDetailsForm.get('new_client.client_phone').invalid" class="text-danger">
+                      <p *ngIf="clientDetailsForm.get('new_client.client_phone').hasError('required')">Client phone is  a required field</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label"><b>Email</b></label>
+                <div class="col-md-8">
+                  <input  class="form-control" type="text" placeholder="Email" formControlName='client_email'>
+                  <div *ngIf="submitted && clientDetailsForm.get('new_client.client_email').invalid" class="text-danger">
+                      <p *ngIf="clientDetailsForm.get('new_client.client_email').hasError('required')">Client email is  a required field</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                  <button class="subscribe btn btn-primary btn-block mt-3" type="submit"> {{headingText}} </button>
+                </div>
+              </div>
+            </div>
+
+          </div> 
+
+        </form>  
+      </div> 
+      <!-- <div class="col-md-6" *ngIf="check_job">
+        Jobs
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item  of job_details">
+                <a href="{{old_site}}url/inspections_completed_sheet/{{item.job_id}}" target='_blank'>
+                  {{item.job_id}}  {{item.property?.property_address1}} {{item.property?.property_address2}} {{item.property?.property_city}} {{item.property?.property_state}} {{item.property?.property_zip}}
+                </a>      
+            </li>
+        
+          </ul>
+      </div> -->
+      <div class="col-md-6">
+        <div class="card"  *ngIf="check_job">
+            <div class="card-header">
+              JOBS
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item" *ngFor="let item  of job_details">
+                  <a href="{{old_site}}url/inspections_completed_sheet/{{item.job_id}}" target='_blank'>
+                    {{item.job_id}}  {{item.property?.property_address1}} {{item.property?.property_address2}} {{item.property?.property_city}} {{item.property?.property_state}}, {{item.property?.property_zip}}
+                  </a>
+              </li>
+              
+            </ul>
+        </div> 
+      </div>
+    </div>  
+  </div>

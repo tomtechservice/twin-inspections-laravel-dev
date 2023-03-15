@@ -1,0 +1,79 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Add Crew Hours:</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <h6 style="margin: 24px 0px 24px 0px; color : #6a0708">Fill in Crew Hours</h6>
+  <form [formGroup]="crewwHoursForm" (ngSubmit)="onSubmit()">
+    <div class="form-group row">
+      <label for="selectCrew" class="col-md-3 col-form-label"><strong>Crew :</strong></label>
+      <div class="col-md-9">
+        <select class="form-control" id="selectCrew" 
+        formControlName="crew_id" 
+        [ngClass]="{ 'is-invalid': submitted && f.crew_id.errors }" 
+        (change)="findCrewCommission($event.target.value)">
+          <option value="">--SELECT--</option>
+          <optgroup label="Crew">
+            <option *ngFor="let crew of crews" 
+            [value]="crew.user_id">{{ crew.user_last_name }}, {{
+              crew.user_first_name }}</option>
+          </optgroup>
+        </select>
+        <div *ngIf="submitted && f.crew_id.errors">
+          <div *ngIf="f.crew_id.errors.required" class="error-msg">Crew is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputDateCompleted" class="col-md-3 col-form-label"><strong>Date Completed :</strong></label>
+      <div class="col-md-9">
+        <input required="" class="form-control" placeholder="mm/dd/yyyy" firstDayOfWeek="7" ngbDatepicker #d="ngbDatepicker"
+          (click)="d.toggle()" (dateSelect)="onDateSelect($event)" id="inputDateCompleted" formControlName="job_crew_date_completed"
+          [ngClass]="{ 'is-invalid': submitted && f.job_crew_date_completed.errors }">
+        <div *ngIf="submitted && f.job_crew_date_completed.errors">
+          <div *ngIf="f.job_crew_date_completed.errors.required" class="error-msg">Date is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputHours" class="col-md-3 col-form-label"><strong>Hours :</strong></label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="inputHours" formControlName="job_crew_hours">
+      </div>
+
+    </div>
+    <div class="form-group row" *ngIf="findingData.user_crew_commission">
+      <label for="inputBillHourlyRate" class="col-md-3 col-form-label"><strong>Bill Hourly Rate:</strong></label>
+      <div class="col-md-9">
+          <input type="checkbox" class="form-control" id="inputBillHourlyRate" 
+          style="width: 3%;"
+          formControlName="job_meta_crew_bill_hourly" value="1">
+      </div>
+
+    </div>
+    <div class="form-group row">
+      <label for="selectCrew" class="col-md-3 col-form-label"><strong>Assisting :</strong></label>
+      <div class="col-md-9">
+        <select class="form-control" id="selectCrew" formControlName="assisting_id">
+          <option value="">-SELECT-</option>
+          <option *ngFor="let crew of crews" [value]="crew.user_id">{{crew.user_last_name}}, {{crew.user_first_name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="findingData.crew_hours_note == 0">
+     <label for="" class="col-sm-12 col-form-label">
+        <strong>*This crew is not listed as perform lead in any of the findings.</strong>
+     </label> 
+    </div>
+    <div class="form-group row">
+      <label for="" class="col-md-3 col-form-label"></label>
+      <div class="col-md-9">
+        <button type="submit" class="btn btn-primary">Add Crew Hours</button>
+        &nbsp;&nbsp;&nbsp;
+        <button type="submit" class="btn btn-primary" (click)="activeModal.dismiss('Cross click')">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,49 @@
+.btn-bgnone{
+	background: none !important;
+    border: none !important;
+}
+@media only screen and (max-width: 768px) {
+    .nav_heading{
+    	padding-top:15px;
+    }
+}
+@media only screen and (max-width: 990px) {
+    
+    .main_nav{
+        margin:0 auto;
+        z-index: 999;
+    }
+}
+.holder {
+    position: relative;
+}
+.my_drop_down {
+    position: absolute;
+    width: 120%;
+    background: #fff;
+    color: #222;
+    z-index: 999;
+    -webkit-box-shadow: 10px 10px 21px 0px rgba(0,0,0,0.63);
+    -moz-box-shadow: 10px 10px 21px 0px rgba(0,0,0,0.63);
+    box-shadow: 10px 10px 21px 0px rgba(0,0,0,0.63);
+    padding: 10px 15px;
+
+    h4 {
+    	color:#222 !important;
+    }
+    a{
+    	color: #6a0708;
+    	cursor:pointer;
+    }
+    a:hover{
+    	color:#EFC86D;
+    }
+}
+
+input:focus + .my_drop_down {
+    display: block;
+}
+
+.search-result-link:hover {
+    text-decoration:none;
+}

@@ -1,0 +1,101 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Reports/Documents Quick View:</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="btn-toolbar pull-right" *ngIf='reportGeneratorBtnDispaly'>
+    <div class="btn-group">
+      <span class="popup_sub_head_span"><button class="btn btn-link circle-links">Generate Reports:</button></span>
+      <ng-template #tipFindingPdf>Generate Report (Findings) PDF</ng-template>
+      <ng-template #tipContractPdf>Generate Contract PDF</ng-template>
+      <button [ngbTooltip]="tipFindingPdf" type="button" class="btn btn-dark btn-sm btn-r-ound mr-2" title="Generate Report (Findings) PDF" (click)="makeFindingsReportPdf('finding_only','')"><i class="fa fa-file"></i></button>
+      <button [ngbTooltip]="tipContractPdf" type="button" class="btn btn-dark btn-sm btn-r-ound mr-2" title="Generate Contract PDF" (click)="makeFindingsReportPdf('generate_contract','new')"><i class="fa fa-file-text" aria-hidden="true"></i></button>
+    </div>
+  </div>
+
+  <div class="loder-popup" *ngIf='pageLoaderShow'>
+      
+    <div class="popup-inner">
+        <div class="loader"></div>        
+    </div>
+  </div>
+
+  <div id="reports_manager_results">
+    <p class="help-inline"><i class="fa fa-question-circle"></i> Listing previously generated Reports/Documents</p>
+    <h4 class="h4-heading" style="margin: 24px 0px 24px 0px">Available Reports/Documents</h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover fill-head">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Report/Doc</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngIf='reportsData?.is_reports_exist == 0'>
+              <td colspan="4">No Reports or Documents have been generated!</td>
+          </tr>
+          <ng-container *ngIf="reportsData?.is_reports_exist == 1"> 
+            <tr *ngIf="reportsData?.reportPdfFile">
+              <!-- <td><img src="media/reports/blank_pdf_image.png" width="40" /></td> -->
+              <td><i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+              <td>Inspection Report (Findings)</td>
+              <td>
+                <a href="{{doSpace}}/media/reports/{{job_id}}/{{reportsData.reportPdfFile}}" target="_blank">Open</a> | 
+                <button type="button" class="btn btn-link doc-download-btn" (click)="downloadDoc(reportsData.reportPdfFile)">Download</button>
+                <!-- <a href="{{pathdoSpace}}/media/reports/{{job_id}}/{{reportsData.reportPdfFile}}" download>Download</a> -->
+              </td>
+            </tr>
+            <tr *ngIf="reportsData?.reportPdfFileContract">
+                <td><i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+              <td>Work Authorization Contract</td>
+              <td>
+                <a href="{{doSpace}}/media/reports/{{job_id}}/{{reportsData.reportPdfFileContract}}" target="_blank">Open</a> | <button type="button" class="btn btn-link doc-download-btn" (click)="downloadDoc(reportsData.reportPdfFileContract)">Download</button></td>
+            </tr>
+            <tr *ngIf="reportsData?.jobCardCrewPdfFile">
+                <td><i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+                <td>Work Order Job Card - Crew</td>
+                <td><a href="{{doSpace}}/media/reports/{{job_id}}/{{reportsData.jobCardCrewPdfFile}}" target="_blank">Open</a> | <button type="button" class="btn btn-link doc-download-btn" (click)="downloadDoc(reportsData.jobCardCrewPdfFile)">Download</button></td>
+            </tr>
+            <tr *ngIf="reportsData?.jobCardContractorPdfFile">
+                <td><i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+                <td>Work Order Job Card - Contractor</td>
+                <td><a href="{{doSpace}}/media/reports/{{job_id}}/{{reportsData.jobCardContractorPdfFile}}" target="_blank">Open</a> | <button type="button" class="btn btn-link doc-download-btn" (click)="downloadDoc(reportsData.jobCardContractorPdfFile)">Download</button></td>
+            </tr>
+            <tr *ngIf="reportsData?.jobCardTreaterPdfFile">
+                <td><i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+                <td>Work Order Job Card - Treater</td>
+                <td><a href="{{doSpace}}/media/reports/{{job_id}}/{{reportsData.jobCardTreaterPdfFile}}" target="_blank">Open</a> | <button type="button" class="btn btn-link doc-download-btn" (click)="downloadDoc(reportsData.jobCardTreaterPdfFile)">Download</button></td>
+            </tr>
+            <tr *ngIf="reportsData?.jobWorkCompletionPdfFile">
+                <td><i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+                <td>Work Completion Report</td>
+                <td><a href="{{doSpace}}/media/reports/{{job_id}}/{{reportsData.jobWorkCompletionPdfFile}}" target="_blank">Open</a> | <button type="button" class="btn btn-link doc-download-btn" (click)="downloadDoc(reportsData.jobWorkCompletionPdfFile)">Download</button></td>
+            </tr>
+            <tr *ngIf="reportsData?.jobBillingStatementPdfFile">
+                <td><i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+                <td>Billing Statement</td>
+                <td><a href="{{doSpace}}/media/reports/{{job_id}}/{{reportsData.jobBillingStatementPdfFile}}" target="_blank">Open</a> | <button type="button" class="btn btn-link doc-download-btn" (click)="downloadDoc(reportsData.jobBillingStatementPdfFile)">Download</button></td>
+            </tr>
+          </ng-container>
+
+
+         
+
+        </tbody>
+      </table>
+    </div> <!-- end table responsive div -->
+  </div>
+  
+  <br />
+  <br />
+  <a href="{{old_site}}url/inspections_reports/{{job_id}}" class="btn"><i class="fa fa-envelope"></i> Open Reports/Documents Manager</a>
+  <!-- routerLink="/inspections-reports/{{job_id}}" -->
+</div>
+<!-- <div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+</div>  -->

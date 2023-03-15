@@ -1,0 +1,100 @@
+<div class="row">
+  <div class="col-md-12">
+     <div class="page-title">
+        <div>
+           <h1><i class="fa fa-dashboard"></i>Work Contract Report Settings</h1>
+           <!-- <h4>Overview, stats, chat and more</h4> -->
+        </div>
+     </div>
+  </div>
+</div>
+<div class="row pb-4">     
+  <div class="col-md-12">
+    <div id="accordion-widget">
+      <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0 mt-0">
+              <a role="button" data-toggle="collapse" href="#overView1" aria-expanded="true" aria-controls="overView1">
+                Content Settings
+                <!-- {{permission}} -->
+              </a>
+            </h5>
+          </div>
+        <div class="card-body">
+            <app-tinymce [(ngModel)]='reportContent.data' #tinymce='tinymce'></app-tinymce> 
+            <input type="button" [disabled]="loader" value="SUBMIT" class="btn btn-primary" (click)="onSubmit()">
+            &nbsp;&nbsp;
+            <span *ngIf="sucMsg" style="color: red;"><b>Saved</b></span>
+            <span *ngIf="loader"><img src="assets/images/loading-x.svg" ></span>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+              <li class="list-group-item">{{'{%report_id%}'}} - Report ID.</li>
+              <li class="list-group-item">{{'{%inspection_completion_date%}'}} - Inspection Completion Date.</li>
+              <li class="list-group-item">{{'{%property_address%}'}} - Property Address.</li>
+              <li class="list-group-item">{{'{%amount%}'}} - Payment Amount.</li>
+              <li class="list-group-item">{{'{%name%}'}} - Escrow Holder Name.</li>
+              <li class="list-group-item">{{'{%number%}'}} - Escrow Number.</li>
+              <li class="list-group-item">{{'{%sum_amount%}'}} - Sum Amount.</li>
+              <li class="list-group-item">{{'{%date%}'}} - Escrow Closing Date.</li>
+              <li class="list-group-item">{{'{%phone%}'}} - Escrow Officer Phone Number</li>
+              <li class="list-group-item">{{'{%officer_name%}'}} - Escrow Officer Name</li>
+              <li class="list-group-item">{{'{%escrow_email%}'}} - Escrow Officer Email-Id</li>
+              <li class="list-group-item">{{'{%field_items%}'}} - Field Items</li>
+              <li class="list-group-item">{{'{%price%}'}} - Field Items Price</li>
+              <li class="list-group-item">{{'{%field_user%}'}} - Field User</li>
+              <li class="list-group-item">{{'{%field_user_phone%}'}} - Field User Phone</li>
+              <li class="list-group-item">{{'{%signature-pad%}'}} - Signature Pad</li>
+              <li class="list-group-item">{{'{%sign_date%}'}} - Signed Date</li>
+              <li class="list-group-item">{{'{%owner_name%}'}} - Owner Name</li>
+              <li class="list-group-item">{{'{%address%}'}} - Owner Mailing Address</li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row pb-4">
+  <div class="col-md-12">
+    <div id="accordion-widget">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0 mt-0">
+            <a role="button" data-toggle="collapse" href="#overView1" aria-expanded="true" aria-controls="overView1">
+              Header Settings
+              <!-- {{permission}} -->
+            </a>
+          </h5>
+        </div>
+        <div class="card-body">
+          <app-tinymce [(ngModel)]='workContractReportHeader.data' #tinymce='tinymce'></app-tinymce>
+          <input type="button" [disabled]="loaderHead" value="SUBMIT" class="btn btn-primary" (click)="onSubmitWorkReportHeader()">
+          &nbsp;&nbsp;
+          <span *ngIf="sucMsgHead" style="color: red;"><b>Saved</b></span>
+          <span *ngIf="loaderHead"><img src="assets/images/loading-x.svg"></span>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+              <li class="list-group-item">{{'{%building_no%}'}} - Building Number.</li>
+              <li class="list-group-item">{{'{%street%}'}} - Street Number.</li>
+              <li class="list-group-item">{{'{%city%}'}} - City Name.</li>
+              <li class="list-group-item">{{'{%zip%}'}} - zip.</li>
+              <li class="list-group-item">{{'{%inspection_date%}'}} - Date.</li>
+              <li class="list-group-item">{{'{%logo%}'}} - logo.</li>
+              <li class="list-group-item">{{'{%company_name%}'}} - Company Name.</li>
+              <li class="list-group-item">{{'{%company_address_1%}'}} - Company Address - 1.</li>
+              <li class="list-group-item">{{'{%company_address_2%}'}} - Company Address - 2.</li>
+              <li class="list-group-item">{{'{%company_city%}'}} - Company City.</li>
+              <li class="list-group-item">{{'{%company_state%}'}} - Company State.</li>
+              <li class="list-group-item">{{'{%company_zip%}'}} - Company Zip.</li>
+              <li class="list-group-item">{{'{%company_phone%}'}} - Company Phone.</li>
+              <li class="list-group-item">{{'{%company_fax%}'}} - Company Fax.</li>
+              <li class="list-group-item">{{'{%company_url%}'}} - Company URL.</li>
+              <li class="list-group-item">{{'{%report_no%}'}} - Report Number.</li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

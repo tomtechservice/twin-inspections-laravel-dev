@@ -1,0 +1,137 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="mb-0 mt-0">
+      <a role="button" data-toggle="collapse" href="#overViewjob" aria-expanded="true" aria-controls="overViewjob">
+        Job Costing
+      </a>
+    </h5>
+  </div>
+  <div id="overViewjob" class="collapse show">
+    <div class="card-body">
+      <div class="box-content">
+          <!-- <button (click)="makeJobCosting()">testing</button> -->
+        <!-- {{jobDetails | json}} -->
+        <br>
+        <span id="job_costing_report">
+          <table class="table fill-head">
+            <thead>
+              <tr>
+                <th>{{jobDetails?.report}}</th>
+                <th>{{jobDetails?.tot_all_perc}} </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td width="50%"><strong>Total Charges</strong>: (temporary for review only) </td>
+                <td>{{jobDetails?.tot_charges | currency}} </td>
+              </tr>
+              <tr>
+                <td width="50%">&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Crew:</strong> </td>
+                <td>{{jobDetails?.tot_crew_cost}} </td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Crew Charges:</strong> </td>
+                <td>{{jobDetails?.crew_tot | currency}}</td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Crew Wages:</strong> </td>
+                <td>{{jobDetails?.crew_wages_perc}}</td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Crew Materials:</strong> </td>
+                <td>{{jobDetails?.mat_perc}}</td>
+              </tr>
+              <tr>
+                <td width="50%">&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Treat:</strong> </td>
+                <td>{{jobDetails?.tot_chem_cost}}</td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Treat Charges</strong>: </td>
+                <td>{{jobDetails?.chem_tot | currency}}</td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Treat Wages:</strong></td>
+                <td>{{jobDetails?.chem_wages_perc}}</td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Treat Materials:</strong> </td>
+                <td>{{jobDetails?.chem_cost_perc}}</td>
+              </tr>
+              <tr>
+                <td width="50%">&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Subcontractor:</strong> </td>
+                <td>{{jobDetails?.subcon_tot_tot}}</td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Subcontractor Cost</strong>: </td>
+                <td>{{jobDetails?.subcon_tot | currency}}</td>
+              </tr>
+              <tr>
+                <td width="50%">&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Overhead:</strong> </td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Inspector Commission</strong>: </td>
+                <td>{{jobDetails?.insp_comm_perc}}</td>
+              </tr>
+              <tr>
+                <td width="50%"><strong>Office / Operations:</strong> </td>
+                <td>&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <br>
+
+
+          <h3>Estimated vs Actual</h3>
+
+
+          <table class="table table-striped table-hover fill-head">
+            <thead>
+
+              <tr>
+                <th>Est. Hours</th>
+                <th>Actual Hours</th>
+                <th>+/-%</th>
+                <th>Est. Mat.</th>
+                <th>Actual Mat.</th>
+                <th>+/-%</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td>{{estimated?.ehours}}</td>
+                <td>{{estimated?.ahours}}</td>
+                <td>{{estimated?.perc_hours}}</td>
+                <td>${{estimated?.emats}}</td>
+                <td>${{estimated?.amats}}</td>
+                <td>{{estimated?.perc_mats}}</td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </span>
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>

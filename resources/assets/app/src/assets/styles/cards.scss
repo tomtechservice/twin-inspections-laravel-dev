@@ -1,0 +1,88 @@
+
+.card-header a{
+    color: #000;
+
+}
+.card>.card-header {
+    
+    border-color: #e4e5e7;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .card>.card-header a {
+    display: block;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:18px;
+    cursor: auto;
+  }
+  
+  .card>.card-header a:after {
+    content: "";
+    position: relative;
+    // top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    float: right;
+    transition: transform .25s linear;
+    -webkit-transition: -webkit-transform .25s linear;
+    cursor:pointer;
+  }
+  
+  
+  .card>.card-header a[aria-expanded="true"]:after {
+    content: "\2212";
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+  
+  .card>.card-header a[aria-expanded="false"]:after {
+    content: "\002b";
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+  
+  .accordion-option {
+    width: 100%;
+    float: left;
+    clear: both;
+    margin: 15px 0;
+  }
+  
+  .accordion-option .title {
+    font-size: 20px;
+    font-weight: bold;
+    float: left;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .accordion-option .toggle-accordion {
+    float: right;
+    font-size: 16px;
+    color:rgb(192, 185, 85);
+  }
+  
+  .accordion-option .toggle-accordion:before {
+    content: "Expand All";
+  }
+  
+  .accordion-option .toggle-accordion.active:before {
+    content: "Collapse All";
+  }
+  .view-more{
+      padding: 15px;
+      background-color: aliceblue;
+  }
+  .btn.btn-primary {
+    background-color: #6a0708;
+    border-color:#6a0708;
+}

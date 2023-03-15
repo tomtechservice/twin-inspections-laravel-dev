@@ -1,0 +1,137 @@
+.subtit {
+    color: #6a0708;
+    border-bottom: #6a0708 solid 1px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+img.finding_image_thumb {
+    width: 80px;
+    background-color: transparent;
+}
+
+
+button.toggle_link {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+button.toggle_link:hover {
+    color: #6E080A;
+    font-size: 14px;
+}
+
+.circle-links {
+    color: #000;
+}
+.circle-links:hover {
+    color: #428AEF;
+}
+.btn-in-tbl {
+    width: 20px;
+    height: 25px;
+    font-size: 18px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    background-color: transparent;
+}
+.btn-in-tbl:hover {
+    font-size: 20px;
+}
+.popup-btn {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    background-color: transparent;
+    border: solid 2px #6E080A;
+    border-radius: 100%;
+    width: 40px;
+}
+
+.popup-btn:hover {
+  border: solid 2px #8DA6EA;
+}
+
+td.buttons-td {
+    padding: 0px;
+}
+
+span.amount-dispaly {
+    padding: 3px;
+}
+
+
+.loader {
+    height: 4px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: #ddd;
+  }
+  .loader:before{
+    display: block;
+    position: absolute;
+    content: "";
+    left: -200px;
+    width: 200px;
+    height: 4px;
+    background-color: #6E080A;
+    animation: loading 2s linear infinite;
+  }
+  
+  @keyframes loading {
+      from {left: -200px; width: 30%;}
+      50% {width: 30%;}
+      70% {width: 70%;}
+      80% { left: 50%;}
+      95% {left: 120%;}
+      to {left: 100%;}
+  }
+
+
+  .loder-popup {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    // opacity: .9;
+    overflow: hidden;
+    transition: all .1s ease-in-out;
+    z-index: 1050;
+}
+
+.loder-popup .popup-inner {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+p.report_valid_msg {
+    padding: 10px 0px;
+    font-size: 16px;
+    color: red;
+}
+
+
+h3.subtit.report_label {
+    border-bottom: none;
+    font-size: 15px;
+    font-weight: normal;
+    margin: 10px 0px;
+    background-color: #dff0d8;
+    color: #3c763d;
+    padding: 10px 5px;
+}
+
+h3.subtit.report_label_error {
+    border-bottom: none;
+    font-size: 15px;
+    font-weight: normal;
+    margin: 10px 0px;
+    background-color: #f2dede;
+    color: #a94442;
+    padding: 10px 5px;
+}

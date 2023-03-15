@@ -1,0 +1,85 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Finding</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <table cellpadding="8" class="table" style="font-size:16px;">
+    <tr>
+      <td>
+        <div class="top-center-labels">Section</div>
+      </td>
+      <td>
+        <div class="top-center-labels">Type</div>
+      </td>
+      <td>
+        <div class="top-center-labels">Finding</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="top-center-value">{{finding.finding_section}}</div>
+      </td>
+      <td>
+        <div class="top-center-value">{{finding.finding_type}}</div>
+      </td>
+      <td>
+        <div class="top-center-value">{{finding.finding_finding}}</div>
+      </td>
+    </tr>
+  </table>
+
+  <hr />
+
+  <br />
+  <table cellpadding="8" class="table" style="font-size:16px;">
+    <tr>
+      <td>
+        <div class="right-labels">Code</div>
+      </td>
+      <td>
+        <div class="left-values" id="finding_code_v">{{finding.finding_code}}</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="right-labels">Finding</div>
+      </td>
+      <td>
+        <div class="left-values" id="finding_description_v">{{finding.finding_description}}</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="right-labels">Recommendation</div>
+      </td>
+      <td>
+        <div class="left-values" id="finding_recommendation_v">{{finding.finding_recommendation}}</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="right-labels">Notes</div>
+      </td>
+      <td>
+        <div class="left-values" id="finding_notes_v">{{finding.finding_notes}}</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td>
+        <div class="left-values" id="finding_uses_chemicals_v" *ngIf="finding.finding_uses_chemicals==1">{{finding.finding_uses_chemicals}}</div>
+      </td>
+    </tr>
+
+  </table>
+
+  <br />
+
+
+</div>
+<!-- <div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+</div> -->

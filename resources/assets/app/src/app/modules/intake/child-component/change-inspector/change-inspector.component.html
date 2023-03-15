@@ -1,0 +1,45 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">X
+  </button>
+</div>
+<div class="modal-body">
+  <!-- <div class="alert alert-danger" *ngIf="error_message!=''">
+        <strong>Error!</strong>
+        {{error_message}}
+      </div> -->
+  <div id="change_inspection_type" style="width: auto; min-height: 0px; max-height: none; height: 356.3px; background-color: rgb(255, 255, 255);"
+    class="ui-dialog-content ui-widget-content">
+    <br>
+    <form action="" method="post" name="form_change_inspection_type" id="form_change_inspection_type" class="form-horizontal">
+      <br>
+      <div class="col-md-12">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label"><b>Select Inspector</b></label>
+          <div class="col-sm-9 col-lg-8 controls">
+            <select id="job_sub_type" [(ngModel)]="inspection.agent_id" name="job_sub_type" class="form-control"
+              required="">
+              <option value="0"> - Choose Inspector - </option>
+              <option *ngFor="let insp of inspectors | keyvalue" [value]="insp.value.user_id">{{insp.value.user_first_name}}
+                {{insp.value.user_last_name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="col-md-12">
+        <div class="form-group row">
+          <label for="" class="col-md-3 col-form-label"></label>
+          <div class="col-md-8 col-sm-8 col-sm-offset-4 col-lg-8 col-lg-offset-4">
+            <input id="update_change_inspection_type" name="update_change_inspection_type" class="btn btn-primary" type="submit"
+              value="  Change  " (click)="changeInspector()">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input id="change_inspector_but" name="change_inspector_but" class="btn btn-primary" type="button" value="  Cancel  "
+              (click)="activeModal.dismiss('Cross click')">
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,234 @@
+<div class="card-body p-5">
+
+  <!-- <p class="alert alert-danger">{{message}}</p> -->
+  <div class="alert alert-danger" *ngIf="error_message">
+    <strong>Error!</strong>
+    {{error_message}}
+  </div>
+  <div class="alert alert-success" *ngIf="success_message">
+    <strong>Success!</strong>
+    {{success_message}}
+  </div>
+
+  <form role="form" [formGroup]="cardDetailsForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="cardNumber">Card number</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+        </div>
+        <input type="text" class="form-control" formControlName="card_number" placeholder="">
+      </div> <!-- input-group.// -->
+      <div *ngIf="submitted && cardDetailsForm.get('card_number').invalid" class="text-danger">
+        <p *ngIf="cardDetailsForm.get('card_number').errors?.required">Card number is Required field</p>
+        <p *ngIf="cardDetailsForm.get('card_number').errors?.pattern" class="text-danger">Number Only</p>
+      </div>
+    </div> <!-- form-group.// -->
+
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="form-group">
+          <label><span class="hidden-xs">Expiration</span> </label>
+          <div class="form-inline">
+            <select class="form-control" style="width:45%" formControlName="exp_day">
+              <option value="">MM</option>
+              <option>01</option>
+              <option>02</option>
+              <option>03</option>
+              <option>04</option>
+              <option>05</option>
+              <option>06</option>
+              <option>07</option>
+              <option>08</option>
+              <option>09</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+            </select>
+            <span style="width:10%; text-align: center"> / </span>
+            <select class="form-control" style="width:45%" formControlName="exp_year">
+              <option value="">YY</option>
+              <option *ngFor="let yy of year">{{yy}}</option>
+            </select>
+          </div>
+          <div *ngIf="submitted && cardDetailsForm.get('exp_day').invalid" class="text-danger">
+            <p *ngIf="cardDetailsForm.get('exp_day').hasError('required')">Expiration Date is Required field</p>
+            <!-- <p *ngIf="cardDetailsForm.get('cvv').hasError('minLength')">Invalid CVV</p> -->
+          </div>
+          <div *ngIf="submitted && cardDetailsForm.get('exp_year').invalid" class="text-danger">
+            <p *ngIf="cardDetailsForm.get('exp_year').hasError('required')">Expiration Year is Required field</p>
+            <!-- <p *ngIf="cardDetailsForm.get('cvv').hasError('minLength')">Invalid CVV</p> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label data-toggle="tooltip" title="" data-original-title="3 digits code on back side of the card">CVV <i
+              class="fa fa-question-circle"></i></label>
+          <input class="form-control" type="text" formControlName="cvv" required>
+          <div *ngIf="submitted && cardDetailsForm.get('cvv').invalid" class="text-danger">
+            <p *ngIf="cardDetailsForm.get('cvv').hasError('required')">CVV is Required field</p>
+            <p *ngIf="cardDetailsForm.get('cvv').hasError('maxlength')">Invalid CVV</p>
+            <!-- <p *ngIf="cardDetailsForm.get('cvv').hasError('minLength')">Invalid CVV</p> -->
+          </div>
+        </div> <!-- form-group.// -->
+      </div>
+    </div> <!-- row.// -->
+    <div class="row">
+      <div class="col-md-6">
+          <div class="form-group">
+              <label for="bill">Use Client Billing Address :</label>
+              <input type="checkbox" formControlName="billing_address" >
+          </div>   
+      </div>
+      <div class="col-md-6 d-none">
+          <div class="form-group">
+              <label for="bill">Use Client Shipping Address :</label>
+              <input type="checkbox" formControlName="shipping_address">
+          </div>   
+      </div>
+    </div>
+    <div class="row">
+      <!-- billing -->
+      <div class="col-md-12 border p5 m5" *ngIf="!cardDetailsForm.value.billing_address" formGroupName="address_billing">
+        <h4>Billing Address</h4><br>
+				<div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label">First Name </label>
+					<div class="col-md-8">
+            <input class="form-control" type="text" formControlName="billing_first_name">
+            <div *ngIf="submitted && cardDetailsForm.get('address_billing.billing_first_name').invalid" class="text-danger">
+              <p *ngIf="cardDetailsForm.get('address_billing.billing_first_name').errors?.required">First Name is Required field</p>   
+            </div>
+					</div>
+        </div>
+        <div class="form-group row">
+          <label for="title" class="col-md-4 col-form-label"> Last Name</label>
+          <div class="col-md-8">
+            <input class="form-control" type="text" formControlName="billing_last_name">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="title" class="col-md-4 col-form-label"> Company Name</label>
+          <div class="col-md-8">
+            <input class="form-control" type="text" formControlName="billing_company_name">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="title" class="col-md-4 col-form-label">Address</label>
+          <div class="col-md-8">
+            <input class="form-control" type="text" formControlName="billing_address1">
+            <div *ngIf="submitted && cardDetailsForm.get('address_billing.billing_address1').invalid" class="text-danger">
+              <p *ngIf="cardDetailsForm.get('address_billing.billing_address1').errors?.required">Address is Required field</p>   
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="title" class="col-md-4 col-form-label"> City</label>
+          <div class="col-md-8">
+            <input class="form-control" type="text" formControlName="billing_city">
+            <div *ngIf="submitted && cardDetailsForm.get('address_billing.billing_city').invalid" class="text-danger">
+                <p *ngIf="cardDetailsForm.get('address_billing.billing_city').errors?.required">City is Required field</p>   
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="title" class="col-md-4 col-form-label"> State</label>
+          <div class="col-md-8">
+            <!-- <input class="form-control" type="text" formControlName="billing_state"> -->
+            <select class="form-control" id="" formControlName="billing_state">
+                <option *ngFor="let state of states " [value]="state.id">{{state.name}}</option>
+              </select>  
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="title" class="col-md-4 col-form-label"> Zip</label>
+          <div class="col-md-8">
+            <input class="form-control" type="text" formControlName="billing_zip">
+            <div *ngIf="submitted && cardDetailsForm.get('address_billing.billing_zip').invalid" class="text-danger">
+                <p *ngIf="cardDetailsForm.get('address_billing.billing_zip').errors?.required">City is Required field</p>   
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="title" class="col-md-4 col-form-label"> Phone</label>
+          <div class="col-md-8">
+            <input class="form-control" type="text" formControlName="billing_phone">
+          </div>
+        </div>
+      </div>
+      <!-- shipping -->
+      <div class="col-md-12 border p5 m5" *ngIf="!cardDetailsForm.value.shipping_address" formGroupName="address_shipping">
+          <h4>Shipping Address</h4><br>
+          <div class="form-group row">
+            <label for="title" class="col-md-4 col-form-label">First Name </label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" formControlName="shipping_first_name">
+                <div *ngIf="submitted && cardDetailsForm.get('address_shipping.shipping_first_name').invalid" class="text-danger">
+                  <p *ngIf="cardDetailsForm.get('address_shipping.shipping_first_name').hasError('required')">First Name is Required field</p>   
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="title" class="col-md-4 col-form-label"> Last Name</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" formControlName="shipping_last_name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="title" class="col-md-4 col-form-label"> Company Name</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" formControlName="shipping_company_name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="title" class="col-md-4 col-form-label"> Address</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" formControlName="shipping_address1">
+              <div *ngIf="submitted && cardDetailsForm.get('address_shipping.shipping_address1').invalid" class="text-danger">
+                  <p *ngIf="cardDetailsForm.get('address_shipping.shipping_address1').hasError('required')">First Name is Required field</p>   
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="title" class="col-md-4 col-form-label"> City</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" formControlName="shipping_city">
+              <div *ngIf="submitted && cardDetailsForm.get('address_shipping.shipping_city').invalid" class="text-danger">
+                  <p *ngIf="cardDetailsForm.get('address_shipping.shipping_city').hasError('required')">First Name is Required field</p>   
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="title" class="col-md-4 col-form-label"> State</label>
+            <div class="col-md-8">
+              <!-- <input class="form-control" type="text" formControlName="shipping_state"> -->
+              <select class="form-control" id="" formControlName="shipping_state">
+                <option *ngFor="let state of states " [value]="state.id">{{state.name}}</option>
+              </select>    
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="title" class="col-md-4 col-form-label"> Zip</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" formControlName="shipping_zip">
+              <div *ngIf="submitted && cardDetailsForm.get('address_shipping.shipping_zip').invalid" class="text-danger">
+                  <p *ngIf="cardDetailsForm.get('address_shipping.shipping_zip').hasError('required')">First Name is Required field</p>   
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="title" class="col-md-4 col-form-label"> Phone</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" formControlName="shipping_phone">
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="row mt-3 d-flex justify-content-center">
+      <button class="subscribe btn btn-primary col-3 mr-2" type="submit"> Save </button>
+      <button type="button" class="btn btn-block col-3 btn-outline-dark" (click)="closeModal($event)">Cancel</button>
+    </div>
+    <span *ngIf="loader"><img src="assets/images/loading-x.svg" ></span>
+  </form>
+</div>

@@ -1,0 +1,112 @@
+<div id="overView6" class="collapse show">
+  <div class="card-body">
+      <div style=" text-align:right;"><a href="{{apiSite}}url/inspections_reports/{{job.job_id}}"><i class="fa fa-file"></i> open reports manager</a></div>
+    <table class="table table-bordered table-striped table-hover fill-head">
+      <ng-container *ngIf="no_reports==0; else reportdata">
+        <tr>
+          <td colspan="4"> No Reports or Documents have been generated!</td>
+        </tr>
+      </ng-container>
+      <ng-template #reportdata>
+        <tr>
+          <th>Report/Doc</th>
+          <th>Actions</th>
+        </tr>
+        <tr *ngIf="job.report && job.report.report_pdf_file !='' ">
+          <td>Inspection Report (Findings)</td>
+          <td>
+            <a (click)="openPdfLocal(job.job_id,job.report.report_pdf_file)" href="javascript:;">Open</a> | 
+            <a href="javascript:;" (click)="download(job.job_id,job.report.report_pdf_file)">Download</a>
+          </td>
+        </tr>
+        <tr *ngIf="job.report && job.report.report_pdf_file_w_contract !='' ">
+          <td>Work Authorization Contract </td>
+          <td>
+            <a (click)="openPdfLocal(job.job_id,job.report.report_pdf_file_w_contract)" href="javascript:;">Open</a> | 
+            <a (click)="download(job.job_id,job.report.report_pdf_file_w_contract)" href="javascript:;">Download</a>
+            <input type="text" #myInput (click)="myInput.select()" value="{{oldSite}}pdf/generate/work_contract_view.php?gen_type=new&jid={{encript}}"  style="border: 2px solid #ddd;border-radius: 2px;color: #000;background: #fff;">
+          </td>
+        </tr>
+        <tr *ngIf="job && job.job_card_crew_pdf_file !='' ">
+          <td>Work Order Job Card - Crew</td>
+          <td>
+            <a (click)="openPdfLocal(job.job_id,job.job_card_crew_pdf_file)" href="javascript:;">Open</a> | 
+            <a (click)="download(job.job_id,job.job_card_crew_pdf_file)" href="javascript:;">Download</a>
+          </td>
+        </tr>
+        <tr *ngIf="job && job.job_card_contractor_pdf_file !='' ">
+          <td>Work Order Job Card - Contractor</td>
+          <td>
+            <a (click)="openPdfLocal(job.job_id,job.job_card_contractor_pdf_file)" href="javascript:;">Open</a> | 
+            <a (click)="download(job.job_id,job.job_card_contractor_pdf_file)" href="javascript:;">Download</a>
+          </td>
+        </tr>
+        <tr *ngIf="job && job.job_card_treater_pdf_file !='' ">
+          <td>Work Order Job Card - Treater</td>
+          <td>
+            <a (click)="openPdfLocal(job.job_id,job.job_card_treater_pdf_file)" href="javascript:;">Open</a> | 
+            <a (click)="download(job.job_id,job.job_card_treater_pdf_file)" href="javascript:;">Download</a>
+          </td>
+        </tr>
+        <tr *ngIf="job && job.job_work_completion_pdf_file !='' ">
+          <td>Work Completion Report</td>
+          <td>
+            <a (click)="openPdfLocal(job.job_id,job.job_work_completion_pdf_file)" href="javascript:;">Open</a> |
+            <a (click)="download(job.job_id,job.job_work_completion_pdf_file)" href="javascript:;">Download</a>
+          </td>
+        </tr>
+        <tr *ngIf="job && job.job_billing_statement_pdf_file !='';else test ">
+          <td>Billing Statement</td>
+          <td>
+            <a (click)="openPdfLocal(job.job_id,job.job_billing_statement_pdf_file)" href="javascript:;">Open</a> | 
+            <a (click)="download(job.job_id,job.job_billing_statement_pdf_file)" href="javascript:;">Download</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a (click)="generatePdf(job.job_id,'billing')" class="btn btn-sm btn-dark " ngbTooltip="Regenerate Billing Statement" href="javascript:;" ><i class="fa fa-book"></i></a>
+            <span *ngIf="is_loading && report_type=='billing'"><img src="assets/images/loading-x.svg" ></span>
+          </td>
+        </tr>
+        <ng-template #test>
+          <!-- Billing Statement Generate Billing Statement -->
+          <tr>
+            <td>Billing Statement</td>
+            <td>
+              <a (click)="generatePdf(job.job_id,'billing')" class="btn btn-sm btn-dark" ngbTooltip="Generate Billing Statement" href="javascript:;"><i class="fa fa-book"></i></a>
+              Generate Billing Statement
+              <span *ngIf="is_loading && report_type=='billing'"><img src="assets/images/loading-x.svg" ></span>
+
+            </td>
+          </tr>
+        </ng-template>
+      </ng-template>
+
+
+
+      <!-- end no report -->
+      <ng-container *ngIf="job && job.job_findings_blank_pdf_file !='';else sheet ">
+        <tr>
+          <td>Field Sheet</td>
+          <td>
+            <a (click)="openPdfLocal(job.job_id,job.job_findings_blank_pdf_file)" href="javascript:;">Open</a> | 
+            <a (click)="download(job.job_id,job.job_findings_blank_pdf_file)" href="javascript:;">Download</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a (click)="generatePdf(job.job_id,'field_sheet')" class="btn btn-sm btn-dark" ngbTooltip="Regenerate Field Sheet" href="javascript:;" ><i class="fa fa-file"></i></a>
+            <span *ngIf="is_loading && report_type=='field_sheet'"><img src="assets/images/loading-x.svg" ></span>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-template #sheet>
+        <tr>
+          <td>Field Sheet</td>
+          <td>
+            <a (click)="generatePdf(job.job_id,'field_sheet')" class="btn btn-sm btn-dark" ngbTooltip="Generate Field Sheet" href="javascript:;"><i
+                class="fa fa-book"></i></a> Generate Field Sheet
+                <span *ngIf="is_loading && report_type=='field_sheet'"><img src="assets/images/loading-x.svg" ></span>
+                
+
+          </td>
+        </tr>
+      </ng-template>
+      <!-- </tbody> -->
+    </table>
+  </div>
+</div>

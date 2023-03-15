@@ -1,0 +1,26 @@
+.form-select{
+	width:100px !important;
+}
+.form-element{
+	width:170px !important;
+}
+.search-ele{
+	margin-left:15px;
+	label{
+		margin-right:5px;
+	}
+	input, select, .input-group-append {
+	    height: calc(1.8rem + 2px);
+    	font-size: 12px;
+	}
+	.btn{
+		padding:0px 10px;
+		line-height: .5;
+		.fa{
+			font-size:12px;
+		}
+	}
+	.form-date-pick{
+		width:120px !important;
+	}
+}

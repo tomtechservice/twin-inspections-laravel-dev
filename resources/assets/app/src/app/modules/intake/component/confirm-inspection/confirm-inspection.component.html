@@ -1,0 +1,135 @@
+<app-panel [page_title]="page_title"></app-panel>
+<div class="intake-tab-content">
+  <div class="row pb-2 pt-4 intab-content">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="h4-heading">Inspection: Review And Confirm</h4>
+        </div>
+        <div class="col-md-6">
+          <span class="float-right">
+            <!-- <button class="btn quick-view-btn" type="button" data-toggle="tooltip" title="Generate Reports and Job Docs" (click)="reportManagerOpen()" >
+                            <i class="fa fa-file"></i> Reports: Quick View
+                        </button> -->
+          </span>
+        </div>
+        
+      </div>
+      
+      <br>
+      <div class="loader" *ngIf='loderDivShow'></div>
+      
+      
+      <div class="pt-4" aria-labelledby="headingTwo" data-parent="#accordion-two" *ngIf="status=='Inspection'">
+        <div>
+          <h3 class="subtit">Inspection Checklist </h3>
+          <div style="margin-top:5%"></div>
+          <p class="help-inline">
+            <i class="fa fa-question-circle"></i>
+            Finally the Inspector must submit this inspection so it is properly status and any follow
+            up tasks can be performed.
+          </p>
+          <div [ngClass]="{'inspection_checklist':!testclass1,'inspection_checklist_completed':testclass1}" (click)="toggleClass('info')">
+            <span id="icon_inspection_checklist_info"><span [innerHtml]="testhtml1"></span></span> Info
+          </div>
+          <!-- end inspection_checklist_info -->
+          <div [ngClass]="{'inspection_checklist':!testclass2,'inspection_checklist_completed':testclass2}" (click)="toggleClass('finding')">
+            <span id="icon_inspection_checklist_findings"><span [innerHtml]="testhtml2"></span></span> Findings
+          </div>
+          <!-- end inspection_checklist_findings -->
+          <div [ngClass]="{'inspection_checklist':!testclass3,'inspection_checklist_completed':testclass3}" (click)="toggleClass('bids')">
+            <span id="icon_inspection_checklist_bids"><span [innerHtml]="testhtml3"></span></span> Bids
+          </div>
+          <!-- end inspection_checklist_birds -->
+          <div [ngClass]="{'inspection_checklist':!testclass4,'inspection_checklist_completed':testclass4}" (click)="toggleClass('diagram')">
+            <span id="icon_inspection_checklist_diagram"><span [innerHtml]="testhtml4"></span></span> Diagrams
+          </div>
+          <!-- end inspection_checklist_diagrams -->
+          <div [ngClass]="{'inspection_checklist':!testclass5,'inspection_checklist_completed':testclass5}" (click)="toggleClass('report')">
+            <span id="icon_inspection_checklist_report"><span [innerHtml]="testhtml5"></span></span> Reports
+          </div>
+
+
+
+          <!-- end inspection_checklist_reports -->
+          <div class="inspection_signoff">
+            <span class="help-inline red" id="checklist_warning" [innerHtml]="checklist_warning"></span>
+            <br>
+            <br>
+            <p>Open and Review your reports before signing off on the Inspection:</p>
+            <div class="signal" *ngIf="reportGenerating"></div>
+            <p>
+              <strong>Inspection Report:</strong>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <ng-container *ngIf="report.report_pdf_file != null">
+                <a href="{{doSpace}}/media/reports/{{jobId}}/{{report.report_pdf_file}}" target="_blank" class="btn btn-link doc-download-btn">Open</a> | 
+                <!-- <a href="javascript:;">Download</a> -->
+                <button type="button" class="btn btn-link doc-download-btn" (click)="downloadDoc(report.report_pdf_file)">Download</button>
+              </ng-container>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="button" class="btn btn-link circle-links" title="Generate Inspection Report" (click)="makeFindingsReportPdf('finding_only','')"><i class="fa fa-file"></i></button>
+              Generate Inspection Report
+            </p>
+            <p><strong>Work Auth Contract:</strong>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <ng-container *ngIf="report.report_pdf_file_w_contract != null">
+                <a href="{{doSpace}}/media/reports/{{jobId}}/{{report.report_pdf_file_w_contract}}" target="_blank" class="btn btn-link doc-download-btn">Open</a> | 
+                <!-- <a href="javascript:;">Download</a> -->
+                <button type="button" class="btn btn-link doc-download-btn" (click)="downloadDoc(report.report_pdf_file_w_contract)">Download</button>
+              </ng-container>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="button" class="btn btn-link circle-links" title="Generate Work Auth Contract" (click)="makeFindingsReportPdf('generate_contract','new')"><i class="fa fa-file"></i></button>
+              Generate Work Auth Contract
+              <br />
+            </p>
+            <br>
+
+            <p>If your reports are incorrect or incomplete please return to <a routerLink="/inspections-profile-findings/{{jobId}}">Findings</a>
+              and correct.</p>
+
+
+            <p>I certify that I, <b>{{userData.user_first_name}} {{userData.user_last_name}}</b>,
+              has performed the inspection on the property: <b>{{job.property_address1}}<ng-container *ngIf="job.property_address2">,</ng-container>{{job.property_address2}}<ng-container *ngIf="job.property_city">,</ng-container>{{job.property_city}}<ng-container *ngIf="job.property_state">,</ng-container>{{job.property_state}} {{job.property_zip}}</b>,
+              and have, according to prescribed company processes fully and completely recorded the findings and
+              remediation bids,
+              with diagram and have generated the requisite reports.
+              I understand that by submitting this Inspection now as Completed that this info will be forwarded to
+              company staff for next step and follow up tasks.
+            </p>
+            <div class="submit_inspection">
+              <input class="btn btn-primary comp_but" type="submit" value="  Submit Inspection Completed  " [disabled]="!buttonDisabled"
+                (click)="inspectionCompletedSubmit()">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pt-4" aria-labelledby="headingTwo" data-parent="#accordion-two" *ngIf="status=='Work'">
+        <div>
+          <!-- <div style="margin-top:5%"></div> -->
+          <p class="inspConfirm"><strong>Confirmation: Inspection Completed</strong></p>
+          <p>This Inspection has been submitted as completed and this Job/Order is currently
+            status for follow up steps/services.</p>
+          <a href="{{old_site}}url/inspections_completed_sheet/{{jobId}}">Goto Job Review view</a>
+        </div>
+      </div>
+      <div class="pt-4" aria-labelledby="headingTwo" data-parent="#accordion-two" *ngIf="status=='Other'">
+        <div>
+          <!-- <div style="margin-top:5%"></div> -->
+            <p>This Inspection has not been scheduled and access to this control is prohibited. </p>
+            <!-- class="inspConfirm" -->
+
+        </div>
+
+      </div>
+      <div class="pt-4" aria-labelledby="headingTwo" data-parent="#accordion-two" *ngIf="status=='NoReport'">
+        <div>
+          <!-- <div style="margin-top:5%"></div> -->
+            <p>Please complete and submit the Report Info, Findings/Bids and the Diagram prior to reviewing the
+            Inspection data.</p>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

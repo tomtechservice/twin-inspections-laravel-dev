@@ -1,0 +1,213 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Bid</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="loader" *ngIf='loderDivShow'></div>
+    <ng-container *ngIf='!loderDivShow'>  
+  <form (ngSubmit)='primaryBidForm.form.valid && primaryBidSubmit()' #primaryBidForm='ngForm' novalidate>
+    
+    <div class="form-group row">
+      <label class="col-sm-3 col-lg-3 control-label vertical-labels"><b>Special Pricing Notes : </b></label>
+      <span class="help-inline"></span>
+      <div class="col-sm-9 col-lg-9 controls">
+        <span id="code_primary_special_pricing_notes">{{finding_code_special_pricing_notes}}</span>  <!--{{finding?.finding_bid_crew_notes}} {{finding?.finding_code.code_special_pricing_notes}}-->
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-lg-3 control-label vertical-labels"><b>Finding : </b></label>
+      <span class="help-inline"></span>
+      <div class="col-sm-9 col-lg-9 controls">
+        <span id="bid_primary_finding">{{finding?.finding_description}}</span>  <!--{{finding?.finding_description}}-->
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-lg-3 control-label vertical-labels"><b>Recommendation</b></label>
+      <span class="help-inline"></span>
+      <div class="col-sm-9 col-lg-9 controls">
+        <span id="bid_primary_recommendation">{{finding?.finding_recommendation}}</span>  <!--{{finding?.finding_recommendation}}-->
+      </div>
+    </div>
+    
+    <div class="form-group row">
+      <label class="col-sm-3 col-lg-3 control-label vertical-labels"><b>Inspector's Notes to Crew</b></label>
+      <div class="col-sm-9 col-lg-9 controls">
+        <textarea id="finding_bid_crew_notes" name="finding_bid_crew_notes" class="form-control" rows="3" [(ngModel)]='finding.finding_bid_crew_notes'></textarea>  <!--{{finding?.finding_bid_crew_notes}}-->
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-lg-3 control-label vertical-labels"><b>Select Bid Type</b></label>
+      <div class="col-sm-9 col-lg-9 controls">
+        <label class="col-sm-2 col-lg-2 radio-inline">
+          <input name="finding_bid_primary_type" id="finding_bid_primary_type_bid" value="bid" type="radio"
+          [(ngModel)]='finding.finding_bid_primary_type'> Bid
+        </label>
+        <label class="col-sm-2 col-lg-2 radio-inline">
+          <input name="finding_bid_primary_type" id="finding_bid_primary_type_no_bid" value="no bid" type="radio"
+          [(ngModel)]='finding.finding_bid_primary_type'>
+          No Bid
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group row" *ngIf="finding.finding_bid_primary_type == 'no bid'">  
+      <label class="col-sm-3 col-lg-3 control-label vertical-labels"><b>No Bid Sub Type</b></label>
+      <div class="col-sm-9 col-lg-9 controls">
+        <select id="finding_bid_primary_alt" name="finding_bid_primary_alt" class="form-control" (change)="showNoBidTextBox()" [(ngModel)]='finding.finding_bid_primary_alt'>
+          <option value="NO BID">NO BID</option>
+          <option value="BID ON REQUEST">BID ON REQUEST</option>
+          <option value="BID TO FOLLOW">BID TO FOLLOW</option>
+          <option value="INCLUDED IN">INCLUDED IN XX</option>
+          <option value="NO CHARGE">NO CHARGE</option>
+          <option value="OTHER TRADE">OTHER TRADE</option>
+          <option value="SEE">SEE XX</option>
+          <option value="OTHER">OTHER</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row" *ngIf="finding.finding_bid_primary_type == 'no bid' && show_finding_alt_other_div">
+      <label class="col-sm-3 col-lg-3 control-label vertical-labels"><b>{{finding_bid_primary_alt_other_label}}</b></label>
+      <div class="col-sm-9 col-lg-9 controls">
+        <input id="finding_bid_primary_alt_other" name="finding_bid_primary_alt_other" class="form-control" [(ngModel)]='finding.finding_bid_primary_alt_other' type="text" [required]="finding.finding_bid_primary_alt=='OTHER' || finding.finding_bid_primary_alt=='SEE' || finding.finding_bid_primary_alt=='INCLUDED IN'"
+        [ngClass]="{ 'is-invalid': primaryBidForm.submitted && finding_bid_primary_alt_other.invalid }"  #finding_bid_primary_alt_other="ngModel" />
+        <div *ngIf="primaryBidForm.submitted && finding_bid_primary_alt_other.invalid" class="invalid-feedback">
+          <div *ngIf="finding_bid_primary_alt_other.errors.required">This field is required</div>
+        </div>
+      </div>
+    </div>
+
+    <br />
+
+    <div id="bid_type_big_hide">
+
+      <div id="not_uses_chems" *ngIf="finding.finding_bid_primary_type == 'bid' && code_chemical_or_not == 0">
+        <table class="table table-striped table-hover fill-head">
+          <thead>
+            <tr>
+              <th>Hours</th>
+              <th>Crew Rate</th>
+              <th>Materials</th>
+              <th>SubContractor</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+          <tr>
+            <td>
+              <div class="form-group">
+                <div>
+                  <input id="finding_bid_hours" name="finding_bid_hours" class="form-control" type="text" (change)="calcChanges()" [(ngModel)]='finding.finding_bid_hours'> <!-- [(ngModel)]='finding.finding_bid_hours'-->
+                </div>
+              </div>
+            </td>
+            <td width="19%">
+              <div class="form-group">
+                <div>
+                  <select id="finding_bid_hours_perc" name="finding_bid_hours_perc" class="form-control" (change)="calcChanges()" [(ngModel)]='finding.finding_bid_hours_perc'>  <!-- [(ngModel)]='finding.finding_bid_hours'-->
+                     <option *ngFor='let crew_rate_opt of crewRateOptions' [value]="crew_rate_opt.value">{{crew_rate_opt.label}}</option>
+                  </select>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <div>
+                  <div class="input-group">
+                    <span class="input-group-addon bid-add-form-dollar"><i class="fa fa-dollar"></i></span>
+                    <input id="finding_bid_materials" name="finding_bid_materials" class="form-control" placeholder="0.00"
+                    type="text" (change)="calcChanges()" [(ngModel)]='finding.finding_bid_materials'> <!--[(ngModel)]='finding.finding_bid_materials'-->
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <div>
+                  <div class="input-group">
+                    <span class="input-group-addon bid-add-form-dollar"><i class="fa fa-dollar"></i></span>
+                    <input id="finding_bid_subcontractor" name="finding_bid_subcontractor" class="form-control"
+                      placeholder="0.00" type="text" readonly (change)="calcChanges()"  [(ngModel)]='finding.finding_bid_subcontractor'> <!--[(ngModel)]='finding.finding_bid_subcontractor'-->
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <div>
+                  <div class="input-group">
+                    <span class="input-group-addon bid-add-form-dollar"><i class="fa fa-dollar"></i></span>
+                    <input id="finding_bid_primary_total_display" name="finding_bid_primary_total_display" class="form-control"
+                      placeholder="0.00" type="text" readonly [(ngModel)]='finding_bid_primary_total_display'>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <button class="btn btn-circle show-tooltip" title="Calculate" type="button" (click)="calc_bid()"><i
+                  class="fa fa-repeat" style="font-size: 24px;"></i></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div style="text-align:right;"><span class="help-inline"><i class="fa fa-question-circle"></i> Recalculate bid
+            totals after any changes and before submiting you bid add/edit.</span></div>
+      </div>
+      
+      <div id="uses_chems" *ngIf="finding.finding_bid_primary_type == 'bid' && code_chemical_or_not == 1">
+        <table class="table table-striped table-hover fill-head">
+          <thead>
+            <tr>
+              <th width="50%"></th>
+              <th>Linear Feet</th>
+              <th>Bid</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td>
+                <div class="form-group">
+                  <div class="col-sm-9 col-lg-10 controls">
+                    <input id="finding_bid_linear_feet" name="finding_bid_linear_feet" class="form-control" type="text" [(ngModel)]='finding.finding_bid_linear_feet'>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="form-group">
+                  <div class="col-sm-9 col-lg-10 controls">
+                    <div class="input-group">
+                      <span class="input-group-addon bid-add-form-dollar"><i class="fa fa-dollar"></i></span>
+                      <input id="finding_bid_primary" name="finding_bid_primary" class="form-control" placeholder="0.00"
+                        type="text" [(ngModel)]='finding.finding_bid_primary'>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+    </div> <!-- end bid type hide -->
+
+    <div class="form-group">
+      <div class="col-sm-9 col-sm-offset-3 col-lg-9 col-lg-offset-2">
+        <input [disabled]="!saveStatus" name="bid_primary_submit" class="btn btn-primary" type="submit" value="  Done  ">
+      </div>
+    </div>
+  </form>
+</ng-container>
+</div>
+<!-- <div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+</div> -->

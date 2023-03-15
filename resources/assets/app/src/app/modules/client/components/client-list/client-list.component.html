@@ -1,0 +1,58 @@
+<div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="page-title">
+        <div>
+          <h1><i class="fa fa-users"></i> Clients - All </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="breadcrumbs">
+  <ul class="breadcrumb">
+    <li>
+      <i class="fa fa-dashboard"></i>
+      <span class="divider"></span>
+      <a>Dashboard</a>
+      <span class="divider">
+        <i class="fa fa-angle-right"></i>
+      </span>
+      Client Management 
+      <span class="divider">
+        <i class="fa fa-angle-right"></i>
+      </span>
+    </li>
+    <li class="active">List/Find</li>
+  </ul>
+</div>
+
+<div class="card">
+  <div class="card-header">
+   <b><i class="fa fa-list"></i> {{headingText}}</b>
+    <span class="btn-group float-right">
+      <a class="btn btn-circle btn-sm show-tooltip" title="Add New Client" routerLink="/client-add"><i class="fa fa-plus"></i></a>
+      <a class="btn btn-circle btn-sm show-tooltip" title="Email Selected" href="javascript:;" ><i class="fa fa-envelope"></i></a>
+      <!-- <a class="btn btn-circle show-tooltip" title="Keyword Search" href="javascript:;" ><i class="fa fa-search"></i></a>                                        
+      <a class="btn btn-circle show-tooltip" title="Find by Status" href="javascript:;" ><i class="fa fa-sort"></i></a>                                                    -->
+      </span>
+  </div>
+  <div class="card-body">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover"></table>
+              </div>
+        </div>
+    </div> 
+  </div>
+  <!-- <div class=" col-12 grid-margin  stretch-card">
+      <div class="card">
+        <div class="card-body">
+      
+          <div class="table-responsive">
+            <table datatable [dtOptions]="dtOptions" class="table table-hover"></table>
+          </div>
+        </div>
+      </div>
+    </div> -->

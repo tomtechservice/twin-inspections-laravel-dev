@@ -1,0 +1,97 @@
+<div id="overView5" class="collapse show">
+  <div class="card-body">
+    <div class="text-right" *ngIf="job.job_status!='completed'">
+      <a class="btn btn-sm" routerLink="/inspections-order-parties/{{job.job_id}}"><i class="fa fa-edit"></i> edit</a>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+
+        <p>
+          <strong>Property Owner:</strong>
+          <br>
+          <span *ngIf="job.property_owner;else no_property_owner">
+            {{job?.property_owner?.client_first_name}} {{job?.property_owner?.client_last_name}}<br />
+            <p *ngIf="job.property_owner.company">{{job?.property_owner?.company?.company_name}} -
+              {{job?.property_owner?.company?.company_city}}, {{job?.property_owner?.company?.company_state}}</p>
+            <b>Phone: </b>{{job?.property_owner?.client_phone}}<br />
+            <b>Email: </b>{{job?.property_owner?.client_email}}<br />
+          </span>
+          <ng-template #no_property_owner>None Specified</ng-template>
+          <br><br><br>
+        </p>
+        <p>
+          <strong>Billed Party:</strong>
+          <br>
+          <span *ngIf="job.billing;else no_billing">
+            {{job?.billing?.client_first_name}} {{job?.billing?.client_last_name}}<br />
+            <p *ngIf="job.billing.company">{{job?.billing?.company?.company_name}} -
+              {{job?.billing?.company?.company_city}}, {{job?.billing?.company?.company_state}}</p>
+            <b>Phone: </b>{{job?.billing?.client_phone}}<br />
+            <b>Email: </b>{{job?.billing?.client_email}}<br />
+          </span>
+          <ng-template #no_billing>None Specified</ng-template>
+          <br><br><br>
+
+        </p>
+        <p>
+          <strong>Buyer's Agent:</strong><br>
+          <span *ngIf="job.buyer_agent;else buyer_agent">
+            {{job?.buyer_agent?.client_first_name}} {{job?.buyer_agent?.client_last_name}}<br />
+            <p *ngIf="job.buyer_agent.company">{{job?.buyer_agent?.company?.company_name}} -
+              {{job?.buyer_agent?.company?.company_city}}, {{job?.buyer_agent?.company?.company_state}}</p>
+            <b>Phone: </b>{{job?.buyer_agent?.client_phone}}<br />
+            <b>Email: </b>{{job?.buyer_agent?.client_email}}<br />
+          </span>
+          <ng-template #buyer_agent>None Specified</ng-template>
+          <br><br><br>
+        </p>
+
+      </div>
+
+      <div class="col-md-6">
+        <p>
+          <strong>Seller's Agent:</strong><br>
+          <span *ngIf="job.seller_agent;else seller_agent">
+            {{job?.seller_agent?.client_first_name}} {{job?.seller_agent?.client_last_name}}<br />
+            <p *ngIf="job.seller_agent.company">{{job?.seller_agent?.company?.company_name}} -
+              {{job?.seller_agent?.company?.company_city}}, {{job?.seller_agent?.company?.company_state}}</p>
+            <b>Phone: </b>{{job?.seller_agent?.client_phone}}<br />
+            <b>Email: </b>{{job?.seller_agent?.client_email}}<br />
+          </span>
+          <ng-template #seller_agent>None Specified</ng-template>
+          <br><br><br>
+        </p>
+        <p><br>
+          <strong>Title/Escrow Company:</strong><br>
+          <span *ngIf="job.title_escrow;else title_escrow">
+            {{job?.title_escrow?.client_first_name}} {{job?.title_escrow?.client_last_name}}<br />
+            <p *ngIf="job.title_escrow.company">{{job?.title_escrow?.company?.company_name}} -
+              {{job?.title_escrow?.company?.company_city}}, {{job?.title_escrow?.company?.company_state}}</p>
+            <b>Phone: </b>{{job?.title_escrow?.client_phone}}<br />
+            <b>Email: </b>{{job?.title_escrow?.client_email}}<br />
+          </span>
+          <ng-template #title_escrow>None Specified</ng-template>
+          <br><br><br>
+        </p>
+        <p><b>Escrow #: &nbsp; </b> {{job?.job_escrow_number}}
+          <a (click)="openFormModal()" class="btn btn-warning btn-sm  btn-r-ound" ngbTooltip="Change Escrow Info"><i class="fa fa-edit"></i></a></p>
+        <p><b>Closing Date: </b> <span *ngIf="job?.job_escrow_closing_date != '0000-00-00 00:00:00'">{{job?.job_escrow_closing_date  | date:'MM/dd/yyyy' }}</span> &nbsp;  
+          <a (click)="openFormModal()" class="btn btn-warning btn-sm  btn-r-ound" ngbTooltip="Change Escrow Info"><i class="fa fa-edit"></i></a></p>
+        <br>
+        <p>
+          <strong>Buyer:</strong><br>
+          <span *ngIf="job.buyer;else buyer">
+            {{job?.buyer?.client_first_name}} {{job?.buyer?.client_last_name}}<br />
+            <p *ngIf="job.buyer.company">{{job?.buyer?.company?.company_name}} - {{job?.buyer?.company?.company_city}},
+              {{job?.buyer?.company?.company_state}}</p>
+            <b>Phone: </b>{{job?.buyer?.client_phone}}<br />
+            <b>Email: </b>{{job?.buyer?.client_email}}<br />
+          </span>
+          <ng-template #buyer>None Specified</ng-template>
+          <br><br><br>
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>

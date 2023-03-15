@@ -1,0 +1,150 @@
+<div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="page-title">
+          <div class="row">
+            <div class="col-md-6">
+              <h1><i class="fa fa-book"></i> Accounting - Transactions</h1>
+            </div>
+            <div class="col-md-6">
+              <div class="panel-head-select" *ngIf='showJobsDropdown && allJobsData?.length > 1'>
+                <select class="inspections-head-select" (change)="goTotheParentJob()" [(ngModel)]='parentChildJobId'> 
+                  <ng-container *ngFor="let allJobs of allJobsData"> 
+                    <ng-container *ngIf="allJobs.property"> 
+                      <option  value="{{allJobs.job_id}}">
+                        <ng-container *ngIf='allJobs.property.property_address1'>{{allJobs.property.property_address1}}</ng-container>
+                        <ng-container *ngIf='allJobs.property.property_address2'>, {{allJobs.property.property_address2}}</ng-container>
+                        <ng-container *ngIf='allJobs.property.property_city'>, {{allJobs.property.property_city}}</ng-container>
+                        <ng-container *ngIf='allJobs.property.property_state'>, {{allJobs.property.property_state}}</ng-container>
+                        <ng-container *ngIf='allJobs.property.property_zip'>, {{allJobs.property.property_zip}}</ng-container>
+                        <ng-container *ngIf='allJobs.property.property_address1'>
+                          <ng-container>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<strong>Report #:</strong>{{allJobs.job_id}} {{allJobs.job_ref_suffix}}
+                          </ng-container>
+                        </ng-container>
+                      </option>
+                    </ng-container>
+                    <ng-container *ngIf="!allJobs.property"> 
+                      <option  value="{{allJobs.job_id}}">
+                        <ng-container>
+                          <strong>Report #:</strong>{{allJobs.job_id}} {{allJobs.job_ref_suffix}} (No Property)
+                        </ng-container>
+                      </option>
+                    </ng-container>
+                  </ng-container>    
+                </select>    
+              </div>
+
+              <div class="panel-head-select" *ngIf='showJobsDropdown && allJobsData?.length == 1'>
+                  <ng-container *ngFor="let allJobs of allJobsData"> 
+                      <ng-container *ngIf="allJobs.property"> 
+                          <a class="panel-head--single-link" routerLink="/inspections-completed-sheet/{{jobId}}">
+                              <ng-container *ngIf='allJobs.property.property_address1'>{{allJobs.property.property_address1}}</ng-container>
+                              <ng-container *ngIf='allJobs.property.property_address2'>, {{allJobs.property.property_address2}}</ng-container>
+                              <ng-container *ngIf='allJobs.property.property_city'>, {{allJobs.property.property_city}}</ng-container>
+                              <ng-container *ngIf='allJobs.property.property_state'>, {{allJobs.property.property_state}}</ng-container>
+                              <ng-container *ngIf='allJobs.property.property_zip'>, {{allJobs.property.property_zip}}</ng-container>
+                              <ng-container *ngIf='allJobs.property.property_address1'>
+                                  <ng-container>
+                                      &nbsp;&nbsp;&nbsp;&nbsp;<strong>Report #:</strong>{{allJobs.job_id}} {{allJobs.job_ref_suffix}}
+                                  </ng-container>
+                              </ng-container>
+                          </a>
+                      </ng-container>
+                  </ng-container>
+              </div>
+
+            </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="fa fa-dashboard"></i>
+          <span class="divider"></span>
+          <a href="">Dashboard</a>
+          <span class="divider">
+            <i class="fa fa-angle-right"></i>
+          </span>
+          Accounting
+          <span class="divider">
+            <i class="fa fa-angle-right"></i>
+          </span>
+          Transactions
+          <span class="divider">
+            <i class="fa fa-angle-right"></i>
+          </span>
+        </li>
+        <li class="active"> List</li>
+      </ul>
+    </div>
+  </div>
+  <!-- content -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fa fa-list"></i> List Transactions
+    </div>
+    <div class="card-body">
+      <div class="card-title">
+          <div class="form-inline float-left">
+              <div class="btn-toolbar ">
+                <span>{{recordsCount}} Records Found</span>
+              </div>
+            </div>
+        <div class="form-inline float-right">
+          <div class="btn-toolbar ">
+            <div class="btn-group">
+              <ng-template #tipAdd>Post Change, Payment, Adjustment</ng-template>
+              <a class="btn btn-circle" [ngbTooltip]="tipAdd" (click)="openFormModal(1)"><i class="fa fa-plus"></i></a>
+
+              <ng-template #tipPrint>Printable View</ng-template>
+              <a class="btn btn-circle" [ngbTooltip]="tipPrint" target="_blank" href="{{oldSite}}url/accounting_print~transactions/{{jobId}}"><i class="fa fa-print"></i></a>
+
+              <ng-template #tipBilling>Generate Billing Statement</ng-template>
+              <a class="btn btn-circle" [ngbTooltip]="tipBilling" (click)="makeBillingStatementPdf()"><i class="fa fa-book"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-text">
+        <div class="loader" *ngIf='loderDivShow || loading'></div>
+        <table class="table table-bordered" *ngIf='!loderDivShow'>
+          <thead class="thead-light">
+            <tr>
+              <th>By</th>
+              <th>Date</th>
+              <th>Ref</th>
+              <th>Description</th>
+              <th>Inspector</th>
+              <th>Charge</th>
+              <th>Payment</th>
+              <th>Balance</th>
+              <th>Trans. Type</th>
+              <th>Sub Type</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let transactions of transactionList">
+              <td>{{transactions.by_name}}</td>
+              <td>{{transactions.date_posted}}</td>
+              <td>{{transactions.ref_text}}</td>
+              <td>{{transactions.description}}</td>
+              <td>{{transactions.inspector}}</td>
+              <td>{{transactions.transaction_charge}}</td>
+              <td>{{transactions.transaction_payment}}</td>
+              <td>{{transactions.bal}}</td>
+              <td>{{transactions.transaction_work_type}}</td>
+              <td>{{transactions.transaction_sub_type}}</td>
+              <td (click)='deleteTransaction(transactions.transaction_id)'><li class="fa fa-trash delte_transaction"></li></td>
+            </tr>
+          </tbody>
+  
+  
+        </table>
+      </div>
+    </div>
+  </div>
+  

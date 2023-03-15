@@ -1,0 +1,545 @@
+/*
+dark grey bg and text: #373737
+
+LT grey: #7b7b7b
+
+dark red link; #6a0708
+
+TT logo red: #9b2022
+
+Cream Dk: EFC86D
+
+Cream lt: faeac5
+
+Green : 3c763d
+
+	background: #3c763d;
+*/
+
+a.stat_bar_addy {
+	color: #EFC86D;
+}
+a.stat_bar_addy:hover {
+	color: #faeac5;
+}
+
+.auto_ddd {
+	margin-bottom: 16px;
+}
+
+.search_main_results {
+	-webkit-box-shadow: 10px 10px 21px 0px rgba(0,0,0,0.63);
+	-moz-box-shadow: 10px 10px 21px 0px rgba(0,0,0,0.63);
+	box-shadow: 10px 10px 21px 0px rgba(0,0,0,0.63);	
+	position:absolute; 
+	left: 22;
+	z-index: 100000000000; 
+	background: #fff;
+	padding: 16px;
+	font-size: 14px;
+}
+
+      #mapqq, #panoqq {
+        float: left;
+        height: 300px;
+        width: 400px;
+      }
+
+.activity_archive_list {
+	padding: 24px;
+	border: #D1D1D1 solid 1px;
+	
+}
+
+.activity_archive_list:hover {
+	background: #faeac5;
+}
+
+.ti_note_blank {
+	float:left;
+	display: inline;
+	width: 90%;	
+}
+
+.ti_code {
+	float:left;
+	display: inline;
+	width: 10%;
+	height: 20px;
+	max-height:20px;
+	padding:2px;
+	
+}
+
+.ti_note {
+	float:left;
+	display: inline;
+	width: 90%;
+	height: 24px;
+	max-height:24px;
+	overflow: hidden;
+	border-right: #C8C8C8 solid 1px;
+	border-left: #C8C8C8 solid 1px;
+	border-top: #C8C8C8 solid 1px;
+	padding:2px;
+}
+.ti_code {
+	float:left;
+	display: inline;
+	width: 10%;
+	height: 24px;
+	max-height:24px;
+	padding:2px;
+	
+}
+
+.ti_note_bot {
+	float:left;
+	display: inline;
+	width: 90%;
+	height: 24px;
+	border-right: none;
+	border-left: none;
+	border-top: #C8C8C8 solid 1px;
+	padding:0;
+
+}
+
+.ti_note:hover {
+	background: #faeac5;
+	cursor:pointer;
+	
+}
+
+.help-inline_lg {
+	font-size: 18px;
+	
+}
+
+
+.sm_txt {
+	font-size: 10px;
+	
+}
+
+.reports_listing_box_combo, .property_lookup_selection {
+	padding: 6px ;
+	margin: 8px;
+	font-size: 14px;
+	width: 40%;
+	color:#373737;
+	cursor:pointer;
+	border: #7b7b7b solid 1px;
+	
+	
+border-radius: 12px; 
+-moz-border-radius: 12px; 
+-webkit-border-radius: 12px; 			
+}
+
+.property_lookup_selection {
+	width: 100%;	
+}
+
+.reports_listing_box_email {
+	padding: 12px ;
+	margin: 8px;
+	font-size: 18px;
+	width: 70%;
+	color:#373737;
+	cursor:pointer;
+	border: #7b7b7b solid 1px;
+	
+	
+border-radius: 12px; 
+-moz-border-radius: 12px; 
+-webkit-border-radius: 12px; 		
+}
+
+.reports_listing_box_email:hover {
+	border: #6a0708 solid 1px;
+}
+
+.reports_listing_box {
+	padding: 20px 0px;
+	margin-left: 12px;
+border-radius: 12px; 
+-moz-border-radius: 12px; 
+-webkit-border-radius: 12px; 		
+}
+
+.reports_tit {
+	color: $6a0708;
+	
+}
+
+.reports_listing_box {
+	width: 20%;
+	float:left;
+	display: inline;
+	text-align:center;
+	
+}
+
+a.toggle_link {
+	color: #7b7b7b;
+	
+}
+
+a.toggle_link:hover {
+	color: #373737;
+	
+}
+
+.inspection_signoff {
+	margin: 60px 0;
+	
+}
+
+.red {
+	color: #6a0708;
+	
+}
+
+.inspection_checklist {
+	padding: 40px 16px;
+	font-size: 34px;
+	color: #fff;
+	border: #9b2022 solid 1px;
+	float: left;
+	display: inline;
+	background: #373737;
+	cursor:pointer;
+	width: 19%;
+	margin-right: 8px;
+border-radius: 12px; 
+-moz-border-radius: 12px; 
+-webkit-border-radius: 12px; 	
+}
+
+.inspection_checklist:hover {
+	color: #373737;
+	background: #7b7b7b;
+	
+}
+
+.inspection_checklist_completed {
+	padding: 40px 16px;
+	font-size: 34px;
+	color: #fff;
+	border: #9b2022 solid 1px;
+	float: left;
+	display: inline;
+	background: #6a0708;
+	cursor:pointer;
+	width: 19%;
+	margin-right: 8px;
+border-radius: 12px; 
+-moz-border-radius: 12px; 
+-webkit-border-radius: 12px; 
+
+}
+
+.permissions_list {
+	float:left;
+	display:inline;
+	width: 45%;
+	font-size: 14px;
+	padding: 12px;
+	height: 80px;
+}
+
+fieldset.other_party_fs {
+	margin-bottom: 40px;
+	padding-bottom: 40px;
+	border-bottom: #d3d3d3 solid 1px;
+
+}
+
+fieldset.other_party_fs legend {
+	font-size: 16px;
+	margin-bottom: 0px;
+	
+}
+
+.order_review {
+	padding: 12px;
+	border: #d3d3d3 solid 1px;
+	margin: 0px 20px;
+	
+}
+
+.lookup_results_div {
+	cursor: pointer;
+	
+}
+
+.lookup_results_div:hover {
+
+background: #D3FBC6;	
+}
+
+.controls {
+	padding-top: 7px;
+	
+}
+
+.job_status_bar_subitem_completed {
+	float:left; 
+	display:inline;
+	 text-align:center; 
+	 background:#000; 
+	 color:#fff; 
+	 font-size: 12px;
+	 padding: 6px;
+	 cursor:pointer;
+	
+}
+
+.job_status_bar_subitem {
+	float:left; 
+	display:inline;
+	 text-align:center; 
+	 color:#6a0708; 
+	 font-size: 14px;
+	 padding: 6px;
+	  background: url(images/bg_status_line_off.png) no-repeat top center;
+}
+
+.job_status_bar_subitem:hover {
+
+	  background: url(images/bg_status_line_on.png) no-repeat top center;
+}
+
+
+.job_status_bar_subitem_cancel {
+	float:left; 
+	display:inline;
+	 text-align:center;
+	 font-size: 14px;
+	 padding: 6px;
+	  background: #6a0708 url(images/bg_status_line_off.png) no-repeat top center;
+	  color: #ffffff;	  
+}
+
+.job_status_bar_subitem_cancel:hover {
+
+	  background: #FDD7D8 url(images/bg_status_line_on.png) no-repeat top center;
+	  color: #373737;
+}
+
+
+#status_bar_completed {
+	cursor:pointer;
+	background:#6a0708;	
+}
+
+#status_bar_completed:hover {
+	background:#faeac5;	
+}
+
+
+
+.search_part {
+	border: #d3d3d3 solid 1px;
+	margin-bottom: 40px;
+	padding: 12px;
+	width: 100%;
+}
+
+.search_part:hover {
+	background: #EAEAEA;
+}
+
+.search_part:active {
+	background: #E1F5FF;
+}
+
+
+
+.form-group {
+	
+	margin: 12px 0;
+	
+}
+
+
+div.pagination_wrapper {
+	margin: 0px 0 0px 0; 
+	text-align:center;
+}
+
+.btn {
+	color:#C00;
+	
+}
+
+.btn.btn-primary {
+	font-weight:bold;
+    
+}
+
+.login-page {
+	background: #373737 url(images/bg_squares_bottom.png) repeat-x center bottom;
+	
+}
+
+
+.login-wrapper {
+	background: none;
+	
+}
+
+.login-page::before, .error-page::before {
+	background: #373737 url(images/bg_squares_bottom.png) repeat-x center bottom;	
+}
+
+#main-content {
+	background: url(images/bg_front_top_black_grad.png) repeat-x top left;
+	
+}
+
+label.folio {
+	color: #373737;
+	font-size: 16px;
+	font-weight: 700;
+	
+}
+
+a.dk_bg_lighter {
+	color:#EFC86D;
+	
+}
+
+a.dk_bg_lighter:hover {
+	color:#faeac5;
+	
+}
+
+h3.login_title {
+	color: #6a0708;
+	
+}
+
+#no_breadcrumbs {
+	border-bottom: #EFC86D solid 2px;
+	margin-bottom: 28px;
+	
+}
+
+/*  calendar mods  */
+
+.event-form-title {
+	color: #6a0708;
+	border-bottom: #6a0708 solid 1px;
+	margin-bottom: 20px;
+}
+
+ul.appointments_list {
+	margin: 40px 0px;
+	list-style-type: none;
+	padding: 0;
+}
+
+ul.appointments_list li {
+	list-style-type: none;
+	margin: 0;
+	padding: 12px 8px;
+	border-top: #dddddd solid 1px;
+	font-size: 14px;
+	
+}
+
+ul.appointments_list li.active:hover {
+	background: #dddddd;
+	cursor:pointer;
+	
+}
+
+ul.appointments_list a {
+	color: #9b2022;
+}
+
+ul.appointments_list a:hover {
+	color: #6a0708;
+}
+
+.appointments_info {
+	float:right;
+	width: 240px;
+	font-size: 11px;
+	
+}
+
+.img_property_med {
+	width: 100%;
+	
+}
+
+a.link_big_red {
+	font-size:14px;
+	font-weight:bold;
+	text-align: right;
+	
+}
+
+a.link_big_red:hover {
+	color: #373737;
+	
+}
+
+.finding_image_thumb {
+	width: 80px;
+	
+}
+
+.auto_dd {
+	cursor:pointer;
+	padding: 8px 20px;
+ 
+}
+
+.auto_dd:hover {
+	background: #CCC;
+	
+}
+
+#code_lookup_results2 {
+	border: #d3d3d3 solid 1px;
+width:140px;max-height:300px; overflow:scroll; position: absolute; z-index: 1; background:#fff;
+
+-webkit-box-shadow: 6px 6px 5px 0px rgba(50, 50, 50, 0.56);
+-moz-box-shadow:    6px 6px 5px 0px rgba(50, 50, 50, 0.56);
+box-shadow:         6px 6px 5px 0px rgba(50, 50, 50, 0.56);	
+}
+
+#code_lookup_results {
+	border: #d3d3d3 solid 1px;
+width:80px;max-height:300px; overflow:scroll; position: absolute; z-index: 1; display:none; background:#fff;
+
+-webkit-box-shadow: 6px 6px 5px 0px rgba(50, 50, 50, 0.56);
+-moz-box-shadow:    6px 6px 5px 0px rgba(50, 50, 50, 0.56);
+box-shadow:         6px 6px 5px 0px rgba(50, 50, 50, 0.56);	
+}
+
+.temp_var_input_box {
+	width: 200px;
+	background: #FFDFDF;
+	border: none;
+	border-bottom: #333 solid 2px;
+	padding: 0 8px;
+	
+}
+
+.var_mod {
+	margin-top: 40px;
+	
+}
+body{
+	background: #373737 url(../images/bg_squares_bottom.png) repeat-x center bottom;
+}
+.admin-header{
+	color:#EFC86D;
+}
+
+

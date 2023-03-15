@@ -1,0 +1,97 @@
+<form (ngSubmit)="f.form.valid && scheduleSubmit()" #f="ngForm" novalidate>
+<div class="modal-header">
+  <h5 class="modal-title">{{modal_title}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()"><i class="fa fa-close"></i>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+      	<div class="row mb-5">
+      		<div class="col-md-2">
+	      		JOB: <b>{{job.jobId}}</b>
+	      	</div>
+	      	<div class="col-md-4">
+	      		<b>{{job.tip}}</b>
+	      	</div>
+	      	<div class="col-md-5">
+	      		Schedule: <b>{{from_date_str}} ({{from_time_str}} - {{to_time_str}})</b>
+	      	</div>
+      	</div>
+      	<div class="row">
+			<div class="col-md-3">
+			    <div class="form-group">
+			        <label class="control-label">Select Inspector</label>
+			        <div class="controls">
+	                    <select class="form-control" id="inspector"
+	                    [(ngModel)]="schedule.agent_id" name="agent_id"
+	                    #inspector="ngModel" required="">
+	                    <option value=''>--select--</option>
+	                    <option *ngFor="let insp of inspectors | keyvalue" [value]="insp.value.user_id">{{insp.value.user_first_name}} {{insp.value.user_last_name}}</option>
+	                    </select>    
+			        </div>
+			        <div *ngIf="(f.submitted && inspector.invalid) || inspector.touched " class="invalid-data" >
+                    	<div *ngIf="inspector.errors?.required"> Agent is required</div>
+                	</div> 
+			        
+			    </div> 
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+				    <label class="control-label">Inspection Day</label>
+				    <div class="controls">
+				        <div class="input-group form-date-pick">
+	                        <input class="form-control" placeholder="mm/dd/yyyy"
+	                        name="dp" [(ngModel)]="schedule.from_date"  ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" #dp="ngModel" required="">
+	                        <div class="input-group-append" >
+	                            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+	                            <i class="fa fa-calendar" aria-hidden="true"></i>
+	                            </button>
+	                        </div>
+	                        
+	                    </div>
+	                    <div *ngIf="(f.submitted && dp.invalid) || dp.touched " class="invalid-data" >
+	                    	<div *ngIf="dp.errors?.required"> Date is required</div>
+	                	</div>
+				    </div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="control-label">Inspection Time</label>
+					<div class="row">
+						<!-- <div class="col-md-6">
+							<input required="" class="form-control disabled" [(ngModel)]="schedule.from_time" name="from_time" placeholder="from" type="text" #from_time="ngModel">
+							<div *ngIf="(f.submitted && from_time.invalid) || from_time.touched " class="invalid-data" >
+		                    	<div *ngIf="from_time.errors?.required"> Required</div>
+		                	</div>
+						</div> -->
+						<div class="col-md-6">
+							<ngb-timepicker [(ngModel)]="schedule.from_time" [meridian]="meridian" [spinners]="spinners" name="from_time" #from_time="ngModel" required=""></ngb-timepicker>
+							<div *ngIf="(f.submitted && from_time.invalid) || from_time.touched " class="invalid-data" >
+		                    	<div *ngIf="from_time.errors?.required"> Required</div>
+		                	</div>
+						</div>
+						<!-- <div class="col-md-6">
+							<input required="" class="form-control disabled" [(ngModel)]="schedule.to_time" name="to_time" placeholder="to" type="text" #to_time="ngModel">
+							<div *ngIf="(f.submitted && to_time.invalid) || to_time.touched " class="invalid-data" >
+		                    	<div *ngIf="to_time.errors?.required"> Required</div>
+		                	</div>
+						</div> -->
+						<div class="col-md-6">
+							<ngb-timepicker [(ngModel)]="schedule.to_time" [meridian]="meridian" [spinners]="spinners" name="to_time" #to_time="ngModel" required=""></ngb-timepicker>
+							<div *ngIf="(f.submitted && to_time.invalid) || to_time.touched " class="invalid-data" >
+		                    	<div *ngIf="to_time.errors?.required"> Required</div>
+		                	</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button id="client_input_but" class="btn btn-primary">Save</button> 
+    <a class="btn btn-outline-dark" (click)="closeModal()">Cancel</a>
+</div>
+</form>

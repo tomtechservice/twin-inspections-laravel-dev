@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">X
+  </button>
+</div>
+<div class="modal-body">
+  <!-- <div class="alert alert-danger" *ngIf="error_message!=''">
+    <strong>Error!</strong>
+    {{error_message}}
+  </div> -->
+  <div id="update_status" style="width: auto; min-height: 0px; max-height: none; height: 236.3px; background-color: rgb(255, 255, 255);"
+    class="ui-dialog-content ui-widget-content">
+    <br>
+
+    <form (ngSubmit)="f.form.valid && statusSubmit()" #f="ngForm" novalidate autocomplete="off" >
+      <div class="form-group">
+        <div class="row">
+          <label class="col-md-12 control-label"><b>Report Payment</b></label>
+          <div class="col-md-12 col-lg-9 controls">
+            <select  name="report_payment_status" [(ngModel)]="report_payment_status" class="form-control">
+              <option value="recieved">Recieved</option>
+              <option value="not-recieved">Not Recieved</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-9 col-sm-offset-3 col-lg-9 col-lg-offset-3">
+            <input id="update_status_submit" name="update_report_submit" class="btn btn-primary" type="submit" value="  Update Report  ">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input (click)="activeModal.dismiss('Cross click')" id="change_inspector_but" name="change_inspector_but" class="btn btn-primary" type="button" value="  Cancel  "> 
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

@@ -1,0 +1,107 @@
+<div class="row">
+    <div class="col-md-12">
+       <div class="page-title">
+          <div>
+             <h1><i class="fa fa-dashboard"></i>Group Widgets</h1>
+             <!-- <h4>Overview, stats, chat and more</h4> -->
+          </div>
+       </div>
+    </div>
+ </div>
+
+ <div class="row pb-4" *ngIf='noaccess'>     
+    <div class="col-md-12">
+       <div id="accordion-widget" [hidden]="!card.headingWidget">
+           <div class="card">
+             <div class="card-header" id="headingWidget">
+               <h5 class="mb-0 mt-0">
+                   <p style="color:red">Access Denied for this Group</p>
+               </h5>
+      </div> 
+    </div> 
+  </div> 
+</div> 
+ </div>
+
+<div class="row pb-4" *ngIf='!noaccess'>     
+    <div class="col-md-12">
+       <div id="accordion-widget" [hidden]="!card.headingWidget">
+           <div class="card">
+             <div class="card-header" id="headingWidget">
+               <h5 class="mb-0 mt-0">
+                   <a role="button" data-toggle="collapse"  href="#collapseWidget" aria-expanded="true" aria-controls="collapseWidget">
+                     {{groupedWidgetTitle}}
+                   </a>
+               </h5>
+             </div>
+         
+             <div id="collapseWidget" class="collapse show" aria-labelledby="headingWidget" data-parent="#accordion-widget">
+               <div class="card-body">
+                  <div class="row">
+                      <div class="col-md-3 m-b" *ngFor="let wid of widgetList | keyvalue" >
+                          <div class="card">
+                              <div class="dismiss-card" >
+                              </div>
+                              <div class="card-body">
+                                  <h5 class="card-title" style="text-align:center;color:#000000">{{wid.value.title}}</h5>
+                                  <svg width="100%" height="100%" viewBox="0 0 42 42" class="donut">
+                                      <circle class="donut-hole" cx="21" cy="21" r="15.91549430918954" fill="#fff"></circle>
+                                      <circle class="donut-ring" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#d2d3d4" stroke-width="3"></circle>
+                                    
+                                      
+                  
+                                      <circle *ngIf="wid.value.is_multiple==1 && wid.value.shouldbe_color=='green'" class="donut-segment" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="green" stroke-width="3" [style.strokeDasharray]="wid.value.datapercentage_val" stroke-dashoffset="25"></circle>
+                  
+                                      <circle *ngIf="wid.value.is_multiple==1 && wid.value.shouldbe_color=='green'" class="donut-segment" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#008495" stroke-width="3" [style.strokeDasharray]="wid.value.shouldbepercentage_val" stroke-dashoffset="25"></circle>
+                  
+                                      <circle *ngIf="wid.value.is_multiple==1 && wid.value.shouldbe_color=='red'" class="donut-segment" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="red" stroke-width="3" [style.strokeDasharray]="wid.value.shouldbepercentage_val" stroke-dashoffset="25"></circle>
+                  
+                                      <circle *ngIf="wid.value.is_multiple==1 && wid.value.shouldbe_color=='red'" class="donut-segment" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#008495" stroke-width="3" [style.strokeDasharray]="wid.value.datapercentage_val" stroke-dashoffset="25"></circle>
+                  
+                                      <circle *ngIf="wid.value.is_multiple==0 && wid.value.exceed_goal==1" class="donut-segment" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#008495" stroke-width="3"></circle>
+                  
+                                      
+                                      
+                                      
+                                      
+                                      
+                                      
+                                      
+                                      <g class="chart-text">
+                                          <text x="50%" y="50%" class="chart-number">
+                                            {{wid.value.symbol}}{{wid.value.result_data}}
+                                          </text>
+                                          <text x="50%" y="50%" class="chart-label shoulbe-label" [ngStyle]="{'fill': wid.value.shouldbe_color}">
+                                            Should be : {{wid.value.symbol}}{{wid.value.shouldbe}}
+                                          </text>
+                                          <!-- <text x="50%" y="60%" class="chart-label">
+                                              Should be : {{wid.value.shouldbe}}
+                                          </text>
+                                          <text x="50%" y="70%" class="chart-label">
+                                              Diffrence : {{wid.value.diffrence}}
+                                          </text> -->
+                                        </g> 
+                                        
+                                  </svg>
+                                  <span class="circle_out_span_labels">Goal : {{wid.value.symbol}}{{wid.value.goal}}</span> 
+                                  <span class="circle_out_span_labels">Difference : {{wid.value.symbol}}{{wid.value.diffrence}}</span> 
+                              </div>
+                          </div>
+                      </div>
+                   </div>
+               </div>
+             </div>
+           </div>   
+       </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+

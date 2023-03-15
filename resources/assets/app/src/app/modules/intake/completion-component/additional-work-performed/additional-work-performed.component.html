@@ -1,0 +1,122 @@
+<div class="modal-header">
+  <div *ngIf="!edit_additional_work">
+    <h4 class="modal-title" id="modal-basic-title">Add Additional Work Performed :</h4>
+  </div>
+  <div *ngIf="edit_additional_work">
+    <h4 class="modal-title" id="modal-basic-title">Edit Additional Work Performed :</h4>
+  </div>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngIf="!edit_additional_work">
+    <form [formGroup]="additionalWorkForm" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <label for="selectCrew" class="col-md-3 col-form-label"><strong>Crew Lead :</strong></label>
+        <div class="col-md-9">
+          <select class="form-control" id="selectCrew" formControlName="crew_id" [ngClass]="{ 'is-invalid': submitted && f.crew_id.errors }">
+            <option value="">-SELECT-</option>
+            <optgroup label="Crew">
+              <option *ngFor="let crew of crewListSpec" [value]="crew.user_id">
+                {{ crew.user_last_name }}, {{ crew.user_first_name }}
+              </option>
+            </optgroup>
+            <optgroup label="Treaters">
+              <option *ngFor="let crewTreater of crewTreaterList" [value]="crewTreater.user_id">
+                {{ crewTreater.user_last_name }}, {{ crewTreater.user_first_name }}
+              </option>
+            </optgroup>
+            <optgroup label="Contractors">
+              <option *ngFor="let contractor of contractorList" [value]="contractor.user_id">
+                {{ contractor.user_last_name }}
+                <span *ngIf="contractor.user_first_name">, {{ contractor.user_last_name }} </span>
+              </option>
+            </optgroup>
+          </select>
+          <div *ngIf="submitted && f.crew_id.errors">
+            <div *ngIf="f.crew_id.errors.required" class="error-msg">Crew Lead is Required!</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputCost" class="col-md-3 col-form-label"><strong>Cost :</strong></label>
+        <div class="col-md-5">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">$</div>
+            </div>
+            <input type="text" class="form-control" id="inputCost" formControlName="finding_bid_additional_work"
+              [ngClass]="{ 'is-invalid': submitted && f.finding_bid_additional_work.errors }" />
+          </div>
+          <div *ngIf="submitted && f.finding_bid_additional_work.errors">
+            <div *ngIf="f.finding_bid_additional_work.errors.required" class="error-msg">Cost is Required!</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputWorkNotes" class="col-md-3 col-form-label"><strong>Description of Work Performed :</strong></label>
+        <div class="col-md-9">
+          <textarea type="text" class="form-control" id="inputWorkNotes" row="3" formControlName="finding_description_additional_work"
+            [ngClass]="{ 'is-invalid': submitted && f.finding_description_additional_work.errors }"></textarea>
+          <div *ngIf="submitted && f.finding_description_additional_work.errors">
+            <div *ngIf="f.finding_description_additional_work.errors.required" class="error-msg">Description is
+              Required!</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputWorkNotes" class="col-md-3 col-form-label"><strong>Other Notes :</strong></label>
+        <div class="col-md-9">
+          <textarea type="text" class="form-control" id="inputWorkNotes" row="3" formControlName="finding_notes_additional_work"></textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputDateCompleted" class="col-md-3 col-form-label"><strong>Completed Date :</strong></label>
+        <div class="col-md-9">
+          <input required="" class="form-control" placeholder="mm/dd/yyyy" firstDayOfWeek="7" ngbDatepicker #d="ngbDatepicker"
+            (click)="d.toggle()" (dateSelect)="onDateSelect($event)" id="inputDateCompleted" formControlName="finding_completed_date_additional_work"
+            [ngClass]="{ 'is-invalid': submitted && f.finding_completed_date_additional_work.errors }" />
+          <div *ngIf="submitted && f.finding_completed_date_additional_work.errors">
+            <div *ngIf="f.finding_completed_date_additional_work.errors.required" class="error-msg">Completed Date is
+              Required!</div>
+          </div>
+          <p> <i class="fa fa-exclamation-triangle"></i>*Remember by adding this Additional Work Performed you are
+            including this in the job
+            as well as marking it completed and billable.</p>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+          <button type="submit" class="btn btn-primary">Add Additional Work Item</button>
+          &nbsp;&nbsp;&nbsp;
+          <button type="submit" class="btn btn-primary" (click)="activeModal.dismiss('Cross click')">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="edit_additional_work">
+    <form [formGroup]="editAdditionalWorkForm" (ngSubmit)="onEditFormSubmit()">
+      <div class="form-group row">
+        <label for="inputDateCompleted" class="col-sm-2 col-form-label"><strong>Completed Date :</strong></label>
+        <div class="col-sm-8">
+          <span *ngIf="findingAdditionalWork">
+              <input class="form-control" placeholder="mm/dd/yyyy" firstDayOfWeek="7" ngbDatepicker #d="ngbDatepicker"
+              (click)="d.toggle()" (dateSelect)="onDateSelect($event)" id="inputDateCompleted" 
+              formControlName="finding_completed_date_additional_work_edit"
+              [value]="findingAdditionalWorkDateCompleted">
+            </span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-8">
+          <button type="submit" class="btn btn-primary">Edit Additional Work Item</button>
+          &nbsp;&nbsp;&nbsp;
+          <button type="submit" class="btn btn-primary" (click)="activeModal.dismiss('Cross click')">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

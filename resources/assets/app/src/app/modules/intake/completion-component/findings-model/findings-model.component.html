@@ -1,0 +1,70 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Findings:</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <h6 style="margin: 24px 0px 24px 0px; color : #6a0708">Findings</h6>
+  <div style="position: relative;
+  border: 0;
+  padding: .5em 1em;
+  background: none;">
+    <div class="form-group row">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Section</th>
+            <th scope="col">Type</th>
+            <th scope="col">Finding</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>3</td>
+            <td>F</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form-group row">
+      <label for="selectCrew" class="col-sm-2 col-form-label"><strong>Code:</strong></label>
+      <div class="col-sm-8">
+        <span>361</span>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="selectCrew" class="col-sm-2 col-form-label"><strong>Finding:</strong></label>
+      <div class="col-sm-8">
+        <span>
+          DURING THE COURSE OF A PORTION OF REPAIRS TO ITEM (3E) WOOD DECAY FUNGI (DRY ROT) DAMAGE WAS FOUND AT THE 2X4
+          FRAMING OF
+          THE CHIMNEY CHASE
+        </span>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="selectCrew" class="col-sm-2 col-form-label"><strong>Recommendation:</strong></label>
+      <div class="col-sm-8">
+        <span>
+          REMOVE THE DAMAGED WOOD MEMBERS AND REPLACE WITH NEW MATERIAL APPLY TIMBOR (ACTIVE INGREDIENT SODIUM
+          OCTOBORATE) TO THE
+          ADJACENT INFECTED AREAS AS NECESSARY FOR THE CONTROL OF WOOD DECAY FUNGI (DRY ROT).
+        </span>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="selectCrew" class="col-sm-2 col-form-label"><strong>Notes:</strong></label>
+      <div class="col-sm-8">
+        <span></span>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="" class="col-sm-2 col-form-label"></label>
+      <div class="col-sm-8">
+        <button type="submit" class="btn btn-primary" (click)="activeModal.dismiss('Cross click')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

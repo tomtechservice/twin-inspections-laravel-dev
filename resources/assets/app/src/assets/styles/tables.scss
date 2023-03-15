@@ -1,0 +1,19 @@
+$screen-sm-min: 768px;
+$shadow: 0 2px 3px rgba(0, 0, 0, .2);
+$gray-border: darken(#f8f8f8, 10%);
+$gray-light: rgba(0, 0, 0, .35);
+$faded-yellow: lighten(#f1c40f, 40%);
+.table-wrapper {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto 0;
+    // max-height: 500px;
+    overflow-y: scroll;
+    position: relative;
+    transition: all .2s ease-out;
+    @media(min-width: $screen-sm-min) {
+      background: white;
+      box-shadow: $shadow;
+    }
+  }
+  

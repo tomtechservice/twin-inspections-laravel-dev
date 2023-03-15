@@ -1,0 +1,185 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Add Materials:</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <span class="col-sm-9">
+      <h4 style="float: left; margin: 24px 0px 24px 0px; color : #6a0708">{{headerTitle}}</h4>
+    </span>
+    <span class="col-sm-3">
+      <a href="javascript:;" (click)="toggle()" style="text-decoration: none;">
+        <h6 style="margin: 24px 0px 24px 0px; color : #6a0708">toggle {{toggleTitle}}</h6>
+      </a>
+    </span>
+  </div>
+  <div *ngIf="is_error !=''" class="alert alert-danger" role="alert" >
+    {{is_error}}
+  </div>
+  <div *ngIf="headerTitle == 'Fill in Materials'">
+    <form [formGroup]="materialsForm" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <label for="inputMaterialCost" class="col-md-3 col-form-label"><strong>Material Cost:</strong></label>
+        <div class="col-md-5">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">$</div>
+            </div>
+            <input type="text" class="form-control" id="inputMaterialCost" formControlName="job_meta_materials_cost" />
+          </div>
+          <!-- <div *ngIf="submitted && f.job_meta_materials_cost.errors">
+            <div *ngIf="f.job_meta_materials_cost.errors.required" class="error-msg">Material Cost is required</div>
+          </div> -->
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputDateUsed" class="col-md-3 col-form-label"><strong>Date Used:</strong></label>
+        <div class="col-md-9">
+          <input class="form-control" placeholder="mm/dd/yyyy" firstDayOfWeek="7" ngbDatepicker #d="ngbDatepicker"
+            (click)="d.toggle()" (dateSelect)="onDateSelect($event)" id="inputDateUsed" formControlName="job_meta_materials_date_used"
+            [ngClass]="{ 'is-invalid': submitted && f.job_meta_materials_date_used.errors }">
+          <div *ngIf="submitted && f.job_meta_materials_date_used.errors">
+            <div *ngIf="f.job_meta_materials_date_used.errors.required" class="error-msg">Date Used is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputOtherNotes" class="col-md-3 col-form-label"><strong>Other Notes:</strong></label>
+        <div class="col-md-9">
+          <textarea type="text" class="form-control" id="inputOtherNotes" row="3" 
+          formControlName="job_meta_materials_notes"></textarea>
+          <!-- <div *ngIf="submitted && f.job_meta_materials_notes.errors">
+            <div *ngIf="f.job_meta_materials_notes.errors.required" class="error-msg">Other Notes is required</div>
+          </div> -->
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+          <button type="submit" class="btn btn-primary">Add Materials</button>
+          &nbsp;&nbsp;&nbsp;
+          <button type="submit" class="btn btn-primary" (click)="activeModal.dismiss('Cross click')">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="headerTitle == 'Warehouse I/O'">
+    <form [formGroup]="warehouseForm" (ngSubmit)="onSubmitWarehouseForm()">
+      <div class="form-group row">
+        <label for="inputDate" class="col-md-3 col-form-label"><strong>Date:</strong></label>
+        <div class="col-md-9">
+          <input class="form-control" firstDayOfWeek="7" ngbDatepicker #d="ngbDatepicker"
+            (click)="d.toggle()" (dateSelect)="onDateSelect($event)" id="inputDate" formControlName="inventory_transaction_date_created"
+            [ngClass]="{ 'is-invalid': submittedWarehouse && warehouseFormField.inventory_transaction_date_created.errors }">
+          <div *ngIf="submittedWarehouse && warehouseFormField.inventory_transaction_date_created.errors">
+            <div *ngIf="warehouseFormField.inventory_transaction_date_created.errors.required" class="error-msg">Date
+              is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputReportId" class="col-md-3 col-form-label"><strong>Report Id:</strong></label>
+        <ng-template #rt let-r="result" let-t="term">
+          <ngb-highlight [result]="r.job_ref_parent+' '+r.job_ref_suffix+' - '+r.job_property.property_address1" 
+          [term]="t" style="width: 300px;display: block;overflow: hidden;"></ngb-highlight>
+        </ng-template>
+        <div class="col-md-9">
+          <input type="number" class="form-control" id="inputReportId" placeholder=""
+          [ngbTypeahead]="searchJobData" [resultTemplate]="rt" [inputFormatter]="formatter" 
+          formControlName="job_id"  
+          [ngClass]="{ 'is-invalid': submittedWarehouse && warehouseFormField.job_id.errors }">
+          <span>
+            <small><b> Note : Minimum three characters .</b></small>
+          </span>
+          <!-- <div *ngIf="!jobData" style="color: red">
+            <div class="alert alert-danger" role="alert">
+              Job Cant Find!
+            </div>
+          </div>  -->
+          <div *ngIf="is_job"  class="error-msg">
+              Job Cant Find!
+          </div>
+
+          <div *ngIf="submittedWarehouse && warehouseFormField.job_id.errors">
+            <div *ngIf="warehouseFormField.job_id.errors.required" class="error-msg">Report Id is required</div>
+          </div>
+          <p>type in report id or beginning of address and select correct from the dropdown.
+            This is a required field.
+          </p>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="selectBranch" class="col-md-3 col-form-label"><strong>Branch:</strong></label>
+        <div class="col-md-9">
+          <select class="form-control" id="selectBranch" formControlName="branch_id" [ngClass]="{ 'is-invalid': submittedWarehouse && warehouseFormField.branch_id.errors }">
+            <option value="">--SELECT BRANCH--</option>
+            <option  *ngFor="let branch of branches" [value]="branch.branch_id ">{{ branch.branch_name }}</option>
+          </select>
+          <div *ngIf="submittedWarehouse && warehouseFormField.branch_id.errors">
+            <div *ngIf="warehouseFormField.branch_id.errors.required" class="error-msg">Branch is required</div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="form-group row">
+        <label for="selectTransactionType" class="col-md-3 col-form-label"><strong>Transaction Type:</strong></label>
+        <div class="col-md-9">
+          <select class="form-control form-control-sm" id="selectTransactionType" 
+          formControlName="inventory_transaction_type">
+            <option value="In">In</option>
+            <option value="Out">Out</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="selectGoodsType" class="col-md-3 col-form-label"><strong>Goods Type:</strong></label>
+        <div class="col-md-9">
+          <select class="form-control" id="selectGoodsType" 
+          formControlName="inventory_transaction_goods_type">
+            <option value="Lumber">Lumber</option>
+            <option value="Fasteners">Fasteners</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputAmount" class="col-md-3 col-form-label"><strong>Amount/Quantity:</strong></label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" id="inputAmount" placeholder="" 
+          formControlName="inventory_transaction_goods_amount" value=""/>
+          <p>Specify lbs., gallons, board-feet, etc.</p>
+        </div>
+
+      </div>
+      <div class="form-group row">
+        <label for="inputNotes" class="col-md-3 col-form-label"><strong>Notes:</strong></label>
+        <div class="col-md-9">
+          <textarea type="text" class="form-control" id="inputNotes" row="3" 
+          formControlName="inventory_transaction_notes"></textarea>
+        </div>
+
+      </div>
+      <div class="form-group row">
+        <label for="inputCost" class="col-md-3 col-form-label"><strong>Cost:</strong></label>
+        <div class="col-md-5">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">$</div>
+            </div>
+            <input type="text" class="form-control" id="inputCost" formControlName="inventory_transaction_cost">
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+          <button class="btn btn-primary">Add Inventory Transaction</button>
+          &nbsp;&nbsp;&nbsp;
+          <button class="btn btn-primary" (click)="activeModal.dismiss('Cross click')">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

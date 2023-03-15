@@ -1,0 +1,53 @@
+.intake_header{
+    background:#fff;
+    padding: 10px;
+    padding-bottom:0px;
+    
+}
+.tabbable {
+    margin-top: 20px;
+} 
+.add_tab{
+    height: 2px;
+    font-size: 25px;
+    padding-left: 7px;
+    /* margin: 1px; */
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+.clear {
+    clear: both;
+}
+.page-title-cont {
+	margin-bottom :0px !important;
+}
+.page-title-header {
+	width: 30%;
+    float: left;
+}
+.inspections-head-select {
+	padding: 5px;
+	margin: 0 15px;
+	color: #EFC86D;
+	background-color: transparent;
+	border: 0px;
+}
+.panel-head-select {
+    float:right; 
+    font-size:14px; 
+    padding-top: 20px;
+}
+
+.panel-head--single-link {
+    padding: 5px;
+	margin: 0 15px;
+	color: #EFC86D;
+	background-color: transparent;
+    border: 0px;
+}  
+
+a.panel-head--single-link:hover {
+    text-decoration: none;
+}

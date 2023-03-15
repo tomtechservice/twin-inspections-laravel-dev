@@ -1,0 +1,288 @@
+<ng-container *ngIf="userData.user_level =='administrator'">
+    <h3 class="subtit">Manager's Notes</h3>
+    <form
+        action=""
+        method="post"
+        class="form-horizontal"
+    >
+        <div class="form-group">
+            <!-- <div
+                class="row"
+                *ngIf="is_parent_notes == 1 && parent_notes.length > 0"
+            >
+                <div
+                    *ngFor="let parent_note of parent_notes"
+                    class="col-sm-12 col-lg-12 mb-3 controls"
+                >
+                    <textarea
+                        name="parent_manager_note"
+                        id="parent_manager_note"
+                        [(ngModel)]="parent_note.manager_note"
+                        placeholder="Write here..."
+                        class="form-control"
+                        required
+                    >{{parent_note.manager_note}}</textarea>
+                </div>
+            </div> -->
+            <div class="row">
+                <label class="col-sm-12 col-lg-12 control-label">Add Note</label>
+                <div class="col-sm-12 col-lg-12 controls">
+                    <textarea
+                        name="manager_note"
+                        id="manager_note"
+                        [(ngModel)]="notes.manager_note"
+                        placeholder="Write here..."
+                        class="form-control"
+                        required
+                    >{{notes.manager_note}}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-12">
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        (click)="managerNote()"
+                    ><i class="fa fa-share"></i> Post</button>
+                    &nbsp;&nbsp;&nbsp;<label class="checkbox-inline">
+                        This note is an alert&nbsp;
+                        <input
+                            [(ngModel)]="notes.is_manager_note_alert"
+                            name="is_manager_note_alert"
+                            value="1"
+                            type="checkbox"
+                            [checked]="notes.is_manager_note_alert == '1'"
+                        >
+                    </label>
+                </div>
+            </div>
+        </div>
+    </form>
+</ng-container>
+
+
+<h3 class="subtit">Inspector Notes</h3>
+<div class="form-group">
+    <ng-container *ngIf="job.report && job.report.report_notes !=null then report_note else no_report_note">
+    </ng-container>
+    <ng-template #report_note>
+        {{job.report.report_notes}}
+    </ng-template>
+    <ng-template #no_report_note>
+        <p>No Inspector Notes</p>
+    </ng-template>
+</div>
+<h3 class="subtit">Additional Notes</h3>
+<form
+    action=""
+    method="post"
+    class="form-horizontal"
+>
+    <div class="form-group">
+        <div class="row">
+            <label class="col-md-12 control-label">Add Note</label>
+            <div class="col-md-12 controls">
+                <textarea
+                    name="add_notes"
+                    id="add_notes"
+                    [(ngModel)]="addnotes.add_notes"
+                    placeholder="Write here..."
+                    class="form-control"
+                ></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    (click)="addNote()"
+                ><i class="fa fa-share"></i> Post</button>
+                &nbsp;&nbsp;&nbsp;<label class="checkbox-inline">
+                    This note is an alert&nbsp;
+                    <input
+                        [(ngModel)]="addnotes.is_note_alert"
+                        name="is_note_alert"
+                        value="1"
+                        type="checkbox"
+                        [checked]="addnotes.is_note_alert == 1"
+                    >
+                </label>
+            </div>
+        </div>
+    </div>
+</form>
+<ng-template *ngIf="is_loading">
+    loading...
+</ng-template>
+<div
+    class="box-content"
+    style="padding-top:12px;"
+>
+    <ul class="messages messages-stripped">
+        <label class="col-sm-12 col-lg-12 control-label">Additional Notes</label>
+        <li *ngFor="let item of parent_additional_notes">
+            <ng-container *ngIf="item.user.user_image_file !=''; then image else no_image">
+            </ng-container>
+            <ng-template #image>
+                <img
+                    src="{{doSpace}}/media/inspectors/{{item.user_id}}/{{item.user.user_image_file}} "
+                    height="100"
+                >
+            </ng-template>
+            <ng-template #no_image>
+                <img
+                    src="assets/twininspections/images/user.png"
+                    height="100"
+                >
+            </ng-template>
+            <div>
+                <div>
+                    <h6>
+                        {{item?.user?.user_first_name}} {{item?.user?.user_last_name}}
+                        <label
+                            class="checkbox-inline"
+                            style="margin-left: 20px;font-size: 13px;font-weight: normal;color: #6a0708;"
+                        >
+                            <input
+                                id="note_{{item.job_note_id}}"
+                                value="1"
+                                type="checkbox"
+                                [checked]="item.is_note_alert == '1'"
+                                (click)="changeNoteAlertState(item.job_note_id, item.job_id)"
+                            >
+                            &nbsp;This note is an alert
+                        </label>
+                    </h6>
+                    <span class="time"><i class="fa fa-clock-o"></i>{{item?.job_note_date_created | date:'E MMMM d,y
+                        h:mm
+                        a':'GMT-08' }}</span>
+                </div>
+                <p>{{item?.job_note_note}}</p>
+            </div>
+        </li>
+        <li *ngFor="let item of additional_notes">
+            <!-- <img src="http://twinhouse.net/media/inspectors/no_inspector_photo.jpg" heigth="100"> -->
+            <ng-container *ngIf="item.user.user_image_file !=''; then image else no_image">
+            </ng-container>
+            <ng-template #image>
+                <img
+                    src="{{doSpace}}/media/inspectors/{{item.user_id}}/{{item.user.user_image_file}} "
+                    height="100"
+                >
+            </ng-template>
+            <ng-template #no_image>
+                <img
+                    src="assets/twininspections/images/user.png"
+                    height="100"
+                >
+            </ng-template>
+            <div>
+                <div>
+                    <h6>
+                        {{item?.user?.user_first_name}} {{item?.user?.user_last_name}}
+                        <label
+                            class="checkbox-inline"
+                            style="margin-left: 20px;font-size: 13px;font-weight: normal;color: #6a0708;"
+                        >
+                            <input
+                                id="note_{{item.job_note_id}}"
+                                value="1"
+                                type="checkbox"
+                                [checked]="item.is_note_alert == '1'"
+                                (click)="changeNoteAlertState(item.job_note_id, item.job_id)"
+                            >
+                            &nbsp;This note is an alert
+                        </label>
+                    </h6>
+                    <span class="time"><i class="fa fa-clock-o"></i>{{item?.job_note_date_created | date:'E MMMM d,y
+                        h:mm
+                        a':'GMT-08' }}</span>
+                </div>
+                <p>{{item?.job_note_note}}</p>
+            </div>
+        </li>
+    </ul>
+</div>
+<ng-template
+    #alertNotesModal
+    let-modal
+>
+    <ng-container>
+        <div class="modal-header">
+            <h4 class="modal-title">Alert Notes</h4>
+            <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="closeModal()"
+            >X
+            </button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-hover table-striped">
+                <tr *ngFor="let item of alert_notes; index as i">
+                    <td>{{item.notes}}</td>
+                </tr>
+            </table>
+            <div
+                class="row"
+                *ngIf="alert_manager_notes.length"
+            >
+                <div class="col-sm-12">
+                    <h3 class="subtit">Manager's Notes</h3>
+                    <ul class="messages messages-stripped">
+                        <li *ngFor="let item of alert_manager_notes">
+                            <div>
+                                <p style="margin-top: 0.6rem;margin-bottom: 0.8rem;">{{item.notes}}</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="row"
+                *ngIf="alert_additional_notes.length"
+            >
+                <div class="col-sm-12">
+                    <h3 class="subtit">Additional Notes</h3>
+                    <ul class="messages messages-stripped">
+                        <li *ngFor="let item of alert_additional_notes">
+                            <ng-container *ngIf="item.user.user_image_file !=''; then image else no_image">
+                            </ng-container>
+                            <ng-template #image>
+                                <img
+                                    src="{{doSpace}}/media/inspectors/{{item.user_id}}/{{item.user.user_image_file}} "
+                                    height="100"
+                                >
+                            </ng-template>
+                            <ng-template #no_image>
+                                <img
+                                    src="assets/twininspections/images/user.png"
+                                    height="100"
+                                >
+                            </ng-template>
+                            <div>
+                                <div>
+                                    <h6>{{item?.user?.user_first_name}} {{item?.user?.user_last_name}} </h6>
+                                    <span class="time"><i class="fa fa-clock-o"></i>{{item?.job_note_date_created |
+                                        date:'E MMMM d,y h:mm
+                                        a':'GMT-08' }}</span>
+                                </div>
+                                <p>{{item?.job_note_note}}</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </ng-container>
+</ng-template>

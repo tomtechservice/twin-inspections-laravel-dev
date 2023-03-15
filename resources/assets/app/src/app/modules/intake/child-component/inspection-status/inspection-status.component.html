@@ -1,0 +1,65 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">X
+  </button>
+</div>
+<div class="modal-body">
+  <!-- <div class="alert alert-danger" *ngIf="error_message!=''">
+    <strong>Error!</strong>
+    {{error_message}}
+  </div> -->
+  <div id="update_status" style="width: auto; min-height: 0px; max-height: none; height: 536.3px; background-color: rgb(255, 255, 255);"
+    class="ui-dialog-content ui-widget-content">
+    <br>
+
+    <form (ngSubmit)="f.form.valid && statusSubmit()" #f="ngForm" novalidate autocomplete="off" >
+
+      <p class="help-inline"><i class="fa fa-question-circle"></i> <b>Cancelled</b> status is for Jobs/Inspections that
+        have been cancelled</p>
+      <p class="help-inline"><i class="fa fa-question-circle"></i> <b>Hold</b> status is for Jobs/Inspections that are
+        put on hold but not necessarily cancelled</p>
+      <p class="help-inline"><i class="fa fa-question-circle"></i> <b>Completed</b> status is automatically applied by
+        the system and should only be used cautiously for special circumstances</p>
+      <br>
+      <div class="form-group">
+        <div class="row">
+          <label class="col-md-12 control-label"><b>New Status</b></label>
+          <div class="col-md-12 col-lg-9 controls">
+            <select  name="job_status_top" [(ngModel)]="status.job_status_top" class="form-control">
+              <option value="Active">Active</option>
+              <option value="Hold">Hold</option>
+              <option value="Cancelled">Cancelled</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="row">
+          <label class="col-md-12 control-label"><b>Notes</b></label>
+          <div class="col-md-12 controls">
+            <textarea name="job_status_notes" [(ngModel)]="status.job_status_notes"  class="form-control" rows="3"></textarea>
+            <span class="help-inline">Optional.</span>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-9 col-sm-offset-3 col-lg-9 col-lg-offset-3">
+            <input id="update_status_submit" name="update_status_submit" class="btn btn-primary" type="submit" value="  Update Status  ">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input (click)="activeModal.dismiss('Cross click')" id="change_inspector_but" name="change_inspector_but" class="btn btn-primary" type="button" value="  Cancel  "> 
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

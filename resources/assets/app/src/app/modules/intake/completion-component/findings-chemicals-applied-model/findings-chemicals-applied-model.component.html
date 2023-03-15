@@ -1,0 +1,72 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Add Chemicals Applied:</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <h6 style="margin: 24px 0px 24px 0px; color : #6a0708">Fill in Chemicals Applied</h6>
+  <form [formGroup]="addChemicalsAppliedForm" (ngSubmit)="onSubmit()">
+    <div class="form-group row">
+      <label for="selectChemical" class="col-md-3 col-form-label"><strong>Chemical :</strong></label>
+      <div class="col-md-9">
+        <select class="form-control" id="selectChemical" formControlName="chemical_id"
+          [ngClass]="{ 'is-invalid': submitted && f.chemical_id.errors }"
+          (change)="onChange($event.target.value)">
+          <option value="">--SELECT--</option>
+          <option *ngFor=" let chemical of chemicals " [value]="chemical.chemical_id">{{ chemical.chemical_name }}</option>
+        </select>
+        <div *ngIf="submitted && f.chemical_id.errors">
+          <div *ngIf="f.chemical_id.errors.required" class="error-msg">Chemical is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputAmount" class="col-md-3 col-form-label"><strong>Amount :</strong></label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="inputAmount" placeholder="Amount" formControlName="job_meta_chemical_amount"
+          [ngClass]="{ 'is-invalid': submitted && f.job_meta_chemical_amount.errors }">
+        <div *ngIf="submitted && f.job_meta_chemical_amount.errors">
+          <div *ngIf="f.job_meta_chemical_amount.errors.required" class="error-msg">Amount is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputUnits" class="col-md-3 col-form-label"><strong>Units :</strong></label>
+      <div class="col-md-9">
+        <input type="text" class="form-control-plaintext" id="inputUnits" readonly
+        formControlName="job_meta_chemical_unit"
+        [value] = "chemicalMeasure">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputCost" class="col-md-3 col-form-label"><strong>Cost :</strong></label>
+      <div class="col-md-9">
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">$</div>
+          </div>
+          <input type="text" class="form-control" id="inputCost" value="" formControlName="job_meta_chemical_cost">
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputDate" class="col-md-3 col-form-label"><strong>Date :</strong></label>
+      <div class="col-md-9">
+        <input required="" class="form-control" placeholder="mm/dd/yyyy" name="dp" firstDayOfWeek="7" ngbDatepicker #d="ngbDatepicker"
+          (click)="d.toggle()" (dateSelect)="onDateSelect($event)" formControlName="job_meta_chemical_date" [ngClass]="{ 'is-invalid': submitted && f.job_meta_chemical_date.errors }" />
+        <div *ngIf="submitted && f.job_meta_chemical_date.errors">
+          <div *ngIf="f.job_meta_chemical_date.errors.required" class="error-msg">Date is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="" class="col-md-3 col-form-label"></label>
+      <div class="col-md-9">
+        <button type="submit" class="btn btn-primary">Add Chemical Applied</button>
+        &nbsp;&nbsp;&nbsp;
+        <button type="submit" class="btn btn-primary" (click)="activeModal.dismiss('Cross click')">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

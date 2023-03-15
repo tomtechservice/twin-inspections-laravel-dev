@@ -1,0 +1,559 @@
+<app-panel [page_title]='page_title'></app-panel>
+<div class="intake-tab-content">
+<div class="row pb-2 pt-4 intab-content">
+  <div class="col-md-6">
+    <h4 class="h4-heading">Work and Contracting</h4>
+  </div>
+  <div class="col-md-6">
+    <span class="float-right">
+      <button class="btn btn-bordered thick btn-lime quick-view-btn" type="button" ngbTooltip="Generate Reports and Job Docs" (click)="reportManagerOpen()">
+        <i class="fa fa-file"></i> Reports: Quick View
+      </button>
+    </span>
+  </div>
+  <div class="col-md-12">
+    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion-two">
+      <div class="">
+        <div class="">
+          <h3 class="subtit">Findings</h3>
+          <div class="loader" *ngIf='loderDivShow'></div>
+          <ng-container  *ngIf='!loderDivShow'>
+          <div class="btn-toolbar pull-right">
+            <div class="btn-group">
+              <span *ngIf='topPDFLoaderShow'><img src="assets/images/loading-x.svg" ></span>
+              <ng-container *ngIf="crewFids.length > 0"><button  class="btn btn-circle btn-lg top-pdf-btn" ngbTooltip="Generate Job Card - Crew" (click)="makeJobCardPDF('crew')"><i class="fa fa-print"></i></button><span class="job_info_head_span">Job Card - Crew</span></ng-container>
+              <ng-container *ngIf="treaterFids.length > 0"><button  class="btn btn-circle btn-lg top-pdf-btn" ngbTooltip="Generate Job Card - Treater" (click)="makeJobCardPDF('treater')"><i class="fa fa-print"></i></button><span class="job_info_head_span">Job Card - Treater</span></ng-container>
+              <ng-container *ngIf="contractorFids.length > 0"><button  class="btn btn-circle btn-lg top-pdf-btn" ngbTooltip="Generate Job Card - Contractor" (click)="makeJobCardPDF('contractor')"><i class="fa fa-print"></i></button><span class="job_info_head_span">Job Card - Contractor</span></ng-container>
+              <button  type="button" class="btn btn-dark btn-sm btn-r-ound mr-2" ngbTooltip="Generate Contract PDF" (click)="makeFindingsContractPdf('generate_contract','top')"><i class="fa fa-file-text" aria-hidden="true"></i></button>
+            </div>
+          </div>
+          <br /><br />
+          
+          <div class="table-responsive">
+            <span class="help-inline" id="job_status_sub_line">
+              <i class="fa fa-question-circle" *ngIf='job?.job_sub_status <= 2'></i> This Work Order has not yet been generated and saved</span>
+            <table class="table table-striped table-hover fill-head" *ngIf="findings?.length == 0">
+              <thead>
+                <tr style="background-color: #eee;">
+                  <td colspan="13">No Findings</td> 
+                </tr>
+              </thead>
+            </table>    
+            <table class="table table-striped table-hover fill-head" *ngIf="findings?.length > 0">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>
+                    <div class="text-center">Section<br />(1-3)</div>
+                  </th>
+                  <th>
+                    <div class="text-center">Type<br />(1-5)</div>
+                  </th>
+                  <th>
+                    <div class="text-center">Finding<br />(A-Z)</div>
+                  </th>
+                  <th>
+                    <div class="text-center">Hours</div>
+                  </th>
+                  <th>
+                    <div class="text-center">Linear Feet</div>
+                  </th>
+                  <th>
+                    <div class="text-center">Bid</div>
+                  </th>
+                  <th>
+                    <div class="text-center">Sec. Bid</div>
+                  </th>
+                  <th style="width:200px;">
+                    <div  class="text-center">Discount</div>
+                  </th>
+                  <th>Code</th>
+                  <th class="text-center">
+                    <label for="checkboxall">Perform</label>
+                    <input name="" type="checkbox" value="" id="checkboxall" (change)="setPerformer($event,'all','perform')">
+                  </th>
+                  <th>
+                    <div class="fill_all">
+                      <span>Assignment</span>
+                      <div class="fill_all_select">
+                        <select class="form-control" (change)="setPerformer($event,i,'crew-all')" [(ngModel)]="fill_all_value">
+                          <option value="0"> Fill All</option>
+                          <optgroup label="Crew &nbsp;&nbsp;( * Treaters )">
+                            <ng-container *ngFor="let crewData of assigneeData.crew">
+                              <option  *ngIf='crewData.user_is_treater==1' [ngValue]="crewData.user_id">*&nbsp; {{crewData.user_last_name}},{{crewData.user_first_name}}</option>
+                              <option  *ngIf='crewData.user_is_treater!=1' [ngValue]="crewData.user_id">&nbsp;&nbsp;&nbsp;&nbsp;{{crewData.user_last_name}},{{crewData.user_first_name}}</option>
+                            </ng-container>
+                          </optgroup>
+                          <optgroup label="Contractors">
+                              <ng-container *ngFor="let contractorData of assigneeData.contractor">
+                                <option [ngValue]="contractorData.user_id">&nbsp;&nbsp;&nbsp;&nbsp;{{contractorData.user_last_name}},{{contractorData.user_first_name}}</option>
+                              </ng-container>
+                          </optgroup>
+                          <optgroup label="Inspectors">
+                              <ng-container *ngFor="let inspectorData of assigneeData.inspector">
+                                <option  *ngIf='inspectorData.user_is_treater==1' [ngValue]="inspectorData.user_id">*&nbsp; {{inspectorData.user_last_name}},{{inspectorData.user_first_name}}</option>
+                                <option  *ngIf='inspectorData.user_is_treater!=1' [ngValue]="inspectorData.user_id">&nbsp;&nbsp;&nbsp;&nbsp;{{inspectorData.user_last_name}},{{inspectorData.user_first_name}}</option>
+                              </ng-container>
+                          </optgroup>
+                        </select>
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let findingItem of findings; index as i">   
+                  <td>
+                    <button class="btn btn-dark btn-sm btn-r-ound" type="button" ngbTooltip="View Finding" (click)='viewFinding(findingItem.finding_id)'>
+                        <i class="fa fa-list-alt"></i>
+                    </button>
+                  </td>
+                  <td>
+                    <div class="text-center">{{findingItem.finding_section}}</div>
+                  </td>
+                  <td>
+                    <div class="text-center">{{findingItem.finding_type}}</div>
+                  </td>
+                  <td>
+                    <div class="text-center">{{findingItem.finding_finding}}</div>
+                  </td>
+                  <td>
+                    <div class="text-center">{{findingItem.finding_bid_hours}}</div>
+                  </td>
+                  <td>
+                    <div class="text-center">{{findingItem.finding_bid_linear_feet}}</div>
+                  </td>
+                  <td class="text-center">
+                    <ng-container *ngIf="findingItem.finding_bid_primary_type == 'no bid'">
+                      <div>NO BID</div>
+                      <div *ngIf="findingItem.finding_bid_primary_alt_other">
+                        {{findingItem.finding_bid_primary_alt_other}}
+                      </div> 
+                      <div *ngIf="!findingItem.finding_bid_primary_alt_other">
+                        {{findingItem.finding_bid_primary_alt}}
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="findingItem.finding_bid_primary_type != 'no bid'"> 
+                      <div class="form-group" *ngIf="findingItem.finding_bid_primary != '0.00'">
+                        <div class="col-sm-9 col-lg-10 controls">
+                          <label class="radio-inline">
+                            <input name="finding_bid_primary_or_secondary_{{findingItem.finding_id}}" [(ngModel)]="findingItem.finding_bid_primary_or_secondary" type="radio" value='primary' (change)="setBidType($event,i)">
+                            ${{findingItem.finding_bid_primary}}
+                          </label>
+                        </div>
+                      </div>                      
+                      <div *ngIf="findingItem.finding_bid_primary == '0.00'">NONE</div>
+                    </ng-container>   
+                  </td>
+                  <td class="text-center">
+                    <ng-container *ngIf="findingItem.finding_bid_secondary_type == 'no bid'">  
+                      <div>NO BID</div>
+                      <div *ngIf="findingItem.finding_bid_secondary_alt_other">
+                        {{findingItem.finding_bid_secondary_alt_other}}
+                      </div> 
+                      <div *ngIf="!findingItem.finding_bid_secondary_alt_other">
+                        {{findingItem.finding_bid_secondary_alt}}
+                      </div>
+                    </ng-container>  
+                    <ng-container *ngIf="findingItem.finding_bid_secondary_type != 'no bid'"> 
+                      <div class="form-group" *ngIf="findingItem.finding_bid_secondary != '0.00'">
+                        <div class="col-sm-9 col-lg-10 controls">
+                          <label class="radio-inline">
+                            <input name="finding_bid_primary_or_secondary_{{findingItem.finding_id}}" [(ngModel)]="findingItem.finding_bid_primary_or_secondary" type="radio" value='secondary' (change)="setBidType($event,i)">
+                            ${{findingItem.finding_bid_secondary}}
+                          </label>
+                        </div>
+                      </div>                       
+                      <div *ngIf="findingItem.finding_bid_secondary == '0.00'">NONE</div>
+                    </ng-container>                   
+                  </td>
+                  <td class="text-center">
+                    <div class="form-group">
+                      <div>
+                        <div class="input-group" style="min-width: 100px;">
+                          <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                          <input class="form-control addon_val" (keyup)="addDiscount($event,findingItem.finding_id,i)" value="{{findingItem.finding_additional_discount}}">
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-center">{{findingItem.finding_code}}</td>
+                  <td class="text-center">
+                    <div class="form-group">
+                      <div class="controls">
+                        <input  type="checkbox" (change)="setPerformer($event,i,'perform')" value="1" [(ngModel)]="findingItem.finding_perform">
+                        <label class="checkbox-inline"></label>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td class="text-center">
+                    <div *ngIf='findingItem.finding_perform==1'>
+                      <select class="form-control" (change)="setPerformer($event,i,'crew')" [(ngModel)]='findingItem.finding_perform_crew_id'  style="padding:0.375rem 0.75rem;">
+                        <option value="0">---Select---</option>
+                        <optgroup label="Crew &nbsp;&nbsp;( * Treaters )">
+                          <ng-container *ngFor="let crewData of assigneeData.crew">    
+                            <option  *ngIf='crewData.user_is_treater==1' [ngValue]="crewData.user_id">*&nbsp; {{crewData.user_last_name}},{{crewData.user_first_name}}</option>
+                            <option  *ngIf='crewData.user_is_treater!=1' [ngValue]="crewData.user_id">&nbsp;&nbsp;&nbsp;&nbsp;{{crewData.user_last_name}},{{crewData.user_first_name}}</option>
+                          </ng-container>
+                        </optgroup>
+                        <optgroup label="Contractors">
+                          <ng-container *ngFor="let contractorData of assigneeData.contractor">
+                            <option [ngValue]="contractorData.user_id">&nbsp;&nbsp;&nbsp;&nbsp;{{contractorData.user_last_name}},{{contractorData.user_first_name}}</option>
+                          </ng-container>
+                        </optgroup>
+                        <!-- <optgroup label="Inspectors">
+                          <ng-container *ngFor="let inspectorData of assigneeData.inspector">
+                            <option  *ngIf='inspectorData.user_is_treater==1' [ngValue]="inspectorData.user_id">*&nbsp; {{inspectorData.user_last_name}},{{inspectorData.user_first_name}}</option>
+                            <option  *ngIf='inspectorData.user_is_treater!=1' [ngValue]="inspectorData.user_id">&nbsp;&nbsp;&nbsp;&nbsp;{{inspectorData.user_last_name}},{{inspectorData.user_first_name}}</option>
+                          </ng-container>
+                        </optgroup> -->
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr style="background: #D6D6D6">                                    
+                  <td colspan="12">
+                    Section 1 Total: <span id="s1_tot"><i class="fa fa-dollar"></i>{{section1_total}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Section 2 Total: <span id="s2_tot"><i class="fa fa-dollar"></i>{{section2_total}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Section 3 Total (Further Inspection): <span id="s3_tot"><i class="fa fa-dollar"></i>{{section3_total}}</span>
+                  </td>                                           
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+          <div class="btn-toolbar pull-right">
+            <span *ngIf='pageLoaderShow'><img src="assets/images/loading-x.svg" ></span>
+            <div class="btn-group" style="float:right;">
+              <button  type="button" class="btn btn-dark btn-sm btn-r-ound mr-2" ngbTooltip="Generate Contract PDF" (click)="makeFindingsContractPdf('generate_contract','bottom')"><i class="fa fa-file-text" aria-hidden="true"></i></button>
+            </div>
+          </div>
+          <br />
+          <div class="form-group">
+            <label class="control-label">Job Card Notes:</label>
+            <div class="row">
+              <div class="col-sm-9 col-lg-6 controls notes-cont">
+                <textarea *ngIf="isLoad" id="job_card_notes" name="job_card_notes" class="form-control" rows="3" [(ngModel)]='job.job_card_notes'></textarea>  
+              </div>
+            </div>
+          </div> 
+          
+          <br /><br />
+          <ng-container *ngIf="isLoad"> <!---- isLoad job container--->
+          <h3 class="subtit">Work Ordered by:</h3>
+          <div class="form-group agent_types">
+            <label class="col-sm-3 col-lg-2 control-label">&nbsp;</label>
+            <div class="col-sm-9 col-lg-10 controls">
+              <label class="radio-inline" [ngClass]="{underlined_label: nameOwner}" class="btn btn-circle btn-bordered thick btn-inverse show-tooltip" title="{{nameOwner}}">
+                <input  name="job_billing_type" id="job_billing_type_owner" value="owner" type="radio" [(ngModel)]='job.job_billing_type' (change)="setOrderedBy($event,'ordered')"> 
+                Owner
+              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+              <label class="radio-inline" [ngClass]="{underlined_label: buyerAgent}" class="btn btn-circle btn-bordered thick btn-inverse show-tooltip" title="{{buyerAgent}}">
+                <input  name="job_billing_type" id="job_billing_type_agent_buyer" value="agent_buyer" type="radio" [(ngModel)]='job.job_billing_type' (change)="setOrderedBy($event,'ordered')"> Buyer's Agent
+              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <label class="radio-inline" [ngClass]="{underlined_label: sellerAgent}" class="btn btn-circle btn-bordered thick btn-inverse show-tooltip" title="{{sellerAgent}}">
+                <input  name="job_billing_type" id="job_billing_type_agent_seller" value="agent_seller" type="radio" [(ngModel)]='job.job_billing_type' (change)="setOrderedBy($event,'ordered')"> Seller's Agent
+              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <label class="radio-inline" [ngClass]="{underlined_label: nameBuyer}" class="btn btn-circle btn-bordered thick btn-inverse show-tooltip" title="{{nameBuyer}}">
+                <input  name="job_billing_type" id="job_billing_type_buyer" value="buyer" type="radio" [(ngModel)]='job.job_billing_type' (change)="setOrderedBy($event,'ordered')"> Buyer
+              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <label class="radio-inline" class="btn btn-circle btn-bordered thick btn-inverse show-tooltip">
+                  <input  name="job_billing_type" id="job_billing_type_buyer" value="seller" type="radio" [(ngModel)]='job.job_billing_type' (change)="setOrderedBy($event,'ordered')"> Seller
+                </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
+              <label class="radio-inline" class="btn btn-circle btn-bordered thick btn-inverse show-tooltip">
+                <input  name="job_billing_type" id="job_billing_type_buyer" value="other" type="radio" [(ngModel)]='job.job_billing_type' (change)="setOrderedBy($event,'ordered')"> Other
+              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+            </div>
+          </div> 
+
+          <hr/>
+
+          <form class="job_info_form" (ngSubmit)="jobInfoForm.form.valid && onScheduleSubmit()" #jobInfoForm="ngForm" novalidate>
+            <div class="form-group row">
+              <label class="col-sm-3 col-lg-2 control-label">First Name</label>  
+              <div class="col-sm-9 col-lg-6 controls">
+                <input  name="job_billing_first_name" class="form-control" placeholder="First Name" type="text" [(ngModel)]="job.job_billing_first_name" #job_billing_first_name="ngModel" required="" 
+                [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_billing_first_name.invalid }">
+                <div *ngIf="validationCheck && jobInfoForm.submitted && job_billing_first_name.errors?.required" class="text-danger">First name is required</div>
+              </div>
+            </div>  
+
+            
+          
+            <div class="form-group row">
+              <label class="col-sm-3 col-lg-2 control-label">Last Name</label>
+              <div class="col-sm-9 col-lg-6 controls">
+                <input  [(ngModel)]='job.job_billing_last_name'  name="job_billing_last_name" class="form-control" type="text" placeholder="Last Name" #job_billing_last_name="ngModel" required="" 
+                [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_billing_last_name.invalid }">
+                <div *ngIf="validationCheck && jobInfoForm.submitted && job_billing_last_name.errors?.required" class="text-danger">Last name is required</div>    
+              </div>
+            </div> 
+          
+            <div class="form-group row">
+              <label class="col-sm-3 col-lg-2 control-label">Email</label>
+              <div class="col-sm-9 col-lg-6 controls">
+                <input [(ngModel)]='job.job_billing_email' name="job_billing_email" class="form-control" type="text" placeholder="Email" #job_billing_email="ngModel" required="" 
+                [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_billing_email.invalid }">
+                <div *ngIf="validationCheck && jobInfoForm.submitted && job_billing_email.errors?.required" class="text-danger">Email is required</div>   
+              </div>
+            </div> 
+          
+            <div class="form-group row">
+              <label class="col-sm-3 col-lg-2 control-label">Phone</label>
+              <div class="col-sm-9 col-lg-6 controls">
+                <input [(ngModel)]='job.job_billing_phone'  mask="(000) 000-0000" name="job_billing_phone"  class="form-control" type="text" placeholder="Phone" #job_billing_phone="ngModel" required="" 
+                [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_billing_phone.invalid }">
+                <div *ngIf="validationCheck && jobInfoForm.submitted && job_billing_phone.errors?.required" class="text-danger">Phone is required</div>  
+              </div>
+            </div> 
+          
+          <br />
+          <br />
+
+          
+          <h3 class="subtit">Bill To:</h3>
+          <div class="form-group agent_types">
+            <label class="col-sm-3 col-lg-2 control-label">&nbsp;</label>
+            <div class="col-sm-9 col-lg-10 controls">
+              <label [ngClass]="{underlined_label: nameOwnerComp}" title="{{nameOwnerComp}}" class="radio-inline" class="btn btn-circle btn-bordered thick btn-inverse show-tooltip">
+                <input  name="job_billing_type_comp" id="job_billing_type_comp_owner" value="owner" type="radio" [(ngModel)]='job.job_billing_type_comp' (change)="setOrderedBy($event,'completion')"> Owner
+              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+              <label [ngClass]="{underlined_label: nameBuyerAgentComp}" title="{{nameBuyerAgentComp}}" class="radio-inline" class="btn btn-circle btn-bordered thick btn-inverse show-tooltip">
+                <input  name="job_billing_type_comp" id="job_billing_type_comp_owner" value="agent_buyer" type="radio" [(ngModel)]='job.job_billing_type_comp' (change)="setOrderedBy($event,'completion')"> Buyer's Agent
+              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <label [ngClass]="{underlined_label: nameSellerAgentComp}" title="{{nameSellerAgentComp}}" class="radio-inline" class="btn btn-circle btn-bordered thick btn-inverse show-tooltip">
+                <input  name="job_billing_type_comp" id="job_billing_type_comp_owner" value="agent_seller" type="radio" [(ngModel)]='job.job_billing_type_comp' (change)="setOrderedBy($event,'completion')"> Seller's Agent
+              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <label [ngClass]="{underlined_label: nameBuyerComp}" title="{{nameBuyerComp}}" class="radio-inline" class="btn btn-circle btn-bordered thick btn-inverse show-tooltip">
+                <input  name="job_billing_type_comp" id="job_billing_type_comp_owner" value="buyer" type="radio" [(ngModel)]='job.job_billing_type_comp' (change)="setOrderedBy($event,'completion')"> Buyer
+              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <label class="radio-inline" class="btn btn-circle btn-bordered thick btn-inverse show-tooltip">
+                <input  name="job_billing_type_comp" id="job_billing_type_comp_owner" value="seller" type="radio" [(ngModel)]='job.job_billing_type_comp' (change)="setOrderedBy($event,'completion')"> Seller
+                </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
+              <label class="radio-inline" class="btn btn-circle btn-bordered thick btn-inverse show-tooltip">
+                <input name="job_billing_type_comp" id="job_billing_type_comp_owner" value="other" type="radio" [(ngModel)]='job.job_billing_type_comp' (change)="setOrderedBy($event,'completion')"> Other
+              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+            </div>
+          </div> 
+
+          <hr/>
+
+            <div class="form-group row"> 
+              <label class="col-sm-3 col-lg-2 control-label">First Name</label>
+              <div class="col-sm-9 col-lg-6 controls">
+                <input [(ngModel)]='job.job_billing_comp_first_name'  name="job_billing_comp_first_name" class="form-control" type="text" placeholder="First Name" #job_billing_comp_first_name="ngModel" required="" 
+                [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_billing_comp_first_name.invalid }">
+                <div *ngIf="validationCheck && jobInfoForm.submitted && job_billing_comp_first_name.errors?.required" class="text-danger">First Name is required</div>   
+              </div>
+            </div> 
+
+          
+              
+          
+            <div class="form-group row">
+              <label class="col-sm-3 col-lg-2 control-label">Last Name</label>
+              <div class="col-sm-9 col-lg-6 controls">
+                <input  [(ngModel)]='job.job_billing_comp_last_name' name="job_billing_comp_last_name" class="form-control" type="text" placeholder="Last Name" #job_billing_comp_last_name="ngModel" required="" 
+                [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_billing_comp_last_name.invalid }">
+                <div *ngIf="validationCheck && jobInfoForm.submitted && job_billing_comp_last_name.errors?.required" class="text-danger">Last Name is required</div>   
+              </div>
+            </div> 
+          
+          <div class="form-group row">
+              <label class="col-sm-3 col-lg-2 control-label">Email</label>
+              <div class="col-sm-9 col-lg-6 controls">
+                <input [(ngModel)]='job.job_billing_comp_email' name="job_billing_comp_email" class="form-control" type="text" placeholder="Email" #job_billing_comp_email ="ngModel" required="" 
+                [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_billing_comp_email.invalid }">
+                <div *ngIf="validationCheck && jobInfoForm.submitted && job_billing_comp_email.errors?.required" class="text-danger">Email is required</div>
+              </div>
+          </div> 
+          
+          <div class="form-group row"> 
+              <label class="col-sm-3 col-lg-2 control-label">Phone</label>
+              <div class="col-sm-9 col-lg-6 controls">
+                <input [(ngModel)]='job.job_billing_comp_phone' mask="(000) 000-0000" name="job_billing_comp_phone"  class="form-control" type="text" placeholder="Phone" #job_billing_comp_phone ="ngModel" required="" 
+                [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_billing_comp_phone.invalid }">
+                <div *ngIf="validationCheck && jobInfoForm.submitted && job_billing_comp_phone.errors?.required" class="text-danger">Phone is required</div>  
+              </div>
+          </div> 
+          
+          
+          
+          <br />
+          <br />
+
+          <h3 class="subtit">Job Details:</h3>
+          <div class="form-group row">
+            <label class="col-sm-3 col-lg-2 control-label">Job Date</label>
+            <div class="col-sm-5 col-lg-4 controls">
+              <div class="input-group">
+                <input [(ngModel)]='job_perform_date'  class="form-control" placeholder="mm/dd/yyyy"
+                   ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" name="job_perform_date" #job_perform_date_text ="ngModel" 
+                   required="" [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_perform_date_text.invalid }" (dateSelect)="onDateSelect($event)">
+                  <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                      </button>
+                  </div>
+                  <br>
+              </div>
+              <div *ngIf="validationCheck && jobInfoForm.submitted && job_perform_date_text.errors?.required" class="text-danger dt-picker-valid">Date is required</div>
+              </div>
+          </div>
+
+          
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-lg-2 control-label">Job Time</label>
+            <div class="col-sm-5 col-lg-4 controls">
+              <select [(ngModel)]='job_perform_time' name="job_perform_time" class="form-control"  #job_perform_time_text ="ngModel" 
+              required="" [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_perform_time_text.invalid }">
+                <option value="00:00:00"> ------ </option>
+                <option value="08:00:00"> 8:00 - 9:00 am </option>
+                <option value="09:00:00"> 9:00 - 10:00 am </option>
+                <option value="10:00:00"> 10:00 - 11:00 am </option>
+                <option value="11:00:00"> 11:00 - 12:00 pm </option>
+                <option value="12:00:00"> 12:00 - 1:00 pm </option>
+                <option value="13:00:00"> 1:00 - 2:00 pm </option>
+                <option value="14:00:00"> 2:00 - 3:00 pm </option>
+                <option value="15:00:00"> 3:00 - 4:00 pm </option>
+                <option value="16:00:00"> 4:00 - 5:00 pm </option>
+              </select> 
+              <div *ngIf="validationCheck && jobInfoForm.submitted && job_perform_time_text.errors?.required" class="text-danger dt-picker-valid">Time is required</div> 
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-lg-2 control-label">Meet Who / Access</label>
+            <div class="col-sm-9 col-lg-4 controls">
+              <input  [(ngModel)]='job.job_perform_meet_who' name="job_perform_meet_who" class="form-control" type="text" placeholder="Meet Who" #job_perform_meet_who ="ngModel" required="" 
+              [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_perform_meet_who.invalid }">
+              <div *ngIf="validationCheck && jobInfoForm.submitted && job_perform_meet_who.errors?.required" class="text-danger">This field is required</div>
+            </div>
+          </div> 
+          <div class="form-group row"> 
+            <label class="col-sm-3 col-lg-2 control-label">Escrow Confirmed</label>
+            <div class="col-sm-9 col-lg-4 controls">
+              <select [(ngModel)]='job.job_perform_escrow' name="job_perform_escrow" class="form-control" #job_perform_escrow="ngModel" required="" 
+              [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_perform_escrow.invalid }">
+                <option value="n/a">N/A</option>          
+                <option value="yes">Yes</option>    
+                <option value="no">No</option>  
+                <option value="pending">Pending</option>  
+              </select>
+              <div *ngIf="validationCheck && jobInfoForm.submitted && job_perform_escrow.errors?.required" class="text-danger">This field is required</div>      
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-lg-2 control-label">Authorization Status</label>
+            <div class="col-sm-9 col-lg-4 controls">
+              <select [(ngModel)]='job.job_perform_authorization_status' name="job_perform_authorization_status" class="form-control" #job_perform_authorization_status="ngModel" required="" 
+              [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_perform_authorization_status.invalid }">
+                <option value=""> ------ </option> 
+                <option value="yes">Yes</option>    
+                <option value="no">No</option>
+              </select>
+              <div *ngIf="validationCheck && jobInfoForm.submitted && job_perform_authorization_status.errors?.required" class="text-danger">Authorization status is required</div>      
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-lg-2 control-label">Utilities</label>
+            <div class="col-sm-9 col-lg-4 controls">
+              <select [(ngModel)]='job.job_perform_utilities'  name="job_perform_utilities" class="form-control"  #job_perform_utilities="ngModel" required="" 
+              [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_perform_utilities.invalid }">
+                <option value=""> ------ </option> 
+                <option value="On">On</option>    
+                <option value="Off">Off</option>
+              </select>
+              <div *ngIf="validationCheck && jobInfoForm.submitted && job_perform_utilities.errors?.required" class="text-danger">This field is required</div>      
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-lg-2 control-label">Payment Type</label>
+            <div class="col-sm-9 col-lg-4 controls">
+              <select [(ngModel)]='job.job_billing_payment_type'  name="job_billing_payment_type" class="form-control" #job_billing_payment_type="ngModel" required="" 
+              [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_billing_payment_type.invalid }">
+                <option value=""> ------ </option> 
+                <option value="Check">Check</option>    
+                <option value="Cash">Cash</option>      
+                <option value="Credit Card">Credit Card</option> 
+                <option value="Escrow">Escrow</option> 
+                <option value="Invoice">Invoice</option> 
+              </select>
+              <div *ngIf="validationCheck && jobInfoForm.submitted && job_billing_payment_type.errors?.required" class="text-danger">Payment type is required</div> 
+            </div>
+          </div>   
+
+          <div class="form-group row"> 
+            <label class="col-sm-3 col-lg-2 control-label">Backup Credit Card</label>
+            <div class="col-sm-9 col-lg-4 controls">
+              <select [(ngModel)]='job.job_billing_bu_credit_card'  name="job_billing_bu_credit_card" class="form-control" #job_billing_bu_credit_card="ngModel" required="" 
+              [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_billing_bu_credit_card.invalid }" (change)="creditCardData($event)">
+                <option value=""> ------ </option> 
+                <option value="yes">Yes</option>    
+                <option value="no">No</option>
+              </select>
+              <div *ngIf="validationCheck && jobInfoForm.submitted && job_billing_bu_credit_card.errors?.required" class="text-danger">Backup Credit Card is required</div>      
+            </div>
+          </div>
+
+
+          <div class="form-group row" *ngIf="creditCardFields">
+            <label class="col-sm-3 col-lg-2" for="title">
+              <div class="row float-right">
+                <button class="btn btn-primary btn-block" type="button" (click)="addNewCard()">Add New Card</button>
+              </div>
+            </label>
+            <div class="col-sm-8 col-lg-4">
+              <ng-container *ngIf="isCardDataLoad">
+                <ng-container *ngIf="clientCards.length > 0">
+                  <ul class="list-group" *ngFor="let list of clientCards">
+                    <li class="list-group-item">
+                      {{list.card_number}} ,{{list.exp_date}}
+                    </li>
+                  </ul>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+
+
+
+          <div class="form-group row"> 
+            <label class="col-sm-3 col-lg-2 control-label">Pick Up Check?</label>
+            <div class="col-sm-9 col-lg-4 controls">
+              <select [(ngModel)]='job.job_billing_pu_check'  name="job_billing_pu_check" class="form-control" #job_billing_pu_check ="ngModel" required="" 
+              [ngClass]="{ 'is-invalid': validationCheck && jobInfoForm.submitted && job_billing_pu_check.invalid }">
+                <option value=""> ------ </option> 
+                <option value="yes">Yes</option>    
+                <option value="no">No</option>
+              </select>
+              <div *ngIf="validationCheck && jobInfoForm.submitted && job_billing_pu_check.errors?.required" class="text-danger">Pick Up Check is required</div>      
+            </div>
+          </div>
+          <br>
+
+        
+
+        <div class="form-group row">
+          <label class="col-sm-3 col-lg-2">&nbsp;</label>
+          <div class="col-sm-9 col-lg-4">
+            <span class="btn btn-primary ml-5 span-btn-submit" (click)='saveJobinfoData()'>Save Job Info</span>
+            <input class="btn btn-primary" type="submit" value="  Schedule Job  " (click)='scheduleClick()'>
+          </div>
+          <span *ngIf='submitLoaderShow'><img src="assets/images/loading-x.svg" ></span>
+        </div>
+        
+      </form>
+      </ng-container> <!---- isLoad  --->
+           
+        </ng-container>
+
+      </div> <!-- Card Body -->
+      </div>
+    </div>
+  </div>
+</div>
+</div>

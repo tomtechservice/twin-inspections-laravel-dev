@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{modal_title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">X
+  </button>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="form-group">
+      <h5>Lookup Code</h5>
+      <div class="form-group row">
+        <label class="col-sm-3 col-lg-3 control-label">Code :</label>
+        <div class="col-sm-5 col-lg-5 controls">
+          <input id="report_tags" name="lookup" [(ngModel)]="lookup" class="form-control" type="text" placeholder=""
+            (keyup)="lookupdate($event)">
+        </div>
+      </div>
+      <div *ngIf="codes">
+        <div class="row" *ngFor='let code of codes'>
+          <div class="col-md-3">{{code.code_name}}</div><div class="col-md-8 ti_note" (click)="lookupCode(code)">
+              <ng-container *ngIf="caseValue == 'recommends'">{{code.code_recommendation}}</ng-container>
+              <ng-container *ngIf="caseValue == 'notes'">{{code.code_notes}}</ng-container>
+            </div>
+        </div>
+      </div>
+      <div *ngIf="noData">No Data</div>
+
+    </div>
+    <!-- <button type="submit" class="btn btn-success">Save</button> -->
+
+  </form>
+
+</div>
+<div class="modal-footer">
+</div>

@@ -1,0 +1,534 @@
+html {
+     min-height: 100%;
+     position: relative;
+     -webkit-text-size-adjust: 100%;
+     -ms-text-size-adjust: 100%;
+     text-rendering: optimizelegibility;
+}
+ body {
+     padding-bottom: 0;
+     min-height: 100%;
+     font-family: 'Open Sans';
+     font-size: 13px;
+     
+     -webkit-font-smoothing: antialiased;
+}
+ .feather {
+     width: 16px;
+     height: 16px;
+     vertical-align: text-bottom;
+}
+.header-search{
+    border-radius:0;
+}
+a{
+    color:#6a0708;
+}
+a.link{
+    cursor:pointer;
+}
+.quick-view-btn {
+    background-color: #8cbf26;
+    color: #fff;
+    
+}
+.quick-view-btn:hover {
+   background-color: #6E080A;
+}
+
+/* * Sidebar */
+ .sidebar {
+     position: absolute;
+     top: 46px;
+     bottom: 0;
+     left: 0;
+     z-index: 100;
+    /* Behind the navbar */
+     padding: 0;
+     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+     color:#ddd;
+}
+ .sidebar-sticky {
+     background-color: #000000;
+     position: -webkit-sticky;
+     position: sticky;
+     top: 52px;
+    /* Height of navbar */
+     height: calc(100vh - 52px);
+     padding-top: .5rem;
+     overflow-x: hidden;
+     overflow-y: auto;
+    /* Scrollable contents if viewport is shorter than content. */
+}
+ .sidebar .nav-link {
+     font-weight: 500;
+     color: #e5e5e5;
+}
+ .sidebar .nav-link .feather {
+     margin-right: 4px;
+     color: #999;
+}
+ .sidebar .nav-link.active {
+     color: #007bff;
+}
+ .sidebar .nav-link:hover .feather, .sidebar .nav-link.active .feather {
+     color: inherit;
+}
+ .sidebar-heading {
+     font-size: .75rem;
+     text-transform: uppercase;
+}
+/* * Navbar */
+ .navbar-brand {
+     padding-top: .75rem;
+     padding-bottom: .75rem;
+     font-size: 1rem;
+     background-color: rgba(0, 0, 0, .25);
+     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+ .navbar .form-control {
+     padding: .75rem 1rem;
+     border-width: 0;
+     border-radius: 0;
+}
+ .form-control-dark {
+     color: #fff;
+     background-color: rgba(255, 255, 255, .1);
+     border-color: rgba(255, 255, 255, .1);
+}
+ .form-control-dark:focus {
+     border-color: transparent;
+     box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+/* * Utilities */
+ .border-top {
+     border-top: 1px solid #e5e5e5;
+}
+ .border-bottom {
+     border-bottom: 1px solid #e5e5e5;
+}
+ #navbar{
+     background-color: #6a0708;
+}
+ .nav-bug a:hover{
+     background-color: #999;
+}
+ .nav-bug a {
+     color:#fff;
+}
+ .nav-profile{
+     color: #fff;
+}
+ body{
+     background: #373737 url('assets/twininspections/images/bg_squares_bottom.png') repeat-x center bottom;
+}
+ footer{
+     background-color: #555555;
+     text-align: center;
+     color: #fff;
+     padding: 12px 20px 3px;
+}
+ #no_breadcrumbs {
+     border-bottom: #EFC86D solid 2px;
+     margin-bottom: 28px;
+}
+/*** left menu ****/
+/*********************** TOP Bar ********************/
+ .sidebar{
+     width:200px;
+     background-color:#000;
+}
+ .bg-defoult{
+    background-color:#222;
+}
+ .sidebar ul{
+     list-style:none;
+     margin:0px;
+     padding:0px;
+}
+ .sidebar li a,.sidebar li a.collapsed.active{
+     display:block;
+     padding:8px 12px;
+     color:#fff;
+    border-left:0px solid #dedede;
+     text-decoration:none;
+     position:relative;
+}
+ .sidebar li a.active{
+    background-color:#000;
+}
+ .sidebar li a:hover{
+    background-color:#000 !important;
+}
+.sidebar li a .fa{
+  font-size: 17px;
+}
+.sidebar li a i{
+  font-size: 19px !important;
+}
+
+ .sidebar ul li .sub-menu li a{
+     position:relative
+}
+
+ .sidebar ul li .sub-menu li a:hover:after {
+     content: "";
+     position: absolute;
+     left: -5px;
+     top: 0;
+     width: 5px;
+     background-color: #111;
+     height: 100%;
+}
+
+.sidebar.fliph li a .nav-label, .sidebar.fliph li a .nav-label+span{
+     display:none;
+}
+
+ .sidebar.fliph {
+     width: 42px;
+}
+ .sidebar.fliph li{
+     position:relative
+}
+ .sidebar.fliph .sub-menu {
+     position: absolute;
+     left: 39px;
+     top: 36px;
+     background-color: #222;
+     width: 200px;
+     z-index: 100;
+}
+#navbar{
+    padding: 1px 5px;
+}
+.user-panel {
+     clear: left;
+     display: block;
+     float: left;
+}
+ .user-panel>.image>img {
+     width: 100%;
+     max-width: 45px;
+     height: auto;
+}
+ .user-panel>.info, .user-panel>.info>a {
+     color: #fff;
+}
+ .user-panel>.info>p {
+     font-weight: 600;
+     margin-bottom: 9px;
+}
+ .user-panel {
+     clear: left;
+     display: block;
+     float: left;
+     width: 100%;
+     margin-bottom: 15px;
+     border-bottom: 1px solid;
+}
+ .user-panel>.info {
+     padding: 5px 5px 5px 15px;
+     line-height: 1;
+     position: absolute;
+     left: 55px;
+}
+
+#sidebar-collapse {
+    text-align: center;
+    padding: 3px 0;
+    position: relative;
+}
+#sidebar-collapse:before {
+    content: "";
+    display: inline-block;
+    height: 0;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    top: 13px;
+}
+#sidebar-collapse > [class*="fa-"] {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 14px;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 1px 6px 1px 5px;
+    line-height: 18px;
+    border-radius: 100%;
+    position: relative;
+    background-color: #373737;
+}
+.sidebar+.main-content {
+    margin-left: 200px;
+}
+.sidebar.fliph+.main-content {
+    margin-left: 43px;
+}
+
+.list-sidebar > li .sub-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.list-sidebar > li .sub-menu > li {
+    margin-left: 0;
+    position: relative;
+}
+
+.list-sidebar > li > a:hover {
+    background-color: #9b2022!important;
+}
+.list-sidebar > li .sub-menu > li > a, .list-sidebar > li .sub-menu > li > span, .list-sidebar > li .sub-menu > li > ul > li > a {
+    display: block;
+    position: relative;
+    padding: 7px 0 8px 42px;
+    margin: 0;
+}
+
+.list-sidebar > li .sub-menu > li > ul {
+    list-style: none;
+    padding: 0;
+}
+.list-sidebar > li .sub-menu > li > ul > li {
+    position: relative;
+}
+.list-sidebar > li .sub-menu > li:before, .list-sidebar > li .sub-menu > li > ul > li:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 9px;
+    left: 25px;
+    top: 17px;
+    border-top: 1px dashed rgba(255,255,255,0.5);
+}
+.list-sidebar > li .sub-menu > li:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 22px;
+    width: 0;
+    border-left: 1px dashed rgba(255,255,255,0.5);
+}
+.list-sidebar > li .sub-menu > li > ul > li:before {
+    width: 22px;
+}
+.list-sidebar > li .sub-menu > li > ul > li > a {
+    padding-left: 60px;
+    font-size: 12px;
+}
+.list-sidebar > li > a > .nav-label{
+    position: absolute;
+    left: 42px;
+    top: 0;
+    width: 158px;
+    height: 36px;
+    line-height: 36px;
+    z-index: 121;
+    box-shadow: 2px 0 6px rgba(50, 50, 50, 0.2);
+    padding-left: 12px;
+}
+.fliph .list-sidebar > li > a > .nav-label {
+    box-shadow: none;
+    border: 0;
+    top: 0;
+    left: 42px;
+    width: 197px;
+    background-color: #9b2022!important;
+}
+.fliph .list-sidebar > li:hover > a > .nav-label{
+    display:block;
+}
+.fliph .list-sidebar > li:hover > .collapse{
+    display:block;
+}
+.btn-tap{
+    border-radius: 0 0 5px 5px;
+    color: #fff !important;
+    background: #881718;
+    border: none;
+}
+.fliph li .parent{
+    text-align:center;
+}
+
+
+
+// page title
+
+.page-title > div {
+    margin-bottom: 20px;
+}
+.page-title > div h1 {
+    font-size: 30px;
+    text-shadow: 0 1px 0 rgba(150,150,150,0.6);
+}
+.page-title > div h1 > i {
+    width: 35px;
+    text-align: center;
+}
+.page-title > div h4 {
+    font-size: 14px;
+    margin-top: -5px;
+    margin-left: 45px;
+    color: #999;
+    text-shadow: 0 1px 0 rgba(150,150,150,0.15);
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Open Sans';
+    color: #EFC86D;
+    margin: 13px 0;
+}
+// 
+
+.intake_header{
+    .nav-link {
+        padding: 0.5rem 0.5rem;
+        color:#6a0708;
+    }
+}
+.help-inline{
+    color:#7b7b7b;
+}
+
+h3.subtit{
+    color: #6a0708;
+    border-bottom: #6a0708 solid 1px;
+    font-size: 22px;
+    font-weight: bold;
+}
+.btn.btn-primary {
+    background-color: #6a0708;
+    border-color:#6a0708;
+}
+.heading{
+    color: #000000;
+}
+.shadow{
+    cursor: pointer;
+}
+.cursor-p{
+    cursor: pointer;
+}
+.intab-content{
+    margin-left: 0;
+    margin-right: 0;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 2.5rem !important;
+}
+.intake-tab-content{
+    background:#fff;
+    padding-right:10px;
+    padding-left:10px;
+}
+.tabbable .scroll-nav  {
+    overflow-x: auto;
+    overflow-y:hidden;
+    flex-wrap: nowrap;
+    .nav-tabs{
+        flex-wrap: nowrap;
+        .nav-link{
+            white-space: nowrap;
+        }
+    }
+}
+.invalid-data{
+    color:red;
+}
+.modal-title{
+    margin-bottom: 0;
+    line-height: 1.5;
+    margin: 0;
+    color:#6a0708;
+}
+keyframes blink {
+    0% {
+      opacity: .2;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      opacity: .2;
+    }
+}
+.saving{
+    font-size:16px;
+}
+.saving span {
+
+    animation-name: blink;
+    animation-duration: 1.4s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+}
+
+.saving span:nth-child(2) {
+    animation-delay: .2s;
+}
+
+.saving span:nth-child(3) {
+    animation-delay: .4s;
+}
+.btn-r-ound{
+    border-radius: 100% !important;
+    width: 35px;
+    height: 35px;
+}
+.ngx-datatable.bootstrap .datatable-body .datatable-body-row {
+    height: 45px !important;
+}
+.is-invalid {
+    border-color : red;
+}
+.error-msg {
+    color: red;
+    font-weight: bold;
+}
+.loader {
+    height: 4px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: #ddd;
+  }
+.loader:before{
+    display: block;
+    position: absolute;
+    content: "";
+    left: -200px;
+    width: 200px;
+    height: 4px;
+    background-color: #6E080A;
+    animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+  from {left: -200px; width: 30%;}
+  50% {width: 30%;}
+  70% {width: 70%;}
+  80% { left: 50%;}
+  95% {left: 120%;}
+  to {left: 100%;}
+}
+.sortable-name{
+    font-size:18px !important;
+    font-weight:bold;
+}
+.sortable-buttons{
+    display: none !important;
+}
+.sortable-header{
+    display:none !important;
+}
+
+.widget-item{
+    cursor: all-scroll !important;
+}

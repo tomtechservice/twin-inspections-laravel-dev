@@ -1,0 +1,884 @@
+<div class="row pb-2 pt-4 intab-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- <h4 class="h4-heading">Diagram Editor</h4> -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form
+                    (ngSubmit)="clientSubmit()"
+                    #clientForm="ngForm"
+                    autocomplete="off"
+                >
+                    <div
+                        class="row"
+                        [hidden]="!addnew"
+                    >
+                        <div class="col-md-6">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <!-- <h4 class="h4-heading">Client Information</h4> -->
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        >
+                                            <h4 class="h4-heading">Client Information</h4>
+                                        </label>
+                                        <div class="col-md-8 text-center">
+                                            <!-- 3button -->
+                                            <button
+                                                *ngIf="ischange"
+                                                (click)="editClient()"
+                                                type="button"
+                                                class="btn btn-warning btn-sm  m-2"
+                                            ><i class="fa fa-edit"></i> Edit</button>
+                                            <button
+                                                *ngIf="ischange"
+                                                (click)="changeClient()"
+                                                type="button"
+                                                class="btn btn-success btn-sm  m-2"
+                                            ><i class="fa fa-pencil"></i> Change</button>
+                                            <button
+                                                *ngIf="isremove"
+                                                (click)="removeClient()"
+                                                type="button"
+                                                class="btn btn-danger btn-sm  m-2"
+                                            ><i class="fa fa-remove"></i> Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <p class="help-inline"><i class="fa fa-question-circle"></i> Fields required unless
+                                        noted.</p>
+
+                                </div>
+                                <div
+                                    class="col-md-12"
+                                    *ngIf="remove_success"
+                                >
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        ><b></b></label>
+                                        <div class="col-md-8 alert alert-success">
+                                            <strong>Success !</strong> Successfully deleted.
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        ><b>First Name : </b> </label>
+                                        <div class="col-md-8">
+                                            <input
+                                                class="form-control"
+                                                type="text"
+                                                id="client_first_name"
+                                                name="client_first_name"
+                                                [(ngModel)]="client.client_first_name"
+                                                (keyup)="existSearch($event)"
+                                                [readonly]="isReadOnly"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        ><b>Last Name :</b> </label>
+                                        <div class="col-md-8">
+                                            <input
+                                                class="form-control"
+                                                type="text"
+                                                id="client_last_name"
+                                                name="client_last_name"
+                                                [(ngModel)]="client.client_last_name"
+                                                (keyup)="existSearch($event)"
+                                                [readonly]="isReadOnly"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        ><b>Notes :</b> </label>
+                                        <div class="col-md-8">
+                                            <textarea
+                                                class="form-control"
+                                                type="text"
+                                                id="client_notes"
+                                                name="client_notes"
+                                                [(ngModel)]="client.client_notes"
+                                                [readonly]="isReadOnly"
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        ><b>Phone :</b> </label>
+                                        <div class="col-md-8">
+                                            <input
+                                                class="form-control"
+                                                type="text"
+                                                id="client_phone"
+                                                name="client_phone"
+                                                [(ngModel)]="client.client_phone"
+                                                [readonly]="isReadOnly"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        ><b>Email :</b> </label>
+                                        <div class="col-md-8">
+                                            <input
+                                                class="form-control"
+                                                type="email"
+                                                id="client_email"
+                                                name="client_email"
+                                                [(ngModel)]="client.client_email"
+                                                (keyup)="existSearch($event)"
+                                                [readonly]="isReadOnly"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="col-md-12"
+                                    *ngIf="remove_success"
+                                >
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        ><b></b></label>
+                                        <div class="col-md-8 alert alert-success">
+                                            <strong>Success !</strong> Successfully deleted.
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        ><b>Ordered By Party : </b> </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                type="checkbox"
+                                                name="client"
+                                                id="client"
+                                                [(ngModel)]="client.is_client"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="col-md-12"
+                                    *ngIf="client.is_client"
+                                >
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        ><b>Lead : </b> </label>
+                                        <div class="col-md-4">
+                                            <select
+                                                class="form-control"
+                                                id="lead"
+                                                name="lead"
+                                                [(ngModel)]="client.lead_id"
+                                            >
+                                                <option value=0>--select--</option>
+                                                <option
+                                                    *ngFor="let led of lead "
+                                                    [value]="led.lead_id"
+                                                >{{led.lead_name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        ><b>Billable party?</b> </label>
+                                        <div class="col-md-8">
+                                            <div class="form-control form-border">
+                                                <input
+                                                    name="is_billable"
+                                                    id="is_billable_yes"
+                                                    value="yes"
+                                                    [(ngModel)]='client.billable_user'
+                                                    type="radio"
+                                                > Yes&nbsp;&nbsp;
+                                                <input
+                                                    name="is_billable"
+                                                    id="is_billable_no"
+                                                    value="no"
+                                                    [(ngModel)]='client.billable_user'
+                                                    type="radio"
+                                                > No
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        ><b>Associate with Agency?</b> </label>
+                                        <div class="col-md-8">
+                                            <div class="form-control form-border">
+                                                <input
+                                                    name="is_company"
+                                                    id="is_company_yes"
+                                                    value="yes"
+                                                    type="radio"
+                                                    [(ngModel)]="client.is_company"
+                                                    (click)="assocAgency('yes')"
+                                                > Yes&nbsp;&nbsp;
+                                                <input
+                                                    name="is_company"
+                                                    id="is_company_no"
+                                                    value="no"
+                                                    type="radio"
+                                                    [(ngModel)]="client.is_company"
+                                                    checked="checked"
+                                                    (click)="assocAgency('no')"
+                                                > No
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div
+                                    class="col-md-12"
+                                    [hidden]='assoc_agency'
+                                >
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4 class="h4-heading pb-3">Optional Company Info</h4>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label
+                                                    for="title"
+                                                    class="col-md-4 col-form-label"
+                                                ><b>Company Name : </b> </label>
+                                                <div class="col-md-8">
+                                                    <ng-template
+                                                        #company_rt
+                                                        let-r="result"
+                                                        let-t="term"
+                                                    >
+                                                        <ngb-highlight
+                                                            [result]="r.company_name"
+                                                            [term]="t"
+                                                        ></ngb-highlight>
+                                                    </ng-template>
+                                                    <input
+                                                        id="typeahead-template"
+                                                        type="text"
+                                                        class="form-control"
+                                                        [class.is-invalid]="searchFailed"
+                                                        name='datasource'
+                                                        [(ngModel)]="company.company_id"
+                                                        [ngbTypeahead]="companySearch"
+                                                        [resultTemplate]="company_rt"
+                                                        [inputFormatter]="companyFormatter"
+                                                        #company_name="ngModel"
+                                                        #instance="ngbTypeahead"
+                                                        (selectItem)="existCompany($event)"
+                                                    />
+                                                    <span *ngIf="searching">searching...</span>
+                                                    <div
+                                                        class="invalid-feedback"
+                                                        *ngIf="searchFailed"
+                                                    >Sorry, suggestions could not be loaded.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label
+                                                    for="title"
+                                                    class="col-md-4 col-form-label"
+                                                ><b>Street Address :</b> </label>
+                                                <div class="col-md-8">
+                                                    <textarea
+                                                        class="form-control"
+                                                        name="company_address1"
+                                                        id="company_address1"
+                                                        [(ngModel)]="company.company_address1"
+                                                    ></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label
+                                                    for="title"
+                                                    class="col-md-4 col-form-label"
+                                                ><b>Apt., Suite, etc :</b> </label>
+                                                <div class="col-md-8">
+                                                    <input
+                                                        class="form-control"
+                                                        type="text"
+                                                        id="company_address2"
+                                                        name="company_address2"
+                                                        [(ngModel)]="company.company_address2"
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label
+                                                    for="title"
+                                                    class="col-md-4 col-form-label"
+                                                ><b>City :</b> </label>
+                                                <div class="col-md-8">
+                                                    <input
+                                                        class="form-control"
+                                                        type="text"
+                                                        name="company_city"
+                                                        id="company_city"
+                                                        [(ngModel)]="company.company_city"
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label
+                                                    for="title"
+                                                    class="col-md-4 col-form-label"
+                                                ><b>State :</b> </label>
+                                                <div class="col-md-8">
+                                                    <select
+                                                        class="form-control"
+                                                        id="company_state"
+                                                        name="company_state"
+                                                        [(ngModel)]="company.company_state"
+                                                    >
+                                                        <option
+                                                            *ngFor="let state of states "
+                                                            [value]="state.id"
+                                                        >{{state.name}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label
+                                                    for="title"
+                                                    class="col-md-4 col-form-label"
+                                                ><b>Zip Code :</b> </label>
+                                                <div class="col-md-8">
+                                                    <input
+                                                        class="form-control"
+                                                        type="text"
+                                                        id="company_zip"
+                                                        name="company_zip"
+                                                        [(ngModel)]="company.company_zip"
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label
+                                                    for="title"
+                                                    class="col-md-4 col-form-label"
+                                                ><b>Company Phone :</b> </label>
+                                                <div class="col-md-8">
+                                                    <input
+                                                        class="form-control"
+                                                        type="number"
+                                                        id="company_phone"
+                                                        name="company_phone"
+                                                        [(ngModel)]="company.company_phone"
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4 class="h4-heading pb-3">Optional Client Info</h4>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label
+                                                    for="title"
+                                                    class="col-md-4 col-form-label"
+                                                ><b>Street Address : </b> </label>
+                                                <div class="col-md-8">
+                                                    <input
+                                                        class="form-control"
+                                                        type="text"
+                                                        id="client_address1"
+                                                        name="client_address1"
+                                                        [(ngModel)]="client.client_address1"
+                                                        [readonly]="isReadOnly"
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label
+                                                    for="title"
+                                                    class="col-md-4 col-form-label"
+                                                ><b>Apt., Suite, etc :</b> </label>
+                                                <div class="col-md-8">
+                                                    <textarea
+                                                        class="form-control"
+                                                        id="client_address2"
+                                                        name="client_address2"
+                                                        [(ngModel)]="client.client_address2"
+                                                        [readonly]="isReadOnly"
+                                                    ></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label
+                                                    for="title"
+                                                    class="col-md-4 col-form-label"
+                                                ><b>City :</b> </label>
+                                                <div class="col-md-8">
+                                                    <input
+                                                        class="form-control"
+                                                        type="text"
+                                                        id="client_city"
+                                                        name="client_city"
+                                                        [(ngModel)]="client.client_city"
+                                                        [readonly]="isReadOnly"
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label
+                                                    for="title"
+                                                    class="col-md-4 col-form-label"
+                                                ><b>State :</b> </label>
+                                                <div class="col-md-8">
+                                                    <select
+                                                        class="form-control"
+                                                        id="client_state"
+                                                        name="client_state"
+                                                        [(ngModel)]="client.client_state"
+                                                    >
+                                                        <option
+                                                            *ngFor="let state of states"
+                                                            [value]="state.id"
+                                                        >{{state.name}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label
+                                                    for="title"
+                                                    class="col-md-4 col-form-label"
+                                                ><b>Zip Code :</b> </label>
+                                                <div class="col-md-8">
+                                                    <input
+                                                        class="form-control"
+                                                        type="text"
+                                                        id="client_zip"
+                                                        name="client_zip"
+                                                        [(ngModel)]="client.client_zip"
+                                                        [readonly]="isReadOnly"
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-md-6 add-new-search"
+                            [hidden]="!existnew"
+                        >
+                            <div class="form-group">
+                                <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary"
+                                        (click)="addNew()"
+                                    ><i class="fa fa-plus"></i> Add New
+                                        Client</button> &nbsp;
+                                    <button
+                                        type="button"
+                                        class="btn btn-success"
+                                        (click)="searchClient()"
+                                    ><i class="fa fa-search"></i>
+                                        Search for an Existing Client</button>
+                                </div>
+                            </div>
+                            <div
+                                class="form-group"
+                                [hidden]='!job_id'
+                            >
+                                <div
+                                    class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2"
+                                    [hidden]='client.client_id'
+                                >
+                                    <button
+                                        type="button"
+                                        class="btn btn-warning"
+                                        (click)="cancelClient(job_id)"
+                                    >Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-md-4"
+                            [hidden]="existnew"
+                        >
+                            <ng-container *ngFor="let item of clientData">
+                                <div
+                                    class="card mt-2"
+                                    style="width: 24rem;"
+                                >
+                                    <div class="card-body">
+                                        <h6 class="card-title"><i class="fa fa-user-o"></i> This Client May Already
+                                            Exist</h6>
+                                        <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+                                        <p class="">
+                                            <label>First Name : {{item.client_first_name}}
+                                            </label>
+                                        </p>
+                                        <p class="">
+                                            <label>Lat Name : {{item.client_last_name}} </label>
+                                        </p>
+                                        <p class="">
+                                            <label>Email : {{item.client_email}}</label>
+                                        </p>
+                                        <p class="">
+                                            <label>Phone : {{item.client_phone}}</label>
+                                        </p>
+                                        <!-- <a href="#" class="card-link">Card link</a> -->
+                                        <button
+                                            type="button"
+                                            class="btn btn-primary btn-sm"
+                                            (click)="addNew()"
+                                        ><i class="fa fa-plus"></i>
+                                            Add New Client</button>&nbsp;&nbsp;
+                                        <button
+                                            type="button"
+                                            class="btn btn-success btn-sm"
+                                            (click)="existClient(item)"
+                                        ><i class="fa fa-check"></i>
+                                            Use This Client</button>
+                                        <!-- <a href="#" class="card-link">Another link</a> -->
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                        </div>
+                    </div>
+                    <div
+                        class="row"
+                        [hidden]="!searchnew"
+                    >
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="h4-heading">Search</h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label
+                                            for="title"
+                                            class="col-md-4 col-form-label"
+                                        ><b>Search Client Name (first or last)</b>
+                                        </label>
+                                        <div class="col-md-8">
+                                            <ng-template
+                                                #rt
+                                                let-r="result"
+                                                let-t="term"
+                                            >
+                                                <ngb-highlight
+                                                    [result]="r.full_name"
+                                                    [term]="t"
+                                                ></ngb-highlight>
+                                            </ng-template>
+                                            <input
+                                                id="typeahead-template"
+                                                type="text"
+                                                class="form-control"
+                                                [class.is-invalid]="searchFailed"
+                                                name='datasource'
+                                                [(ngModel)]="model"
+                                                [ngbTypeahead]="search"
+                                                [resultTemplate]="rt"
+                                                [inputFormatter]="formatter"
+                                                #datasource="ngModel"
+                                                #instance="ngbTypeahead"
+                                                (selectItem)="existClient($event.item)"
+                                            />
+                                            <span *ngIf="searching">searching...</span>
+                                            <div
+                                                class="invalid-feedback"
+                                                *ngIf="searchFailed"
+                                            >Sorry, suggestions could not be loaded.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 add-new-btn">
+                            <div class="form-group">
+                                <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary"
+                                        (click)="addNew()"
+                                    ><i class="fa fa-plus"></i> Add New
+                                        Client</button>
+                                </div>
+                            </div>
+                            <div
+                                class="form-group"
+                                [hidden]='job_id'
+                            >
+                                <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
+                                    <button
+                                        type="button"
+                                        class="btn btn-warning"
+                                        (click)="addNew()"
+                                    >Cancel</button>
+                                </div>
+                            </div>
+                            <div
+                                class="form-group"
+                                [hidden]='!job_id'
+                            >
+                                <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
+                                    <button
+                                        type="button"
+                                        class="btn btn-warning"
+                                        (click)="cancelClient(job_id)"
+                                    >Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template
+                        #inspectorsModal
+                        let-modal
+                    >
+                        <ng-container>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Preferred Inspectors</h4>
+                                <button
+                                    type="button"
+                                    class="close"
+                                    aria-label="Close"
+                                    (click)="closeModal()"
+                                >X
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-hover table-striped">
+                                    <thead class="box-title">
+                                        <th>Name</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of preferredInspectors; index as i">
+                                            <td>{{item.user_first_name}} {{item.user_last_name}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-container>
+                    </ng-template>
+                    <!-- <div class="row">
+			<div class="col-md-6" [hidden]='assoc_agency'>
+			  <div class="row">
+				<div class="col-md-12">
+				  <h4 class="h4-heading pb-3">Optional Company Info</h4>
+				</div>
+				<div class="col-md-12">
+				  <div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label"><b>Company Name : </b> </label>
+					<div class="col-md-8">
+					  <ng-template #company_rt let-r="result" let-t="term">
+						<ngb-highlight [result]="r.company_name" [term]="t"></ngb-highlight>
+					  </ng-template>
+						<input id="typeahead-template" type="text" class="form-control" [class.is-invalid]="searchFailed" name='datasource' [(ngModel)]="company.company_id"
+						[ngbTypeahead]="companySearch" [resultTemplate]="company_rt" [inputFormatter]="companyFormatter" #company_name="ngModel" #instance="ngbTypeahead" (selectItem)="existCompany($event)"/>
+					   <span *ngIf="searching">searching...</span>
+					   <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+					</div>
+				  </div>
+				</div>
+				<div class="col-md-12">
+				  <div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label"><b>Street Address :</b> </label>
+					<div class="col-md-8">
+					  <textarea class="form-control" name="company_address1" id="company_address1" [(ngModel)]="company.company_address1"></textarea>
+					</div>
+				  </div>
+				</div>
+				<div class="col-md-12">
+				  <div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label"><b>Apt., Suite, etc :</b> </label>
+					<div class="col-md-8">
+					  <input class="form-control" type="text" id="company_address2" name="company_address2" [(ngModel)]="company.company_address2">
+					</div>
+				  </div>
+				</div>
+				<div class="col-md-12">
+				  <div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label"><b>City :</b> </label>
+					<div class="col-md-8">
+					  <input class="form-control" type="text" name="company_city" id="company_city" [(ngModel)]="company.company_city">
+					</div>
+				  </div>
+				</div>
+				<div class="col-md-12">
+				  <div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label"><b>State :</b> </label>
+					<div class="col-md-8">
+					  <select class="form-control" id="company_state" name="company_state" [(ngModel)]="company.company_state">
+						<option *ngFor="let state of states " [value]="state.id">{{state.name}}</option>
+					  </select>
+					</div>
+				  </div>
+				</div>
+				<div class="col-md-12">
+				  <div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label"><b>Zip Code :</b> </label>
+					<div class="col-md-8">
+					  <input class="form-control" type="text" id="company_zip" name="company_zip" [(ngModel)]="company.company_zip">
+					</div>
+				  </div>
+				</div>
+				<div class="col-md-12">
+				  <div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label"><b>Company Phone :</b> </label>
+					<div class="col-md-8">
+					  <input class="form-control" type="number" id="company_phone" name="company_phone" [(ngModel)]="company.company_phone">
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-6">
+			  <div class="row">
+				<div class="col-md-12">
+				  <h4 class="h4-heading pb-3">Optional Client Info</h4>
+				</div>
+				<div class="col-md-12">
+				  <div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label"><b>Street Address : </b> </label>
+					<div class="col-md-8">
+					  <input class="form-control" type="text" id="client_address1" name="client_address1" [(ngModel)]="client.client_address1">
+					</div>
+				  </div>
+				</div>
+				<div class="col-md-12">
+				  <div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label"><b>Apt., Suite, etc :</b> </label>
+					<div class="col-md-8">
+					  <textarea class="form-control" id="client_address2" name="client_address2" [(ngModel)]="client.client_address2"></textarea>
+					</div>
+				  </div>
+				</div>
+				<div class="col-md-12">
+				  <div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label"><b>City :</b> </label>
+					<div class="col-md-8">
+					  <input class="form-control" type="text" id="client_city" name="client_city" [(ngModel)]="client.client_city">
+					</div>
+				  </div>
+				</div>
+				<div class="col-md-12">
+				  <div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label"><b>State :</b> </label>
+					<div class="col-md-8">
+					  <select class="form-control" id="client_state" name="client_state" [(ngModel)]="client.client_state">
+						<option *ngFor="let state of states " [value]="state.id">{{state.name}}</option>
+					  </select>
+					</div>
+				  </div>
+				</div>
+				<div class="col-md-12">
+				  <div class="form-group row">
+					<label for="title" class="col-md-4 col-form-label"><b>Zip Code :</b> </label>
+					<div class="col-md-8">
+					  <input class="form-control" type="text" id="client_zip" name="client_zip" [(ngModel)]="client.client_zip">
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div> -->
+                    <br><br>
+                    <div class="pt-2">
+                        <input
+                            class="btn btn-primary"
+                            id=""
+                            type="submit"
+                            value="Save -> Next"
+                        >&nbsp;&nbsp; <span>{{saveStatus}}</span>
+                        &nbsp; <span
+                            *ngIf="submitted"
+                            class="saving"
+                        >Saving<span>.</span><span>.</span><span>.</span></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

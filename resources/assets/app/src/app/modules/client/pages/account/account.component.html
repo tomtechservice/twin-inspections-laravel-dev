@@ -1,0 +1,55 @@
+<div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="page-title">
+        <div>
+          <h1><i class="fa fa-book"></i> Manage Client Payments</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="breadcrumbs">
+    <ul class="breadcrumb">
+      <li>
+        <i class="fa fa-dashboard"></i>
+        <span class="divider"></span>
+        <a>Dashboard</a>
+        <span class="divider">
+          <i class="fa fa-angle-right"></i>
+        </span>
+        Client
+        <span class="divider">
+          <i class="fa fa-angle-right"></i>
+        </span>
+        Account
+        <span class="divider">
+          <i class="fa fa-angle-right"></i>
+        </span>
+      </li>
+      <li class="active"> Card Details</li>
+    </ul>
+  </div>
+</div>
+<!-- content -->
+<div class="card">
+    <div class="card-header">
+      Manage Cards <b *ngIf="client">of {{client.client_first_name}} {{client.client_last_name}}</b>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-5 shadow-sm p-3 mb-5 bg-white rounded border">
+                <app-card-details (notify)='onNotify($event)'></app-card-details>
+            </div>
+            <div class="col-md-7 ">
+                <app-card-list [notice]='notifyChange'></app-card-list>            
+            </div>
+        </div>   
+    </div>
+</div>
+<br>
+<div class="card">
+  <div class="card-header">
+      Charge Client
+    </div>
+    <app-card-payment [notice]='notifyChange'></app-card-payment>
+</div>

@@ -1,0 +1,164 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title"> {{heading_label}} </h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <ng-container *ngIf="job.job_ref_suffix == 'SUP'">
+      <button class="toggle_link" (click)="show_parent_report_findings = !show_parent_report_findings" style="color:#6a0708;"><i class="fa  fa-step-backward"></i>&nbsp;&nbsp;Display Parent Report Findings</button>
+      <br /><br>
+      <div id="parent_report_findings" *ngIf='show_parent_report_findings'>
+        <div class="table-responsive parent-finding-cont"> 
+          <p *ngIf='parentFinding?.length == 0'>Nothing to show</p> 
+          <table class="table table-borderless" *ngIf='parentFinding?.length > 0'>
+            <thead>
+                <tr>
+                  <th>Section</th>
+                  <th>Type</th>
+                  <th>Finding</th>                   
+                  <th>Code</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor='let p_finding of parentFinding'>
+                  <td>{{p_finding.finding_section}}</td>
+                  <td>{{p_finding.finding_type}}</td>
+                  <td>{{p_finding.finding_finding}}</td>                   
+                  <td>{{p_finding.finding_code}}</td>
+                </tr>
+              </tbody> 
+            </table>
+          </div>       
+        <!-- <div *ngFor='let p_finding of parentFinding' style="padding: 6px 6px 6px 6px; background: #F4F4F4; margin: 6px 0; width: 50%;">{{p_finding.finding_section}}&nbsp;&nbsp;&nbsp;{{p_finding.finding_type}}&nbsp;&nbsp;&nbsp;{{p_finding.finding_finding}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Code: {{p_finding.finding_code}}</div> -->
+      </div>
+      <br>
+  </ng-container>  
+ <div class="loader" *ngIf='loderDivShow'></div>    
+ <form (ngSubmit)="findingForm.form.valid && findingSubmit()" #findingForm="ngForm" novalidate *ngIf='!loderDivShow'>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Section</label>
+          <input name="finding_section" class="form-control" placeholder="(1-3)" type="text" [(ngModel)]="finding.finding_section"
+            #finding_section="ngModel" [ngClass]="{ 'is-invalid': findingForm.submitted && finding_section.invalid }"
+            [required]="fieldValidations" [disabled]="fieldDisabled">
+          <div *ngIf="findingForm.submitted && finding_section.invalid" class="invalid-feedback">
+            <div *ngIf="finding_section.errors.required">Section is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Type</label>
+          <input id="finding_type" name="finding_type" class="form-control" placeholder="(1-5)" type="text" [(ngModel)]='finding.finding_type' 
+            #finding_type="ngModel" [ngClass]="{ 'is-invalid': findingForm.submitted && finding_type.invalid }"
+            [required]="fieldValidations" [disabled]="fieldDisabled">
+          <div *ngIf="findingForm.submitted && finding_type.invalid" class="invalid-feedback">
+              <div *ngIf="finding_type.errors.required">Type is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Finding</label>
+          <input id="finding_finding" name="finding_finding" class="form-control" placeholder="(A-Z)" type="text" [(ngModel)]='finding.finding_finding'
+          #finding_finding='ngModel' [ngClass]="{ 'is-invalid': findingForm.submitted && finding_finding.invalid }"
+          [required]="fieldValidations" [disabled]="fieldDisabled">
+          <div *ngIf="findingForm.submitted && finding_finding.invalid" class="invalid-feedback">
+            <div *ngIf="finding_finding.errors.required">Finding is required</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+            <label>Code</label> 
+          <ng-template #rt let-r="result" let-t="term">
+            <ngb-highlight [result]="r.code_name+' '+r.code_finding" [term]="t" style="width: 300px;display: block;overflow: hidden;"></ngb-highlight>
+          </ng-template>
+          <input id="finding_code" type="text" class="form-control"  name='finding_code' [(ngModel)]="finding.finding_code_data"
+            [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" #datasource="ngModel" #instance="ngbTypeahead" (selectItem)="setCodeDatas($event)"/>
+            <!-- (selectItem)="existClient($event)"   -->
+            <span *ngIf="searching">searching...</span>
+            <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Finding</label>
+          <textarea id="finding_description" name="finding_description" class="form-control" rows="3" [(ngModel)]="finding.finding_description" [disabled]="fieldDisabled"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Recommendation</label>
+          <textarea id="finding_recommendation" name="finding_recommendation" class="form-control" rows="3" [(ngModel)]="finding.finding_recommendation" [disabled]="fieldDisabled"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Notes</label>
+          <div id="insert_tit2" style="text-align: center;" *ngIf='insertLabelStatus'>(Press INSERT to open Code Selector)</div>
+          <textarea id="finding_notes" (focus)="insertLabelStatus = true" (blur)="insertLabelStatus = false" (keyup)='lookupCode($event)' name="finding_notes" class="form-control" rows="3" [(ngModel)]="finding.finding_notes"></textarea>
+        </div>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group" id="notes_position_selection" *ngIf='show_notes_position_selection'><!-- after insert style="display: none;"-->
+          <label style='margin-right: 15px;'>Position Notes Only</label>
+          <label class="radio-inline" style='margin-right: 15px;'>
+            <input name="notes_position" value="before" type="radio" [(ngModel)]="finding.finding_notes_position"> Before Findings List
+          </label>
+          <label class="radio-inline">
+            <input name="notes_position" value="after"  type="radio" [(ngModel)]="finding.finding_notes_position"> After Findings List
+            <!-- checked="" -->
+          </label>  
+        </div>
+      </div>
+    </div>     
+    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group" *ngIf="findings_add_cb_chems">  <!--  style="display:none;" -->
+          <label>&nbsp;</label>
+            <label class="checkbox-inline">
+              <input name="finding_uses_chemicals" id="finding_uses_chemicals" value=1 checked type="checkbox" disabled> This code recommends chemical application
+              <input type="hidden" [(ngModel)]="finding.finding_uses_chemicals">
+            </label>
+        </div>
+      </div>
+    </div>    
+
+    
+    
+
+
+
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group">
+          <input id="findings_add_submit" class="btn btn-primary" type="submit" value="   Add Finding  ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
+<!-- <div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+</div> -->

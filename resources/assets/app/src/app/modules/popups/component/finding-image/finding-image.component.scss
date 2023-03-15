@@ -1,0 +1,58 @@
+p.image_validation_msgs {
+    color: red;
+    padding: 5px 0px;
+}
+.no_finding_image_label {
+    width: 100%; 
+    border: #d4d4d4 solid 1px; 
+    text-align:center; 
+    padding: 6px; 
+    margin: 6px;
+}
+
+.finding_image_label {
+    width: 120px; 
+    float:left; 
+    border: #d4d4d4 solid 1px; 
+    text-align:center; 
+    padding: 6px; margin: 6px;
+}
+
+.remove-btn-link {
+    font-size: 13px;
+    color: #000;
+}
+
+.signal {
+    border: 10px solid #333;
+    border-radius: 40px;
+    height: 50px;
+    left: 55%;
+    margin: -15px 0 0 -15px;
+    opacity: 0;
+    position: absolute;
+    top: 80%;
+    width: 50px;
+  
+    animation: pulsate 1s ease-out;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes pulsate {
+    0% {
+      transform: scale(.1);
+      opacity: 0.0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.2);
+      opacity: 0;
+    }
+  }
+
+.change-img {
+  font-size: 14px;
+} 
+  

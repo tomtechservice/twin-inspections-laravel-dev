@@ -1,0 +1,103 @@
+<div class="modal-header">
+    <h4
+        class="modal-title"
+        id="modal-basic-title"
+    > Upload Finding Image </h4>
+</div>
+<div class="modal-body">
+    <div
+        id="uploader_findings"
+        title="Upload Finding Image"
+    >
+        <div style="float:left; display:inline; width: 60%">
+
+            <p class="help-inline"><i class="fa fa-question-circle"></i> Select an image file to add or edit the
+                Findings
+                photo. To keep current leave blank.</p>
+            <p class="help-inline"><i class="fa fa-question-circle"></i> Please only upload .jpg, .jpeg, .png, or .gif
+                files and be sure the file size is not over 5mb!</p>
+            <p class="help-inline"><i class="fa fa-question-circle"></i> On Upload wait for the until transfer is
+                complete.
+                Larger files can take a few minutes.</p>
+            <br />
+
+            <input
+                #selectedFile
+                type="file"
+                name="photo"
+                ng2FileSelect
+                [uploader]="uploader"
+            />
+
+            <button
+                class="btn btn-link change-img"
+                type="button"
+                (click)="clearSelectedFile()"
+                *ngIf="uploader.getNotUploadedItems().length"
+            >
+                Change Image
+            </button>
+            <button
+                type="button"
+                class="btn btn-success btn-s"
+                (click)="uploadFindingImages()"
+                [disabled]="!uploader.getNotUploadedItems().length"
+            >
+                Upload an Image
+            </button>
+            <p
+                class="image_validation_msgs"
+                *ngIf='imageValidations'
+            >Sorry, only specified image file formats are allowed.</p>
+            <div
+                *ngIf='showLoader'
+                class="signal"
+            ></div>
+
+
+        </div>
+
+        <div style="float:left; display:inline; width: 40%">
+            <div
+                class="no_finding_image_label"
+                *ngIf="existingFindingImages?.length == 0"
+            ><img
+                    src="{{imagePath}}/media/findings/finding_image_not_available.png"
+                    class="finding_image_thumb"
+                /><br />No Images</div>
+            <ng-container *ngIf="existingFindingImages?.length > 0">
+                <div
+                    class="finding_image_label"
+                    *ngFor="let finding_img of existingFindingImages"
+                >
+                    <a
+                        title="Show Full Size"
+                        href="{{imagePath}}/media/findings/{{finding_img.finding_id}}/{{finding_img.finding_image_file_name}}"
+                        target="_blank"
+                    >
+                        <img
+                            src="{{imagePath}}/media/findings/{{finding_img.finding_id}}/sm_{{finding_img.finding_image_file_name}}"
+                            class="finding_image_thumb"
+                        />
+                    </a>
+                    <br />
+                    <button
+                        type="button"
+                        class="btn btn-link remove-btn-link "
+                        title="Delete Finding Image"
+                        (click)='removeImage(finding_img.finding_image_id)'
+                    >Remove Image</button>
+                </div>
+            </ng-container>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="closeClick()"
+    >Close</button>
+    <!-- (click)="activeModal.close('Close click')" -->
+</div>

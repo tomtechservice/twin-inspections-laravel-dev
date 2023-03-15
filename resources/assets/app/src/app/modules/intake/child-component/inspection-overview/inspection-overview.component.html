@@ -1,0 +1,98 @@
+<div class="card-body">
+  <div class="row">
+    <div class="col-md-8">
+      <p>
+        <b>Inspection Type: </b>{{job?.job_sub_type}} 
+        <a class="btn btn-warning btn-sm  btn-r-ound" ngbTooltip="Change Inspection Type"
+          href="javascript:;" (click)="openInspectionTypeModal()"><i class="fa fa-edit"></i></a>
+      </p>
+
+      <p>
+        <b>Inspector: </b> 
+
+        <!-- {{job?agent?.user_first_name}} {{job?agent?.user_last_name}} -->
+        <span *ngIf="job.agent_id;else inspector ">
+            {{job?.agent?.user_first_name}} {{job?.agent?.user_last_name}}
+        </span>
+        <ng-template #inspector> Not Yet Set</ng-template>
+        <a class="btn btn-warning btn-sm  btn-r-ound" ngbTooltip="Change Inspector" href="javascript:;"><i
+          (click)="openChangeInspectorModal()" class="fa fa-edit"></i></a>
+      </p>
+
+      <p><b>Scheduled by: </b>
+        <span *ngIf="job.scheduled_id ;else Scheduled ">
+            {{job?.scheduled_user?.user_first_name}} {{job?.scheduled_user?.user_last_name}}
+        </span>
+        <ng-template #Scheduled> Not Yet Set</ng-template>
+      </p>
+
+      <p>
+        <b>Scheduled Date/Time: </b> 
+        <!-- 08/11/2017 - 04:00 pm -->
+        <span *ngIf="job.job_date_scheduled !='0000-00-00 00:00:00' ;else Scheduled_date ">
+            {{job?.job_date_scheduled | date:'MM/dd/yyyy'}} - {{job?.job_date_scheduled |date:'h:mm a' }}
+        </span>
+        <ng-template #Scheduled_date> Not Yet Set</ng-template>
+      </p>
+
+      <p><b>Description: </b>
+        <span *ngIf="job.report && job.report.report_description_general != null ;else Description ">
+            {{job?.report?.report_description_general}} 
+        </span>
+        <ng-template #Description> Not Yet Set</ng-template>
+       </p>
+
+      <p><b>Marked Completed: </b>
+        <!-- 07/29/2018 - 11:11 pm -->
+        <span *ngIf="job.job_date_inspection_completed  != '0000-00-00 00:00:00' ;else Mark ">
+            {{job?.job_date_inspection_completed | date:'MM/dd/yyyy'}} - {{job?.job_date_inspection_completed |date:'h:mm a' }}
+        </span>
+        <ng-template #Mark> Not Yet Set</ng-template>
+      </p>
+    </div>
+
+    <div class="col-md-4">
+      <b>Reports Diagram: </b>
+      <ng-container *ngIf="job.report && job.report.report_diagram_file">
+          <a href="{{doSpace}}/media/diagrams/{{job.job_id}}/{{job.report.report_diagram_file}}"
+          target="_blank"> 
+          <img src="{{doSpace}}/media/diagrams/{{job.job_id}}/{{job.report.report_diagram_file}} " width="140" />
+          <br/>View Full Size</a>
+      </ng-container> 
+    </div>
+  </div>
+  <hr>
+  <p><b>Inspection Fee: </b>
+     {{job?.job_fee | currency}}
+  </p>
+
+  <p><b>Total Fees: </b>
+     {{job?.job_fee - job?.job_fee_discount | currency}} 
+  </p>
+
+  <p><b>Payment Type: </b>
+    <!-- {{job?.job_payment_type}} -->
+ 
+    <span *ngIf="job.job_payment_type !='';then second">
+        
+    </span>
+      <ng-template #second>
+          {{job?.job_payment_type}}
+          <span *ngIf="job?.job_payment_type == 'Escrow'">  
+              <ng-container *ngIf="job?.client_id">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <a routerLink="/account/carddetails/{{job.client_id}}"  >
+                  <i class="fa fa-credit-card"></i>
+                   Show Back-up Credit Card Info</a>
+              </ng-container>
+          </span>
+      </ng-template>
+  </p>
+
+  <p><b>Payment Notes: </b>
+    <span  *ngIf="job.job_payment_type_notes!=''; else payment">
+      {{job?.job_payment_type_notes}}
+    </span>
+    <ng-template #payment>N/A</ng-template>
+  </p>
+</div>

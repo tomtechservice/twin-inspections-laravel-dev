@@ -1,0 +1,328 @@
+<ng-container *ngIf="!is_loading && permission =='allow' ;  then allow  ">
+</ng-container>
+<ng-template #allow>
+  <app-panel [page_title]="page_title"></app-panel>
+  <div class="intake-tab-content">
+    <div class="row pb-2 pt-4 intab-content">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <h4 class="h4-heading">Overview</h4>
+          </div>
+        </div>
+        <div class="row pt-4">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0 mt-0">
+                  <a role="button" data-toggle="collapse" href="#overView1" aria-expanded="true" aria-controls="overView1">
+                    Job/Order
+                    <!-- {{permission}} -->
+                  </a>
+                </h5>
+              </div>
+              <app-job-order *ngIf="!is_loading" [jobData]='job' (notify)='onNotify($event)'></app-job-order>
+            </div>
+            <br>
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0 mt-0">
+                  <a role="button" data-toggle="collapse" href="#overView2" aria-expanded="true" aria-controls="overView2">
+                    Property Info
+                  </a>
+                </h5>
+              </div>
+              <div id="overView2" class="collapse show">
+                <div class="card-body">
+                  <div class="text-right">
+                    <span *ngIf="userData.user_level !='inspector'">
+                      <a class="link btn btn-sm" routerLink="/inspections-edit-property/{{job.job_id}}"><i class="fa fa-edit"></i>
+                        edit</a>
+                    </span>
+                  </div>
+                  <app-property-overview *ngIf="!is_loading && job?.job_property" [job]='job?.job_property'></app-property-overview>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0 mt-0">
+                  <a role="button" data-toggle="collapse" href="#overView3" aria-expanded="true" aria-controls="overView3">
+                    Inspection
+                  </a>
+                </h5>
+              </div>
+              <div id="overView3" class="collapse show">
+                <app-inspection-overview *ngIf="!is_loading" [job]="job"></app-inspection-overview>
+              </div>
+            </div>
+            <br>
+            <!-- {{job.job_status}} -->
+            <ng-container *ngIf="job.job_status != 'intake' ">
+              <span *ngIf="userData.user_level!='inspector'">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0 mt-0">
+                      <a role="button" data-toggle="collapse" href="#overView4" aria-expanded="true" aria-controls="overView4">
+                        Schedule New Inspection
+                      </a>
+                    </h5>
+                  </div>
+                  <div id="overView4" class="collapse show">
+                    <div class="card-body">
+                      <app-schedule-new-inspection *ngIf="!is_loading" [job]="job"></app-schedule-new-inspection>
+                    </div>
+                  </div>
+                </div>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0 mt-0">
+                  <a role="button" data-toggle="collapse" href="#overViewO" aria-expanded="true" aria-controls="overViewO">
+                    Ordered By
+                  </a>
+                </h5>
+              </div>
+              <div id="overViewO" class="collapse show">
+                <div class="card-body">
+                  <div class="text-right">
+                    <a class="btn btn-sm" routerLink="/inspections-order-parties/{{job.job_id}}"><i class="fa fa-edit"></i>
+                      edit</a>
+                  </div>
+                  <p>
+                    <strong>Client: </strong>
+                    {{job?.client?.client_first_name}} {{job?.client?.client_last_name}}<br>
+                    <!-- Realty One Group - Rocklin, CA -->
+                    <span *ngIf="job?.client?.company?.company_name">{{job?.client?.company?.company_name}}-</span><span *ngIf="job?.client?.company?.company_city">{{ job?.client?.company?.company_city }} ,</span>
+                    {{job?.client?.company?.company_state}}
+                    <br>
+                    <b>Phone: </b>{{job?.client?.client_phone}}<br>
+                    <b>Email: </b>{{job?.client?.client_email}}<br>
+                  </p>
+                  <p>
+                    <strong>Address:</strong><br>
+                    <span *ngIf="job?.client?.client_address1">{{job?.client?.client_address1}},</span> {{job?.client?.client_address2}}<br>
+                    <span *ngIf="job?.client?.client_address1">{{job?.client?.client_city}}, </span>{{job?.client?.client_state}} {{job?.client?.client_zip}}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0 mt-0">
+                  <a role="button" data-toggle="collapse" href="#overView5" aria-expanded="true" aria-controls="overView5">
+                    Interested Parties
+                  </a>
+                </h5>
+              </div>
+              <app-interested-parties *ngIf="!is_loading" [job]='job'></app-interested-parties>
+            </div>
+            <br>
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0 mt-0">
+                  <a role="button" data-toggle="collapse" href="#overView6" aria-expanded="true" aria-controls="overView6">
+                    Reports/Documents
+                  </a>
+                </h5>
+              </div>
+              <app-report-document *ngIf="!is_loading" [job]='job'></app-report-document>
+            </div>
+            <br>
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0 mt-0">
+                  <a role="button" data-toggle="collapse" href="#overView7" aria-expanded="true" aria-controls="overView7">
+                    Accounting
+                  </a>
+                </h5>
+              </div>
+              <div id="overView7" class="collapse show">
+                <div class="card-body">
+                  <a class="btn btn-sm"><b>Current Balance:</b> {{balance | currency}}</a>
+                  <br>
+                  <a class="btn btn-sm" routerLink="/transaction/list/{{job.job_id}}">
+                    <i class="fa fa-book"></i>
+                    Open Transactions View
+                  </a>
+                </div>
+              </div>
+            </div>
+            <br>
+            <app-job-cost-overview *ngIf="!is_loading && job.job_is_completed" [job_id]='job.job_id'></app-job-cost-overview>
+
+            <br>
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0 mt-0">
+                  <a role="button" data-toggle="collapse" href="#overView8" aria-expanded="true" aria-controls="overView8">
+                    Notes
+                  </a>
+                </h5>
+              </div>
+
+              <div id="overView8" class="collapse show">
+                <div class="card-body">
+                  <app-notes *ngIf="!is_loading" [job]='job'></app-notes>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0 mt-0">
+                  <a role="button" data-toggle="collapse" href="#overView8" aria-expanded="true" aria-controls="overView8">
+                    Order History
+                  </a>
+                </h5>
+              </div>
+
+              <div id="overView8" class="collapse show">
+                <div class="card-body">
+                  <a href="{{oldSite}}url/logs/{{jobId}}"><i class="fa fa-newspaper-o"></i> View Logs</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- <ng-template #not_allow> -->
+<ng-container *ngIf="!is_loading && permission =='Cancelled'; then Cancelled else permissiondelay">
+</ng-container>
+<ng-template #Cancelled>
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="page-title">
+          <div>
+            <h1><i class="fa fa-search"></i> Cancelation Confirmation</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="fa fa-dashboard"></i>
+          <span class="divider"></span>
+          <a>Dashboard</a>
+          <span class="divider">
+            <i class="fa fa-angle-right"></i>
+          </span>
+          <!-- Cancelation Confirmation
+              <span class="divider">
+                <i class="fa fa-angle-right"></i>
+              </span> -->
+
+        </li>
+        <li class="active">Cancelation Confirmation</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-7">
+      <div class="card">
+        <div class="card-header">
+          <h4><i class="fa fa-ban"></i> Inspection Cancelation Confirmation</h4>
+        </div>
+        <div class="card-body">
+          You have successfully cancelled that inspection.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ng-template>
+<ng-template #permissiondelay>
+  <span *ngIf="!is_loading && permission =='permission_denied'">
+    <div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="page-title">
+            <div>
+              <h1><i class="fa fa-bug"></i> Permission Denied</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li>
+            <i class="fa fa-dashboard"></i>
+            <span class="divider"></span>
+            <a>Dashboard</a>
+            <span class="divider">
+              <i class="fa fa-angle-right"></i>
+            </span>
+            <!-- Cancelation Confirmation
+                    <span class="divider">
+                      <i class="fa fa-angle-right"></i>
+                    </span> -->
+
+          </li>
+          <li class="active">Permission Denied</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7">
+        <div class="card">
+          <div class="card-header">
+            <h4><i class="fa fa-ban"></i> Permission Denied</h4>
+            <div class="box-tool">
+            </div>
+          </div>
+          <div class="card-body">
+            Sorry your User Level does not have the proper permissions to access this component/utility. Please contact
+            your system Admin.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </span>
+</ng-template>
+<!-- </ng-template> -->
+<ng-container *ngIf='is_loading'>
+  <div class="loader"></div>
+  <!-- <div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="page-title">
+          <div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li class="active">Loding Page............</li>
+      </ul>
+    </div>
+  </div> -->
+</ng-container>
+<ng-container *ngIf="is_error !=''">
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="page-title">
+          <div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li class="active">{{is_error}}</li>
+      </ul>
+    </div>
+  </div>
+</ng-container>

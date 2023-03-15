@@ -1,0 +1,54 @@
+<nav id="navbar" class="navbar navbar-expand-lg px-md-3">
+    <h6 class="my-0 mr-md-auto font-weight-normal text-white nav_heading"><i class="fa fa-desktop"></i>
+    &nbsp;The {{headerText}} Administrative Control Panel: You are logged in as <strong style="color:#EFC86D;">{{userData.user_level| titlecase }} </strong></h6>
+    <div class="main_nav" id="navb ">
+    <form class="form-inline my-2 my-lg-0">
+        <div class="holder">
+            <div class="input-group mb-0 search_nav_main">
+            <div class="input-group-prepend">
+                <div class="input-group-text header-search"><i class="fa fa-search "></i></div>
+            </div>
+            
+                <input type="text" class="form-control" name="searchparam" [(ngModel)]="searchparam" id="inlineFormInputGroup" (keyup)="searchApiSite()" placeholder="Search" (clickOutside)="onClickedOutside($event)">
+                
+            </div>
+            <div class="my_drop_down" *ngIf="searchResults" >
+                <div class="" *ngIf="searchJobs.length > 0">
+                    <h4>Report ID</h4>
+                    <p *ngFor="let job of searchJobs">
+                        Report Id #: <a class="" (click)="navigateFromSearch(job)">
+                            {{job.text}}, {{job.property_last}}
+                        </a>
+                    </p>
+                </div>
+                <div class="" *ngIf="searchProperties.length > 0">
+                    <h4>Inspections</h4>
+                    <p *ngFor="let job of searchProperties">
+                        Report Id #: <a class="" (click)="navigateFromSearch(job)">
+                            {{job.text}}, {{job.property_last}}
+                        </a>
+                    </p>
+                </div>
+                <div class="" *ngIf='searchClients.length > 0'>
+                    <h4>Clients</h4>
+                    <p *ngFor='let client of searchClients'>
+                        <a class='search-result-link' href="{{old_site}}url/clients_edit/{{client.client_id}}">{{client.text}}</a>
+                    </p>
+                </div>    
+            </div>
+        </div>
+        <a class="btn btn-danger btn-bgnone" href="javascript:void(0)"><i class="fa fa-bug fa-2x"></i></a>
+        <div class="dropdown show">
+          <a class="btn btn-danger btn-bgnone dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user-circle-o fa-2x" aria-hidden="true"></i> {{userData.user_first_name}} {{userData.user_last_name}}
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="javascript:void(0)">{{userData.user_level}} <i class="fa fa-tasks"></i></a>
+                <a class="dropdown-item" href="#"><i class="fa fa-bug"></i> Support Tickets</a>
+                <a class="dropdown-item" href="javascript:void(0)" (click)="signOut()"><i class="fa fa-sign-out"></i>Logout</a>
+          </div>
+        </div>
+    </form>
+  </div>
+</nav>

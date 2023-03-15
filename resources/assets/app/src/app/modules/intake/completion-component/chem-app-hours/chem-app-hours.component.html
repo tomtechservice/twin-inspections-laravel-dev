@@ -1,0 +1,54 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Chemical Application Hours:</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h6 style="margin: 24px 0px 24px 0px; color : #6a0708">Add Chemical Application Hours</h6>
+    <form  [formGroup]="chemAppHoursForm" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <label for="selectCrew" class="col-md-3 col-form-label"><strong>Crew :</strong></label>
+        <div class="col-md-9">
+          <select class="form-control" id="selectCrew" formControlName="crew_id"
+          [ngClass]="{ 'is-invalid': submitted && f.crew_id.errors }">
+            <option value="">-SELECT-</option>
+            <option *ngFor="let crew of crews" [value]="crew.user_id">{{ crew.user_last_name }}, {{ crew.user_first_name }}</option>
+          </select>
+          <div *ngIf="submitted && f.crew_id.errors">
+            <div *ngIf="f.crew_id.errors.required" class="error-msg">Crew is Required!</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputDateCompleted" class="col-md-3 col-form-label"><strong>Date Completed:</strong></label>
+        <div class="col-md-9">
+          <input required="" class="form-control" placeholder="mm/dd/yyyy"
+        firstDayOfWeek="7" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" 
+       (dateSelect)="onDateSelect($event)" id="inputDateCompleted" formControlName="job_meta_chem_date_completed"
+       [ngClass]="{ 'is-invalid': submitted && f.job_meta_chem_date_completed.errors }">
+       <div *ngIf="submitted && f.job_meta_chem_date_completed.errors">
+        <div *ngIf="f.job_meta_chem_date_completed.errors.required" class="error-msg">Date is Required!</div>
+      </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputHours" class="col-md-3 col-form-label"><strong>Hours:</strong></label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" id="inputHours" formControlName="job_meta_chem_hours"
+          [ngClass]="{ 'is-invalid': submitted && f.job_meta_chem_hours.errors }">
+          <div *ngIf="submitted && f.job_meta_chem_hours.errors">
+            <div *ngIf="f.job_meta_chem_hours.errors.required" class="error-msg">Hours is Required!</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+          <button type="submit" class="btn btn-primary">Add Chemical Application Hours</button>
+          &nbsp;&nbsp;&nbsp;
+          <button type="submit" class="btn btn-primary" (click)="activeModal.dismiss('Cross click')">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>

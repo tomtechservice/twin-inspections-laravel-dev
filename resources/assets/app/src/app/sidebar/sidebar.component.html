@@ -1,0 +1,357 @@
+<aside class="nav flex-column">
+    <div class="left ">
+        <ul class="list-sidebar bg-defoult">
+            <li class="menu-element">
+                <div
+                    [style.backgroundImage]="'url('+sidebarlogo+')'"
+                    class="logo_sidebar"
+                >
+                </div>
+            </li>
+            <li class="menu-element">
+                <a
+                    class="parent"
+                    routerLink="/dashboard"
+                >
+                    <i class="fa fa-dashboard"></i>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <ul
+                    class="sub-menu collapse"
+                    id="dash"
+                >
+                    <li>
+                        <a routerLink="/sort-widgets">Sort Widgets</a>
+                    </li>
+                </ul>
+            </li>
+            <li
+                class="menu-element"
+                *ngIf="administrator"
+            >
+                <a
+                    class="parent"
+                    href="#"
+                    data-toggle="collapse"
+                    data-target="#products"
+                >
+                    <i class="fa fa-user"></i>
+                    <span class="nav-label">User Management</span>
+                    <span class="fa fa-angle-right pull-right"></span>
+                </a>
+                <ul
+                    class="sub-menu collapse"
+                    id="products"
+                >
+                    <li><a href="{{old_site}}url/users_list">List/Find</a></li>
+                    <li><a href="{{old_site}}url/users_add">Add New</a></li>
+                    <li><a href="{{old_site}}url/users_levels_listt">Levels/Roles/Permissions</a></li>
+                </ul>
+            </li>
+            <!-- inspector -->
+            <li
+                class="menu-element"
+                *ngIf="!inspector"
+            >
+                <a
+                    class="parent"
+                    href="{{old_site}}url/calendar"
+                >
+                    <i class="fa fa-calendar"></i>
+                    <span class="nav-label">My Schedule</span>
+                    <span class="fa fa-angle-right pull-right"></span>
+                </a>
+
+            </li>
+            <li
+                class="menu-element"
+                *ngIf="inspector"
+            >
+                <a
+                    class="parent"
+                    href="{{old_site}}url/inspections_list"
+                >
+                    <i class="fa fa-search-plus"></i>
+                    <span class="nav-label">Inspections / Orders</span>
+                    <span
+                        class="fa fa-angle-right pull-right"
+                        data-toggle="collapse"
+                        data-target="#inspect"
+                    ></span>
+                </a>
+                <ul
+                    class="sub-menu collapse"
+                    id="inspect"
+                >
+                    <li>
+                        <a
+                            *ngIf="settings.inspection_tab_order == 1"
+                            routerLink="/inspections-edit-property"
+                        >Create New</a>
+                        <a
+                            *ngIf="settings.inspection_tab_order == 0"
+                            routerLink="/inspections-order-parties"
+                        >Create New</a>
+                    </li>
+                    <li *ngIf="administrator"><a href="{{old_site}}url/calendar">Calendar</a></li>
+                    <li><a href="{{old_site}}url/inspections_list">Find by Status</a></li>
+                </ul>
+            </li>
+            <!-- inspector -->
+            <li
+                class="menu-element"
+                *ngIf="!inspector"
+            >
+                <a
+                    class="parent"
+                    href="{{old_site}}url/inspections_list"
+                >
+                    <i class="fa fa-search-plus"></i>
+                    <span class="nav-label">My Inspections</span>
+                    <span
+                        class="fa fa-angle-right pull-right"
+                        data-toggle="collapse"
+                        data-target="#inspect"
+                    ></span>
+                </a>
+                <ul
+                    class="sub-menu collapse"
+                    id="inspect"
+                >
+                    <!-- <li><a href="{{old_site}}url/inspections_order">Create New</a></li> -->
+                    <!-- <li><a routerLink="/inspections-order-parties" >Create New</a></li>
+                    <li><a href="{{old_site}}url/calendar">Calendar</a></li> -->
+                    <li><a href="{{old_site}}url/inspections_list">List/Find</a></li>
+                </ul>
+            </li>
+            <li
+                class="menu-element"
+                *ngIf="inspector"
+            >
+                <a
+                    class="parent"
+                    href="#"
+                    data-toggle="collapse"
+                    data-target="#client"
+                >
+                    <i class="fa fa-users"></i>
+                    <span class="nav-label">Client Management</span>
+                    <span class="fa fa-angle-right pull-right"></span>
+                </a>
+                <ul
+                    class="sub-menu collapse"
+                    id="client"
+                >
+                    <li>
+                        <span>Clients</span>
+                        <ul>
+                            <li><a href="{{old_site}}url/clients_list">List/Find</a></li>
+                            <li><a href="{{old_site}}url/clients_add">Add New</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>Companies</span>
+                        <ul>
+                            <li><a href="{{old_site}}url/companies_list">List/Find</a></li>
+                            <li><a href="{{old_site}}url/companies_add">Add New</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <!-- inspector -->
+            <li
+                class="menu-element"
+                *ngIf="!inspector"
+            >
+                <a
+                    class="parent"
+                    href="{{old_site}}url/clients_list"
+                >
+                    <i class="fa fa-users"></i>
+                    <span class="nav-label">Client Search</span>
+                    <span class="fa fa-angle-right pull-right"></span>
+                </a>
+            </li>
+            <li
+                class="menu-element"
+                *ngIf="!inspector"
+            >
+                <a
+                    class="parent"
+                    href="#"
+                    data-toggle="collapse"
+                    data-target="#account"
+                >
+                    <i class="fa fa-book"></i>
+                    <span class="nav-label">My Account</span>
+                    <span class="fa fa-angle-right pull-right"></span>
+                </a>
+                <ul
+                    class="sub-menu collapse"
+                    id="account"
+                >
+                    <!-- <li><a href="{{old_site}}url/inspections_order">Create New</a></li> -->
+                    <li><a href="">My Profile</a></li>
+                    <li><a href="">Commission/Payroll Lookup</a></li>
+                    <li><a href="">Archive</a></li>
+                    <li><a href="{{old_site}}url/report_job_with_bids_non_scheduled">Jobs With Bids</a></li>
+                    <!-- <li><a routerLink="/sort-widgets">Sort Widgets</a></li> -->
+
+                </ul>
+            </li>
+
+            <!-- ins end -->
+            <li
+                class="menu-element"
+                *ngIf="inspector"
+            >
+                <a
+                    class="parent"
+                    href="#"
+                    data-toggle="collapse"
+                    data-target="#report"
+                >
+                    <i class="fa fa-book"></i>
+                    <span class="nav-label">Reports</span>
+                    <span class="fa fa-angle-right pull-right"></span>
+                </a>
+                <ul
+                    class="sub-menu collapse"
+                    id="report"
+                >
+                    <li><span>Marketing</span>
+                        <ul>
+                            <li><a href="{{oldTwin}}index.php?/business/report_agents_unused_work">Agents Dont Use
+                                    Us</a></li>
+                            <li><a href="{{oldTwin}}index.php?/business/new_clients">New Agents</a></li>
+                            <li><a href="{{oldTwin}}index.php?/business/report_job_with_bids_non_scheduled">Jobs With
+                                    Bids</a></li>
+
+                        </ul>
+                    </li>
+                    <li><span>Accounting</span>
+                        <ul>
+                            <li><a href="{{old_site}}url/accounting_report_payment">Payments Received</a></li>
+                            <!-- <li><a href="{{old_site}}url/accounting_report_payroll_details">Payroll Details</a></li> -->
+                            <li><a routerLink="/accounting-report-payroll-payment">Payroll Details (Payment)</a></li>
+                            <li><a routerLink="/accounting-report-payroll-charge">Payroll Details (Charge)</a></li>
+                            <li><a href="{{old_site}}url/accounting_report_payroll_summary">Charges by Inspector</a>
+                            </li>
+                            <li><a href="{{old_site}}url/accounting_report_revenue">Revenue by Type</a></li>
+                            <li><a href="{{old_site}}url/accounting_report_property_aging">Property Aging</a></li>
+                            <li><a href="{{old_site}}url/accounting_report_crew_commission">Crew Commission</a></li>
+                            <!-- <li><a href="{{old_site}}url/accounting_report_job_costing">Job Costing</a></li>    -->
+                            <li><a routerLink="/accounting-report-job-costing">Job Costing</a></li>
+                            <!-- <li><a href="{{old_site}}url/accounting_report_estimated_vs_actual">Est. vs Actual</a></li>-->
+                            <li><a routerLink="/accounting-report-estimated-vs-actual">Est. vs Actual</a></li>
+                        </ul>
+                    </li>
+                    <li><span>Management</span>
+                        <ul>
+                            <!-- <li><a href="{{old_site}}url/accounting_report_inspections_scheduled">Inspections Scheduled</a></li> -->
+                            <li><a routerLink="/accounting-report-inspections-scheduled">Inspections Scheduled</a></li>
+                            <li><a href="{{old_site}}url/management_report_residential_inspections">Residential
+                                    Inspections and Charges</a></li>
+                            <li><a href="{{old_site}}url/management_report_inspectors_sales">Inspectors Sales</a></li>
+                            <li><a routerLink="/agent-report-sales">Agent Activity</a></li>
+                            <li><a href="{{old_site}}url/management_report_chemical_usage">Chemical Usage</a></li>
+                            <li><a href="{{old_site}}url/management_cancellation_report">Cancellation Report</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{old_site}}url/activity_report">WDO Activity Report</a></li>
+                </ul>
+            </li>
+            <li
+                class="menu-element"
+                *ngIf="administrator"
+            >
+                <a
+                    class="parent"
+                    href="{{old_site}}url/warehouse_transactions"
+                >
+                    <i class="fa fa-barcode"></i>
+                    <span class="nav-label">Warehouse</span>
+                    <span
+                        class="fa fa-angle-right pull-right"
+                        data-toggle="collapse"
+                        data-target="#ware"
+                    ></span>
+                </a>
+                <ul
+                    class="sub-menu collapse"
+                    id="ware"
+                >
+                    <li><a href="{{old_site}}url/warehouse_transactions">Inventory I/O</a></li>
+                </ul>
+            </li>
+            <li
+                class="menu-element"
+                *ngIf="administrator"
+            >
+                <a
+                    class="parent"
+                    href="#"
+                    data-toggle="collapse"
+                    data-target="#config"
+                >
+                    <i class="fa fa-gears"></i>
+                    <span class="nav-label">Configuration</span>
+                    <span class="fa fa-angle-right pull-right"></span>
+                </a>
+                <ul
+                    class="sub-menu collapse"
+                    id="config"
+                >
+                    <li>
+                        <span>Database</span>
+                        <ul>
+                            <li><a href="{{old_site}}url/database_export">Export</a></li>
+                            <li><a href="{{old_site}}url/database_import">Import</a></li>
+                        </ul>
+                    </li>
+                    <li *ngIf="administrator">
+                        <a routerLink="/report-settings">Work Contract Report Settings</a>
+                    </li>
+                    <li *ngIf="administrator">
+                        <a routerLink="/findings-report-settings">Findings Report Settings</a>
+                    </li>
+                    <li *ngIf="administrator">
+                        <a routerLink="/share-widgets">Share Widgets</a>
+                    </li>
+
+                    <li>
+                        <a href="{{old_site}}url/branches_list">Branches / Zips</a>
+                    </li>
+                    <li>
+                        <a href="{{old_site}}url/codes_list">Codes</a>
+                    </li>
+                    <li>
+                        <a href="{{old_site}}url/chemicals_list">Chemicals</a>
+                    </li>
+                    <li>
+                        <a href="{{old_site}}url/leads_list">Leads</a>
+                    </li>
+                    <li *ngIf="administrator">
+                        <a routerLink="/office-fees">Office Fees</a>
+                    </li>
+                    <li>
+                        <a href="{{old_site}}url/settings_email">Auto Emails</a>
+                    </li>
+                    <li>
+                        <a href="{{old_site}}url/support_tickets_list">Support Tickets</a>
+                    </li>
+                    <li>
+                        <a href="{{old_site}}url/settings">System Settings</a>
+                    </li>
+                </ul>
+            </li>
+
+
+
+
+        </ul>
+    </div>
+    <div id="sidebar-collapse">
+        <i class="fa fa-angle-double-left"></i>
+    </div>
+</aside>

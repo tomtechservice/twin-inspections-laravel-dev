@@ -1,0 +1,31 @@
+<div id="overView1" class="collapse show">
+  <div class="card-body">
+    <p><b>Job and Report Id: {{jobData?.job_id}}</b> {{jobData?.job_ref_suffix}}</p>
+    <p><b>Job Type: </b>{{jobData?.job_type}}</p>
+    <p><b>Inspection Type: </b>{{jobData?.job_sub_type}}</p>
+    <p><b>Status: </b> <span *ngIf="jobData.job_status_top=='Completed' || jobData.job_status_top == 'Hold' || jobData.job_status_top == 'Cancelled'; else Status">{{jobData?.job_status_top}}
+      </span>
+      <ng-template #Status>
+        {{jobData?.job_status_top}} -{{jobData?.job_status}}
+      </ng-template>
+      <span *ngIf="userData.user_level !='inspector'">
+          <a (click)='openFormModal()' class="btn btn-warning btn-sm  btn-r-ound" ngbTooltip="Change Status" href="javascript:;"><i class="fa fa-edit"></i></a>
+      </span>    
+    </p>
+    <p><b>Notes: </b>{{jobData?.job_notes}}</p>
+    <p><b>Lead: </b>
+      <span *ngIf="jobData.lead;else Lead">
+        {{jobData.lead.lead_name}}
+      </span>
+      <ng-template #Lead>
+        N/A
+      </ng-template>
+    </p>
+    <p><b>Report Payment: </b>
+      <span> {{ jobData.report_payment_status==1 ? "Recieved" : 'Not Recieved' }} </span>
+      <span *ngIf="userData.user_level !='inspector'">
+        <a (click)="openReportModal()" class="btn btn-warning btn-sm btn-r-ound" ngTooltip="Change Report Payment" href="javascript:;"><i class="fa fa-edit"></i></a>
+      </span>
+    </p>
+  </div>
+</div>

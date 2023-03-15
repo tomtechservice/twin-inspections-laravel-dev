@@ -1,0 +1,780 @@
+<app-panel [page_title]="page_title"></app-panel>
+<div class="intake-tab-content">
+    <div class="row pb-2 pt-4 intab-content">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="h4-heading">Inspection: Scheduler</h4>
+                </div>
+            </div>
+            <div class="row pt-4">
+                <div class="col-md-12">
+                    <div class="">
+                        <h3 class="subtit">Schedule Inspection</h3>
+
+                        <form
+                            (ngSubmit)="f.form.valid && onSubmit()"
+                            #f="ngForm"
+                            novalidate
+                            autocomplete="off"
+                        >
+
+                            <p class="help-inline"><i class="fa fa-question-circle"></i> All fields required unless
+                                noted</p>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Select Inspector</label>
+                                        <div class="controls">
+                                            <select
+                                                class="form-control"
+                                                id="inspector"
+                                                [(ngModel)]="schedule.agent_id"
+                                                name="agent_id"
+                                                #inspector="ngModel"
+                                                (focus)="old_agent_id = schedule.agent_id"
+                                                (change)="onDateSelect($event)"
+                                                required=""
+                                            >
+                                                <option value=''>--select--</option>
+                                                <option
+                                                    *ngFor="let insp of inspectors"
+                                                    [value]="insp.user_id"
+                                                >{{insp.user_first_name}} {{insp.user_last_name}}
+                                                    {{ (insp.preferred) ? ' [Preferred]' : '' }}</option>
+                                            </select>
+                                        </div>
+                                        <div
+                                            *ngIf="(f.submitted && inspector.invalid) || inspector.touched "
+                                            class="invalid-data"
+                                        >
+                                            <div *ngIf="inspector.errors?.required"> Agent is required</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Request</label>
+                                        <div class="controls">
+                                            <input
+                                                [(ngModel)]="schedule.job_is_requested"
+                                                type="checkbox"
+                                                name="job_is_requested"
+                                                value="1"
+                                                [checked]="schedule.job_is_requested == '1'"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Inspection Day</label>
+                                        <div class="controls">
+                                            <div class="input-group form-date-pick">
+                                                <input
+                                                    required=""
+                                                    class="form-control"
+                                                    placeholder="mm/dd/yyyy"
+                                                    name="dp"
+                                                    [(ngModel)]="schedule.from_date"
+                                                    firstDayOfWeek="7"
+                                                    ngbDatepicker
+                                                    #d="ngbDatepicker"
+                                                    (click)="d.toggle()"
+                                                    (dateSelect)="onDateSelect($event)"
+                                                    (change)="checkAgentAvailability()"
+                                                    (focus)="old_from_date = schedule.from_date"
+                                                    #from_date="ngModel"
+                                                >
+                                                <div class="input-group-append">
+                                                    <button
+                                                        class="btn btn-outline-secondary calendar"
+                                                        (click)="d.toggle()"
+                                                        type="button"
+                                                    >
+                                                        <i
+                                                            class="fa fa-calendar"
+                                                            aria-hidden="true"
+                                                        ></i>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                            <div
+                                                *ngIf="(f.submitted && from_date.invalid) || from_date.touched "
+                                                class="invalid-data"
+                                            >
+                                                <div *ngIf="from_date.errors?.required"> Inspection Day is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Inspection Time</label>
+                                        <div class="row">
+                                            <!-- <div class="col-md-6">
+										<input class="form-control disabled" [(ngModel)]="schedule.from_time" name="from_time" placeholder="from" type="text" (keyup)="setLeftandTimer()">
+									</div> -->
+                                            <div class="col-md-12">
+                                                <select
+                                                    required=""
+                                                    class="form-control"
+                                                    id="from_time"
+                                                    [(ngModel)]="schedule.from_time"
+                                                    name="from_time"
+                                                    (change)="setLeftandTimer()"
+                                                    (focus)="old_from_time = schedule.from_time"
+                                                    #from_time="ngModel"
+                                                >
+                                                    <option
+                                                        *ngFor="let slot of timeSlots"
+                                                        [value]="slot.time"
+                                                    >{{slot.show}}</option>
+                                                </select>
+                                                <div
+                                                    *ngIf="(f.submitted && from_time.invalid) || from_time.touched "
+                                                    class="invalid-data"
+                                                >
+                                                    <div *ngIf="from_time.errors?.required"> Inspection Time is required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+
+                                                <input
+                                                    type
+                                                    class="form-control disabled"
+                                                    [(ngModel)]="schedule.to_time"
+                                                    name="to_time"
+                                                    placeholder="to"
+                                                    type="hidden"
+                                                    (keyup)="setLeftandTimer()"
+                                                >
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Requested Earlier</label>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label class="checkbox-inline">
+                                                    <input
+                                                        [(ngModel)]="schedule.wants_earlier"
+                                                        name="wants_earlier"
+                                                        value="1"
+                                                        type="checkbox"
+                                                        [checked]="schedule.wants_earlier == '1'"
+                                                    >
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Anytime</label>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label class="checkbox-inline">
+                                                    <input
+                                                        [(ngModel)]="schedule.anytime"
+                                                        name="anytime"
+                                                        value="1"
+                                                        type="checkbox"
+                                                        [checked]="schedule.anytime == '1'"
+                                                        (change)="lockboxPopup()"
+                                                    >
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Inspection Duration</label>
+                                        <input
+                                            class="form-control disabled"
+                                            [(ngModel)]="schedule.calculated_time"
+                                            name="calculated_time"
+                                            type="text"
+                                            (keyup)="calculateDragWidth()"
+                                            (focus)="old_calculated_time = schedule.calculated_time"
+                                        >
+                                        Inspection minutes {{inspectionMinutes}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div *ngIf="showRecommendations">
+						<div class="row agent_row" *ngFor="let agents of avaialbleAgents">
+
+							<div class="agent_col" *ngFor="let agent of agents">
+								<a class="btn btn-outline-dark btn-sm" (click)="selectAgentFromRecommended(agent)">
+									{{agent.user_first_name}} {{agent.user_last_name}} ({{agent.dt}} {{agent.st}})
+								</a>
+							</div>
+						</div>
+					</div> -->
+
+                            <!-- <div>
+		        		<h3 class="subtit" *ngIf="resultType == 'agent'">Avialble Inspectors</h3>
+		        		<br>
+		        		<div class="row" *ngIf="hiddenSchedules">
+			        		<div class="signal"></div>
+			        	</div>
+		        		<div *ngIf="!hiddenSchedules">
+			        		<div class="row agent_btn_list" *ngFor="let availIns of availableInspectors">
+			        			<div class="col-md-3">
+			        				<a class="btn btn-info btn-block" href="javascript:void(0)" (click)="onSelectInspector(availIns)"><i class="fa fa-add"></i>{{availIns.user_first_name}} {{availIns.user_last_name}}</a>
+			        			</div>
+
+			        			<div class="col-md-9" [ngClass]="{'agent_block' : resultType == 'time'}">
+			        				<div *ngIf="availIns.layers > 0">
+				        				<div class="data_block data_block_small" *ngFor="let item of createRange(availIns.layers);">
+					        				<span class="t_block t1_block" *ngFor="let allSlotX of availIns.allSlots" [ngStyle]="{'width.%': allSlotX.isl == '1' ? availIns.totalSlotsP : '0'}" >
+
+					        					<span *ngIf="allSlotX.insl && allSlotX.insl[item]" class="text slot-{{allSlotX.insl[item].labelClass}}" ngbTooltip="{{allSlotX.insl[item].tip}}" (contextmenu)="switchAgent(allSlotX.insl[item])">&nbsp;</span>
+					        				</span>
+					        			</div>
+					        		</div>
+			        				<div *ngIf="resultType == 'time'" class="slider_box" id="parent_{{availIns.agent_id}}" [ngStyle]="{'width.%':availIns.totalSlotsP * totalSlotsAll}">
+			        					<div class="slider_point" id="id_{{availIns.agent_id}}" [ngStyle]="{'width.px': slider_width}">
+										  <div class="slider_curser" (mouseenter) ="dragMe(availIns.agent_id)" ></div>
+										</div>
+			        				</div>
+			        				<div class="data_block" [ngClass]="{'main_list' : resultType == 'agent'}">
+				        				<span class="t_block" *ngFor="let allSlot of availIns.allSlots" [ngStyle]="{'width.%': allSlot.isl == '1' ? availIns.totalSlotsP : '0'}">
+
+				        					<span class="text slot-{{allSlot.labelClass}}" *ngIf="allSlot.showLabel == '1'">{{allSlot.timeLabel}}</span>
+				        					<span class="null_text slot-{{allSlot.labelClass}}" *ngIf="allSlot.showLabel == '0'">&nbsp;</span>
+				        				</span>
+				        			</div>
+			        			</div>
+			        		</div>
+			        	</div>
+		        	</div> -->
+
+                            <h3 class="subtit">Inspection Fee</h3>
+
+                            <ng-container *ngIf="feesList.length > 0">
+                                <div
+                                    class="form-group row"
+                                    *ngFor="let fee of feesList"
+                                >
+                                    <label class="col-sm-3 col-lg-2 control-label text-right">{{fee.fee_name}} :</label>
+                                    <div class="col-sm-5 col-lg-2 controls">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">$</div>
+                                            </div>
+                                            <input
+                                                name="fee_real_{{fee.fee_id}}"
+                                                id="fee_real_{{fee.fee_id}}"
+                                                class="form-control fee_real_box"
+                                                [attr.data-fee-id]="fee.fee_id"
+                                                type="text"
+                                                (keyup)="recalculateFees()"
+                                                value="{{fee.job_fee_amount}}"
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-lg-2 controls">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div
+                                                    class="input-group-text"
+                                                    (click)="setDefaultFee(fee)"
+                                                ><i class="fa fa-check {{ fee.job_id !== '' ? 'text-success' : '' }}"></i>
+                                                </div>
+                                            </div>
+                                            <input
+                                                name="{{fee.fee_name}}"
+                                                id="{{fee.fee_name}}"
+                                                class="form-control"
+                                                type="text"
+                                                value="{{fee.fee_amount}}"
+                                                readonly="readonly"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-lg-2 control-label text-right">Total Base Fee :</label>
+                                <div class="col-sm-9 col-lg-2 controls">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">$</div>
+                                        </div>
+                                        <input
+                                            [(ngModel)]="schedule.job_fee"
+                                            name="job_fee"
+                                            id="job_fee"
+                                            class="form-control"
+                                            type="text"
+                                            readonly="readonly"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-lg-2 control-label text-right">Fee Discount :</label>
+                                <div class="col-sm-9 col-lg-2 controls">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">$</div>
+                                        </div>
+                                        <input
+                                            [(ngModel)]="schedule.job_fee_discount"
+                                            name="job_fee_discount"
+                                            id="job_fee_discount"
+                                            class="form-control"
+                                            value="0.00"
+                                            type="text"
+                                            readonly="readonly"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-lg-2 control-label text-right">Total Fee :</label>
+                                <div class="col-sm-9 col-lg-2 controls">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">$</div>
+                                        </div>
+                                        <input
+                                            [(ngModel)]="job_total_fee"
+                                            name="job_total_fee"
+                                            id="job_total_fee"
+                                            class="form-control"
+                                            type="text"
+                                            readonly="readonly"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-lg-2 control-label">Discount Type</label>
+                                <div class="col-sm-9 col-lg-4 controls">
+                                    <select
+                                        [(ngModel)]="schedule.job_fee_discount_type"
+                                        id="job_fee_discount_type"
+                                        name="job_fee_discount_type"
+                                        class="form-control"
+                                    >
+                                        <option value="">N/A</option>
+                                        <option value="Inspection Discount - Prepay">Prepay</option>
+                                        <option value="Inspection Discount - Package">Package</option>
+                                        <option value="Inspection Discount - Inspector">Inspector</option>
+                                        <option value="Inspection Discount - Customer Satisfaction">Customer
+                                            Satisfaction</option>
+                                    </select>
+
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+
+                                <label class="col-sm-3 col-lg-2 control-label">Payment Type</label>
+                                <div class="col-sm-9 col-lg-4 controls">
+                                    <select
+                                        [(ngModel)]="schedule.job_payment_type"
+                                        id="job_payment_type"
+                                        name="job_payment_type"
+                                        class="form-control"
+                                    >
+                                        <option value="Check">Check</option>
+                                        <option value="Credit Card">Credit Card</option>
+                                        <option value="Escrow">Escrow</option>
+                                        <option value="Invoice">Invoice</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div
+                                class="form-group row"
+                                *ngIf="schedule.job_payment_type == 'Credit Card'"
+                            >
+                                <div
+                                    for="title"
+                                    class="col-sm-3 col-lg-2"
+                                ></div>
+                                <div class="col-sm-8 col-lg-4">
+                                    <ul
+                                        class="list-group"
+                                        *ngFor="let list of holdTransactionList"
+                                    >
+                                        <li class="list-group-item bg-secondary text-white">
+                                            Amount:{{list.payment_amount}}, Status: {{list.status}} <a
+                                                *ngIf="list.status == 'HOLD'"
+                                                (click)=deleteHoldPayment(list)
+                                                class="btn btn-danger btn-sm"
+                                            ><i class="fa fa-trash"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div
+                                class="form-group row"
+                                *ngIf="schedule.job_payment_type == 'Credit Card' "
+                            >
+                                <div
+                                    class="col-sm-8 invalid-data"
+                                    *ngIf="schedule.client_id == '0' || schedule.client_id == null; else elseBlock"
+                                >
+                                    Please add ordered by party to add card information.
+                                </div>
+                                <ng-template #elseBlock>
+                                    <!-- {{schedule | json}} -->
+                                    <ng-container *ngIf="paymentStatus!='SUCCESS'">
+                                        <label class="col-sm-3 col-lg-2 control-label">Charge Credit Card Now</label>
+                                        <div class="col-sm-8 col-lg-4">
+                                            <input
+                                                type="checkbox"
+                                                [(ngModel)]="schedule.charge_card"
+                                                name="charge_card"
+                                                id=""
+                                                (change)=getCardDetalsChange(schedule.client_id,true)
+                                            >
+                                        </div>
+                                    </ng-container>
+                                </ng-template>
+                            </div>
+                            <div
+                                class="form-group row"
+                                *ngIf="schedule.job_payment_type == 'Credit Card' "
+                            >
+                                <div
+                                    class="col-sm-8 invalid-data"
+                                    *ngIf="schedule.client_id == '0' || schedule.client_id == null; else elseBlock"
+                                >
+                                    Please add ordered by party to add card information.
+                                </div>
+                                <ng-template #elseBlock>
+                                    <!-- {{schedule | json}} -->
+                                    <ng-container *ngIf="paymentStatus!='SUCCESS'">
+                                        <!-- <span > -->
+                                        <label
+                                            [hidden]="paymentStatus=='HOLD'"
+                                            class="col-sm-3 col-lg-2 control-label"
+                                        >Charge Card after Inspection</label>
+                                        <div
+                                            [hidden]="paymentStatus=='HOLD'"
+                                            class="col-sm-8 col-lg-4"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                [(ngModel)]="schedule.charge_card_inspection"
+                                                name="charge_card_inspection"
+                                                id=""
+                                                (change)=getCardDetalsChange(schedule.client_id,false)
+                                            >
+                                        </div>
+                                        <!-- </span> -->
+                                    </ng-container>
+                                </ng-template>
+                            </div>
+                            <!-- <div class="col-md-12"> -->
+                            <div
+                                class="form-group row"
+                                *ngIf="schedule.job_payment_type == 'Credit Card' && holdTransactionList.length == 0"
+                            >
+                                <label
+                                    for="title"
+                                    class="col-sm-3 col-lg-2"
+                                >
+                                    <div
+                                        class="row float-right"
+                                        *ngIf="schedule.client_id != '0' && schedule.client_id != null"
+                                    >
+                                        <button
+                                            class="btn btn-primary btn-block"
+                                            type="button"
+                                            (click)="addNewCard()"
+                                        >Add New Card</button>
+                                    </div>
+                                </label>
+                                <div
+                                    class="col-sm-8 col-lg-4"
+                                    *ngIf="clientCards?.length > 0"
+                                >
+                                    <ul
+                                        class="list-group"
+                                        *ngFor="let list of clientCards"
+                                    >
+                                        <li class="list-group-item">
+                                            {{list.card_number}} ,{{list.exp_date}} <span
+                                                class="float-right"
+                                                *ngIf="schedule.charge_card_inspection || schedule.charge_card"
+                                            ><input
+                                                    type="radio"
+                                                    name="selected_card"
+                                                    [(ngModel)]="schedule.selected_card"
+                                                    value="{{list.payment_profile_id}}"
+                                                ></span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                            <div
+                                *ngIf="show_custom_error"
+                                class="text-danger"
+                            >Please select a card or add new one</div>
+                            <div
+                                *ngIf="error_message"
+                                class="text-danger"
+                            >{{error_message}}</div>
+                            <!-- </div>    -->
+                            <div *ngIf="schedule.job_payment_type == 'Escrow'">
+                                <h4>Enter Back-up Card Info</h4>
+                                <div
+                                    class="invalid-data"
+                                    *ngIf="schedule.client_id == '0' || schedule.client_id == null"
+                                >
+                                    Please add ordered by party to add card information.
+                                </div>
+                                <div *ngIf="schedule.client_id != '0' && schedule.client_id != null">
+                                    <div
+                                        class="row"
+                                        *ngIf="clientCards?.length > 0"
+                                    >
+                                        <label class="col-sm-3 col-lg-2 control-label">&nbsp;</label>
+                                        <div class="col-sm-9 col-lg-4 controls">
+                                            <ul
+                                                class="list-group"
+                                                *ngFor="let card of clientCards"
+                                            >
+                                                <li class="list-group-item"> {{card.card_number}} ,{{card.exp_date}}
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <br />
+                                    <div
+                                        class="row"
+                                        *ngIf="schedule.client_id != '0' && schedule.client_id != null"
+                                    >
+                                        <label class="col-sm-3 col-lg-2 control-label">&nbsp;</label>
+                                        <div class="col-sm-9 col-lg-4 controls">
+                                            <a
+                                                href="javascript:void(0)"
+                                                (click)="addNewCard()"
+                                                class="btn btn-primary"
+                                            >Add New Card</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-lg-2 control-label">Payment Type Notes</label>
+                                <div class="col-sm-9 col-lg-6 controls">
+                                    <textarea
+                                        [(ngModel)]="schedule.job_payment_type_notes"
+                                        id="job_payment_type_notes"
+                                        name="job_payment_type_notes"
+                                        class="form-control"
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-lg-2 control-label">Escrow #</label>
+                                <div class="col-sm-9 col-lg-6  controls">
+                                    <input
+                                        [(ngModel)]="schedule.job_escrow_number"
+                                        id="job_escrow_number"
+                                        name="job_escrow_number"
+                                        class="form-control"
+                                        type="text"
+                                        placeholder=""
+                                        value=""
+                                    >
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-lg-2 control-label">Escrow Closing Date</label>
+                                <div class="col-sm-9 col-lg-6 controls">
+                                    <div class="input-group form-date-pick">
+                                        <input
+                                            class="form-control"
+                                            placeholder="mm/dd/yyyy"
+                                            name="job_escrow_closing_date"
+                                            [(ngModel)]="schedule.job_escrow_closing_date"
+                                            firstDayOfWeek="7"
+                                            ngbDatepicker
+                                            #dc="ngbDatepicker"
+                                            (click)="dc.toggle()"
+                                            #job_escrow_closing_date="ngModel"
+                                            (change)="onDateChange()"
+                                        >
+                                        <div class="input-group-append">
+                                            <button
+                                                class="btn btn-outline-secondary calendar"
+                                                (click)="dc.toggle()"
+                                                type="button"
+                                            >
+                                                <i
+                                                    class="fa fa-calendar"
+                                                    aria-hidden="true"
+                                                ></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div
+                                        *ngIf="(f.submitted && job_escrow_closing_date.invalid) || job_escrow_closing_date.touched "
+                                        class="invalid-data"
+                                    >
+                                        <div *ngIf="job_escrow_closing_date.errors?.required"> Payment Type is required
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <hr>
+
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-lg-2 control-label">Confirmation Email</label>
+                                <div class="col-sm-9 col-lg-10 controls">
+
+                                    <label class="checkbox-inline">
+                                        <input
+                                            [(ngModel)]="schedule.job_confirmation_email_sent"
+                                            name="job_send_confirmation_email"
+                                            [checked]="schedule.job_confirmation_email_sent == '1'"
+                                            id="job_confirmation_email_sent"
+                                            value="1"
+                                            type="checkbox"
+                                        > Send on Submit
+                                    </label>
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-lg-2 control-label">Additional emails</label>
+                                <div class="col-sm-6 col-lg-6 controls">
+                                    <!-- <label class="checkbox-inline"> -->
+                                    <input
+                                        class="form-control"
+                                        type="text"
+                                        name="additional_email"
+                                        placeholder="Emails separated by “,” "
+                                        [(ngModel)]="schedule.additional_email"
+                                    >
+                                    <!-- </label> -->
+                                </div>
+                            </div>
+                            <!-- client email list -->
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-lg-2 control-label"></label>
+                                <div class="col-sm-6 col-lg-6 controls">
+                                    <ul class="list-group">
+                                        <ng-container *ngFor="let item of schedule.client_email; let i = index;">
+                                            <li class="list-group-item">
+                                                <input
+                                                    checked
+                                                    type="checkbox"
+                                                    name="item{{item.client_id}}"
+                                                    (change)="allClientEmails(item.client_id,item,item.client_email, $event.target.checked)"
+                                                >
+                                                &nbsp;{{item.client_email}}
+                                            </li>
+                                        </ng-container>
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                            <div
+                                class="form-group row"
+                                id="google_calendar"
+                                *ngIf="calendarConnected"
+                            >
+                                <label class="col-sm-3 col-lg-2 control-label">Update Calendar</label>
+                                <div class="col-sm-9 col-lg-10 controls">
+
+                                    <label class="checkbox-inline">
+                                        <input
+                                            [(ngModel)]="schedule.add_to_calendar"
+                                            name="add_to_calendar"
+                                            id="add_to_calendar"
+                                            value="1"
+                                            type="checkbox"
+                                            [checked]="schedule.add_to_calendar == '1'"
+                                        > Add on Submit
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div
+                                class="form-group row"
+                                id="google_calendar"
+                                *ngIf="officeCalendarConnected"
+                            >
+                                <label class="col-sm-3 col-lg-2 control-label">Update Office Calendar</label>
+                                <div class="col-sm-9 col-lg-10 controls">
+
+                                    <label class="checkbox-inline">
+                                        <input
+                                            [(ngModel)]="schedule.add_to_office_calendar"
+                                            name="add_to_office_calendar"
+                                            id="add_to_office_calendar"
+                                            value="1"
+                                            type="checkbox"
+                                            [checked]="schedule.add_to_office_calendar == '1'"
+                                        > Add on Submit
+                                    </label>
+
+                                </div>
+                            </div>
+
+
+                            <br>
+
+                            <div class="form-group row">
+                                <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
+                                    <button
+                                        id="client_input_but"
+                                        class="btn btn-primary"
+                                    >Schedule Inspection</button> &nbsp; <span
+                                        *ngIf="submitted"
+                                        class="saving"
+                                    >Saving<span>.</span><span>.</span><span>.</span></span>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

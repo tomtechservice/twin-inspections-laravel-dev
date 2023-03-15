@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">X
+  </button>
+</div>
+<div class="modal-body">
+  <p>Enter in whole or part of company name to search database for existing record.</p>
+  <form action="">
+      <div class="input-group mb-3">
+          <input type="text" name="company" [(ngModel)]="company" class="form-control" placeholder="Search whole or part of company name..." aria-label="RSearch whole or part of company name..." aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <span class="input-group-text search" (click)="onSubmit()" id="basic-addon2">Search</span>
+          </div>
+        </div>
+        <!-- {{company_list | json}} -->
+  </form>
+  <br>
+  <table class="table table-bordered">
+    <!-- <thead>
+      <tr>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+      </tr> 
+    </thead> -->
+    <tbody>
+      <tr class="search-list" *ngFor="let list  of company_list" (click)="onSelectCompany(list.company_id,list.company_name)">
+            <td>{{list.company_name}}</td>
+            <td>{{list.company_address1}}</td>
+            <td>{{list.company_phone}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

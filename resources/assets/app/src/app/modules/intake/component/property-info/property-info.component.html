@@ -1,0 +1,309 @@
+<app-panel [page_title]="page_title"></app-panel>
+<div class="intake-tab-content">
+  <div class="row pb-2 pt-4 intab-content">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="h4-heading">Inspection Type</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <form (ngSubmit)="f.form.valid && propertySubmit()" #f="ngForm" novalidate autocomplete="off" >
+            <div class="row">
+              <div class="col-md-12">
+                <p class="help-inline"><i class="fa fa-question-circle"></i> Important: when creating a new order that
+                  is a Limited, or Supplemental it is important to use the Look Up utility and find the
+                  Property Info of the Original or last related Inspection Order.
+                </p>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Inspection Type :</b> </label>
+                  <div class="col-md-8">
+                    <select id="job_sub_type" name="job_sub_type" class="form-control" [(ngModel)]="property.job_sub_type" #job_sub_type="ngModel" required>
+                      <option value=""></option>
+                      <option value="Original">Original</option>
+                      <option value="Limited">Limited</option>
+                    </select>
+                    <div *ngIf="(f.submitted && job_sub_type.invalid) || job_sub_type.touched " class="invalid-data" >
+                      <div *ngIf="job_sub_type.errors?.required"> Inspection Type is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <h4 class="h4-heading pb-3">Property Address</h4>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Street Address :</b> </label>
+                  <div class="col-md-8">
+                    <div class="input-group">
+                      <input class="form-control" type="text" id='property_address1'  name="property_address1" autocomplete="on"
+                        [(ngModel)]="property.property_address1"  (change)="getProperty($event)" #property_address1="ngModel" [ngClass]="{ 'is-invalid': f.submitted && property_address1.invalid }"  required>
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-primary" (click)="getProperty($event)">
+                          <span class="fa fa-search"></span>
+                        </button>
+                      </div>
+                    </div>
+                    <div *ngIf="(f.submitted && property_address1.invalid) || property_address1.touched " class="invalid-data" >
+                        <div *ngIf="property_address1.errors?.required"> Property Address is required</div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Apt., Suite, etc :</b> </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="text" id="property_address2" name="property_address2" [(ngModel)]="property.property_address2">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>City :</b> </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="text" id="property_city" name="property_city" [(ngModel)]="property.property_city"  #propertyCity="ngModel" [ngClass]="{ 'is-invalid': f.submitted && propertyCity.invalid }" required>
+                    <!-- <div [hidden]="propertyCity.valid || propertyCity.untouched"
+                          class="alert alert-danger">
+                          Property City is required
+                    </div> -->
+                    <div *ngIf="(f.submitted && propertyCity.invalid) || propertyCity.touched " class="invalid-data" >
+                      <div *ngIf="propertyCity.errors?.required"> Property City is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>State :</b> </label>
+                  <div class="col-md-8">
+                    <select class="form-control" id="property_state" name="property_state" [(ngModel)]="property.property_state">
+                      <option *ngFor="let state of states " [value]="state.id">{{state.name}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Zip Code :</b> </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="text" id="property_zip" minlength="5" name="property_zip" [(ngModel)]="property.property_zip"  #propertyZip="ngModel" [ngClass]="{ 'is-invalid': f.submitted && propertyZip.invalid }" (keyup)="checkZip()" required>
+                    <!-- <div [hidden]="propertyZip.valid || propertyZip.untouched"
+                          class="alert alert-danger">
+                          Property Zip is required
+                    </div> -->
+                    <div *ngIf="(f.submitted && propertyZip.invalid) || propertyZip.touched " class="invalid-data" >
+                        <div *ngIf="propertyZip.errors?.required"> Property Zip is required</div>
+                        <div *ngIf="propertyZip.errors?.minlength">
+                          Zip Code must be at least 5 characters long.
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <label for="title"><b>Multi Story :</b> </label>
+                  <input type="checkbox" id="multi_story" name="multi_story" [(ngModel)]="property.multi_story">
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Access :</b> </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="text" id="property_access" name="property_access" [(ngModel)]="property.property_access">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Gate Code :</b> </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="text" id="property_gate_code" name="property_gate_code"
+                      [(ngModel)]="property.property_gate_code">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Lock Box Code :</b> </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="text" id="property_lock_box_code" name="property_lock_box_code"
+                      [(ngModel)]="property.property_lock_box_code" (blur)="lockBoxCodeEntered()">
+                  </div>
+                </div>
+              </div>
+              <!-- info -->
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Property Type : </b> </label>
+                  <div class="col-md-8">
+                    <select class="form-control" id="property_type" name="property_type" [(ngModel)]="property.property_type"  #propertyType='ngModel' required>
+                      <option value=""></option>
+                      <option value="single family">Single Family</option>
+                      <option value="multi">multi</option>
+                    </select>
+                    <div *ngIf="(f.submitted && propertyType.invalid) || propertyType.touched " class="invalid-data" >
+                      <div *ngIf="propertyType.errors?.required"> Property Type is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Foundation : </b> </label>
+                  <div class="col-md-8">
+                    <select class="form-control" id="property_foundation" name="property_foundation" [(ngModel)]="property.property_foundation"  #propertyFoun='ngModel' required>
+                      <option value=""></option>
+                      <option value="slab">Slab</option>
+                      <option value="raised">Raised</option>
+                    </select>
+                    <div *ngIf="(f.submitted && propertyFoun.invalid) || propertyFoun.touched " class="invalid-data" >
+                      <div *ngIf="propertyFoun.errors?.required"> Foundation is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Property Year Built : </b> </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="number" id="property_year" name="property_year" [(ngModel)]="property.property_year"  #yearBuilt='ngModel' [ngClass]="{ 'is-invalid': f.submitted && yearBuilt.invalid }" required>
+                    <span class="help-inline">from Zillow: {{zillData.year}} <a class="link" (click)="zillYear(zillData.year)"><i class="fa fa-plus"></i> add</a></span>
+                    <div *ngIf="(f.submitted && yearBuilt.invalid) || yearBuilt.touched " class="invalid-data" >
+                        <div *ngIf="yearBuilt.errors?.required"> Year Built is required</div>
+                      </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Property Square Feet :</b> </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="number" id="property_square_feet" name="property_square_feet"
+                      [(ngModel)]="property.property_square_feet"  #squareFeet='ngModel' [ngClass]="{ 'is-invalid': f.submitted && squareFeet.invalid }" required>
+                      <span class="help-inline">from Zillow: {{zillData.feet}} <a class="link" (click)="zillFeet(zillData.feet)" ><i class="fa fa-plus"></i> add</a></span>
+                      <div *ngIf="(f.submitted && squareFeet.invalid) || squareFeet.touched " class="invalid-data" >
+                          <div *ngIf="squareFeet.errors?.required"> Square Feet is required</div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Internal Office Notes :</b> </label>
+                  <div class="col-md-8">
+                    <textarea class="form-control" id="property_notes" name="property_notes" [(ngModel)]="property.property_notes"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Notes to Inspector :</b> </label>
+                  <div class="col-md-8">
+                    <textarea class="form-control" id="inspector_notes" name="inspector_notes" [(ngModel)]="property.inspector_notes"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12" [hidden]="!over_ride_branch">
+                
+                <div id="zip_lookup_results" style="display: block;">
+                  <p class="invalid-data" *ngIf="msgShow">{{branchDetails.msg}}</p>
+                  <table class="table fill-head" *ngIf="branch_display">
+                    <thead>
+                      <tr>
+                        <th>Branch</th>
+                        <th>Zip</th>
+                        <th>City</th>
+                        <th>County</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{branchDetails.name}}</td>
+                        <td>{{branchDetails.zip}}</td>
+                        <td>{{branchDetails.city}}</td>
+                        <td>{{branchDetails.country}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Override Branch : </b> </label>
+                  <div class="col-md-8">
+                    <select class="form-control" id="branch_id" #branch_id='ngModel' name="branch_id" [(ngModel)]="property.branch_id" (change)="changeBranch()" [ngClass]="{ 'is-invalid': f.submitted && branch_id.invalid }" required >
+                      <option value="">select branch</option>
+                      <option *ngFor="let branch of branches" [value]="branch.branch_id" >{{branch.branch_name}}</option>
+                    </select>
+                    <div *ngIf="(f.submitted && branch_id.invalid) || branch_id.touched " class="invalid-data" >
+                      <div *ngIf="branch_id.errors?.required"> Branch is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="title" class="col-md-3 col-form-label"><b>Use Street View (right) as Property Photo? :
+                    </b> </label>
+                  <!-- <input class="form-control" type="text" id="cname" name="cname"  > -->
+                  <div class="col-md-8">
+                    <div class="form-control form-border">
+                      <input name="is_company" id="is_company_yes" value="1" type="radio" [(ngModel)]="property.property_use_google_maps">
+                      Yes&nbsp;&nbsp;
+                      <input name="is_company" id="is_company_no" value="0" type="radio" [(ngModel)]="property.property_use_google_maps"
+                        checked="checked"> No
+                    </div>
+                  </div>
+                </div>
+                <!-- street view map -->
+                <div>
+                    <span class="btn btn-primary" (click)="getStreetMap()">{{map_button_status}}</span>
+                </div>
+                <a class="btn btn-default btn-sm" [hidden]="map_status" (click)="regenerateAddress()"><i class="fa fa-retweet"></i> Re-Generate Street View</a> <br>
+                <div id="panozz" [hidden]="map_status" style="height: 300px;"></div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <br>
+                  <br>
+                  <button id="client_input_but" class="btn btn-primary">Enter Property -> Next</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input id="cancel_insp_but" class="btn btn-primary" type="button" value="  Cancel Inspection  "> &nbsp; <span *ngIf="submitted" class="saving">Saving<span>.</span><span>.</span><span>.</span></span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-6">
+          <h4 class="h4-heading pb-2">Property Lookup</h4>
+          <span *ngIf='address'>
+            <div class="card shadow mb-2 bg-white rounded" *ngFor="let addr of address ">
+              <div class="card-body" (click)="propertyAddress(addr)">
+                <div class="row">
+                  <div class="col-md-6">
+                    <span [innerHTML]="addr.address"></span>
+                  </div>
+                  <div class="col-md-6">
+                    <label><b>Report Id(s):</b> {{addr.report}}</label><br>
+                    <label><b>Type :</b> {{addr.type}}</label><br>
+                    <label><b>Ordered By:</b> {{addr.ordered_by}}</label><br>
+                    <label><b>Insp. Date:</b> {{addr.date}}</label><br>
+                    <label><b>Inspector Name:</b> {{addr.inspector_name}}</label><br>
+                    <label><b>Insp. Status:</b> {{addr.inspection_status}}</label><br>
+                  </div>
+                </div>
+                <!-- {{state.address}} -->
+              </div>
+            </div>
+          </span>
+          <div [hidden]='!no_data'><h3>Result Not Found</h3></div>
+          <!-- <span >skzjdfhdskj</span> -->
+          <div [hidden]='!loading' class="signal"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

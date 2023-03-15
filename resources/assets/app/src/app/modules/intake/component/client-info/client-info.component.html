@@ -1,0 +1,51 @@
+<app-panel [page_title]="page_title"></app-panel>
+<div class="intake-tab-content">
+  <div class="row tabbable">
+    <div class="col-md-12">
+      <!-- <ngb-tabset #intakeTab="ngbTabset" [activeId]="selectedTab" (tabChange)="beforeChange($event)"> -->
+      <ngb-tabset #intakeTab="ngbTabset">
+        <!-- <ngb-tab id="client_id" title="Client">
+          <ng-template ngbTabContent>
+            <app-client [intakeTab]="intakeTab"></app-client>
+          </ng-template>
+        </ngb-tab> -->
+        <ngb-tab id="buyer_agent_id">
+          <ng-template ngbTabTitle >Buyer's Agent</ng-template>
+          <ng-template ngbTabContent>
+            <app-client [intakeTab]="intakeTab"></app-client>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="seller_agent_id">
+          <ng-template ngbTabTitle>Seller's Agent</ng-template>
+          <ng-template ngbTabContent>
+            <app-client [intakeTab]="intakeTab"></app-client>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="title_escrow_id">
+          <ng-template ngbTabTitle>Escrow</ng-template>
+          <ng-template ngbTabContent>
+            <app-client [intakeTab]="intakeTab"></app-client>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="property_owner_id">
+          <ng-template ngbTabTitle>Owner</ng-template>
+          <ng-template ngbTabContent>
+            <app-client [intakeTab]="intakeTab"></app-client>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="buyer_id">
+          <ng-template ngbTabTitle>Buyer</ng-template>
+          <ng-template ngbTabContent>
+            <app-client [intakeTab]="intakeTab"></app-client>
+          </ng-template>
+        </ngb-tab>
+        <!-- <ngb-tab id="other_id">
+          <ng-template ngbTabTitle>Other</ng-template>
+          <ng-template ngbTabContent>
+            <app-client [intakeTab]="intakeTab"></app-client>
+          </ng-template>
+        </ngb-tab> -->
+      </ngb-tabset>
+    </div>
+  </div>
+</div>

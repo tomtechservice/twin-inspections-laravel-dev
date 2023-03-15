@@ -1,0 +1,318 @@
+<!-- <div class="row">
+    <div class="col-md-12">
+        <div class="page-title">
+            <div>
+                <h1><i class="fa fa-search-plus"></i>  Inspection: Order New</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="intake_header">
+    <div class="row tabbable">
+        <div class="col-md-12">
+            <ngb-tabset #intakeTab="ngbTabset">
+                <ngb-tab id="tab-selectbyid1" title="Client">
+                    <ng-template ngbTabContent>
+                        <app-client-info></app-client-info>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab-selectbyid2">
+                    <ng-template ngbTabTitle>Property</ng-template>
+                    <ng-template ngbTabContent>
+                        <app-property-info [intakeTab]="intakeTab"></app-property-info>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab-selectbyid3">
+                    <ng-template ngbTabTitle>Property Details</ng-template>
+                    <ng-template ngbTabContent>
+                        <app-property-details [intakeTab]="intakeTab"></app-property-details>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab-selectbyid4">
+                    <ng-template ngbTabTitle>Scheduling</ng-template>
+                    <ng-template ngbTabContent>
+                        <app-scheduling [intakeTab]="intakeTab"></app-scheduling>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab-selectbyid6">
+                    <ng-template ngbTabTitle>Inspection Info</ng-template>
+                    <ng-template ngbTabContent>
+                        <app-inspection-info [intakeTab]="intakeTab"></app-inspection-info>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab-selectbyid7">
+                    <ng-template ngbTabTitle>Findings</ng-template>
+                    <ng-template ngbTabContent>
+                        <app-findings [intakeTab]="intakeTab"></app-findings>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab-selectbyid8">
+                    <ng-template ngbTabTitle>Diagram</ng-template>
+                    <ng-template ngbTabContent>
+                        <app-diagram [intakeTab]="intakeTab"></app-diagram>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab-selectbyid5">
+                    <ng-template ngbTabTitle>Confirm Inspection</ng-template>
+                    <ng-template ngbTabContent>
+                        <app-confirm-inspection></app-confirm-inspection>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab-selectbyid9">
+                    <ng-template ngbTabTitle>Job Info</ng-template>
+                    <ng-template ngbTabContent>
+                        <app-job-info [intakeTab]="intakeTab"></app-job-info>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab-selectbyid10">
+                    <ng-template ngbTabTitle>Completion Tasks</ng-template>
+                    <ng-template ngbTabContent>
+                        <app-completion-tasks [intakeTab]="intakeTab"></app-completion-tasks>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab-selectbyid11">
+                    <ng-template ngbTabTitle>Confirm</ng-template>
+                    <ng-template ngbTabContent>
+                        <app-confirm></app-confirm>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab-selectbyid12">
+                    <ng-template ngbTabTitle>Overview</ng-template>
+                    <ng-template ngbTabContent>
+                        <app-overview [intakeTab]="intakeTab"></app-overview>
+                    </ng-template>
+                </ngb-tab>
+
+            </ngb-tabset>
+        </div>
+    </div>
+</div> -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-title">
+            <div class="page-title-cont">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1><i class="fa fa-search-plus"></i> {{page_title}}</h1>
+                    </div>
+                    <div class="col-md-6">
+                        <div
+                            class="panel-head-select"
+                            *ngIf='showJobsDropdown && allJobsData?.length > 1'
+                        >
+                            <select
+                                class="inspections-head-select"
+                                (change)="goTotheParentJob()"
+                                [(ngModel)]='parentChildJobId'
+                            >
+                                <ng-container *ngFor="let allJobs of allJobsData">
+                                    <ng-container *ngIf="allJobs.property">
+                                        <option value="{{allJobs.job_id}}">
+                                            <ng-container *ngIf='allJobs.property.property_address1'>
+                                                {{allJobs.property.property_address1}}</ng-container>
+                                            <ng-container *ngIf='allJobs.property.property_address2'>,
+                                                {{allJobs.property.property_address2}}</ng-container>
+                                            <ng-container *ngIf='allJobs.property.property_city'>,
+                                                {{allJobs.property.property_city}}</ng-container>
+                                            <ng-container *ngIf='allJobs.property.property_state'>,
+                                                {{allJobs.property.property_state}}</ng-container>
+                                            <ng-container *ngIf='allJobs.property.property_zip'>,
+                                                {{allJobs.property.property_zip}}</ng-container>
+                                            <ng-container *ngIf='allJobs.property.property_address1'>
+                                                <ng-container>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<strong>Report #:</strong>{{allJobs.job_id}}
+                                                    {{allJobs.job_ref_suffix}}
+                                                </ng-container>
+                                            </ng-container>
+                                        </option>
+                                    </ng-container>
+                                    <ng-container *ngIf="!allJobs.property">
+                                        <option value="{{allJobs.job_id}}">
+                                            <ng-container>
+                                                <strong>Report #:</strong>{{allJobs.job_id}} {{allJobs.job_ref_suffix}}
+                                                (No Property)
+                                            </ng-container>
+                                        </option>
+                                    </ng-container>
+                                </ng-container>
+                            </select>
+                        </div>
+                        <div
+                            class="panel-head-select"
+                            *ngIf='showJobsDropdown && allJobsData?.length == 1'
+                        >
+                            <ng-container *ngFor="let allJobs of allJobsData">
+                                <ng-container *ngIf="allJobs.property">
+                                    <a
+                                        class="panel-head--single-link"
+                                        routerLink="/inspections-completed-sheet/{{jobId}}"
+                                    >
+                                        <ng-container *ngIf='allJobs.property.property_address1'>
+                                            {{allJobs.property.property_address1}}</ng-container>
+                                        <ng-container *ngIf='allJobs.property.property_address2'>,
+                                            {{allJobs.property.property_address2}}</ng-container>
+                                        <ng-container *ngIf='allJobs.property.property_city'>,
+                                            {{allJobs.property.property_city}}</ng-container>
+                                        <ng-container *ngIf='allJobs.property.property_state'>,
+                                            {{allJobs.property.property_state}}</ng-container>
+                                        <ng-container *ngIf='allJobs.property.property_zip'>,
+                                            {{allJobs.property.property_zip}}</ng-container>
+                                        <ng-container *ngIf='allJobs.property.property_address1'>
+                                            <ng-container>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<strong>Report #:</strong>{{allJobs.job_id}}
+                                                {{allJobs.job_ref_suffix}}
+                                            </ng-container>
+                                        </ng-container>
+                                    </a>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="clear"
+                    style="clear:both"
+                ></div>
+            </div>
+        </div>
+        <!-- END Page Title -->
+
+
+
+    </div>
+</div>
+<div class="intake_header">
+    <div class="row tabbable">
+        <div class="col-md-12">
+            <div class="scroll-nav">
+                <ul class="nav nav-tabs justify-content-start">
+                    <li
+                        class="nav-item"
+                        *ngFor="let tab of tabs_order"
+                    >
+                        <a
+                            id="tab-selectbyid{{tab}}"
+                            routerLink="/{{tab_links[tab] + (jobId != '' ? '/' + jobId : '')}}"
+                            class="nav-link"
+                            [ngClass]="{'active': location == tab_links[tab]}"
+                        >{{tab_labels[tab]}}</a>
+                    </li>
+                    <li
+                        class="nav-item"
+                        *ngIf="tab"
+                    >
+                        <a
+                            id="tab-selectbyid6"
+                            routerLink="/inspections-profile/{{jobId}}"
+                            class="nav-link"
+                            [ngClass]="{'active': location == 'inspections-profile'}"
+                        >Inspection Info</a>
+                    </li>
+                    <li
+                        class="nav-item"
+                        *ngIf="tab"
+                    >
+                        <a
+                            id="tab-selectbyid7"
+                            routerLink="/inspections-profile-findings/{{jobId}}"
+                            class="nav-link"
+                            [ngClass]="{'active': location == 'inspections-profile-findings'}"
+                        >Findings</a>
+                        <!-- <a id="tab-selectbyid7"  href="{{old_site}}url/inspections_profile_findings/{{jobId}}"  class="nav-link" [ngClass]="{'active': location == 'inspections-profile-findings'}">Findings</a> -->
+                    </li>
+                    <li
+                        class="nav-item"
+                        *ngIf="tab"
+                    >
+                        <a
+                            id="tab-selectbyid8"
+                            routerLink="/inspections-profile-diagram/{{jobId}}"
+                            class="nav-link"
+                            [ngClass]="{'active': location == 'inspections-profile-diagram'}"
+                        >Diagram</a>
+                    </li>
+                    <li
+                        class="nav-item"
+                        *ngIf="tab"
+                    >
+                        <a
+                            id="tab-selectbyid5"
+                            routerLink="/inspections-profile-review/{{jobId}}"
+                            class="nav-link"
+                            [ngClass]="{'active': location == 'inspections-profile-review'}"
+                        >Confirm Inspection</a>
+                        <!-- <a id="tab-selectbyid5" href="{{old_site}}url/inspections_profile_review/{{jobId}}" class="nav-link" [ngClass]="{'active': location == 'inspections-profile-review'}">Confirm Inspection</a>  -->
+                    </li>
+                    <li
+                        class="nav-item"
+                        *ngIf='inspector && tab'
+                    >
+                        <a
+                            id="tab-selectbyid9"
+                            routerLink="/inspections-job/{{jobId}}"
+                            class="nav-link"
+                            [ngClass]="{'active': location == 'inspections-job'}"
+                        >Job Info</a>
+                        <!-- <a id="tab-selectbyid9" href="{{old_site}}url/inspections_job/{{jobId}}" class="nav-link" [ngClass]="{'active': location == 'inspections-job'}">Job Info</a> -->
+
+                    </li>
+                    <li
+                        class="nav-item"
+                        *ngIf='inspector && tab'
+                    >
+                        <a
+                            id="tab-selectbyid10"
+                            routerLink="/inspections-job-completion/{{jobId}}"
+                            class="nav-link"
+                            [ngClass]="{'active': location == 'inspections-job-completion'}"
+                        >Completion Tasks</a>
+                        <!-- <a id="tab-selectbyid10" href="{{old_site}}url/inspections_job_completion/{{jobId}}" class="nav-link" [ngClass]="{'active': location == 'inspections-job-completion'}">Completion Tasks</a>  -->
+                    </li>
+                    <li
+                        class="nav-item"
+                        *ngIf='inspector && tab'
+                    >
+                        <a
+                            id="tab-selectbyid11"
+                            routerLink="/inspections-job-review/{{jobId}}"
+                            class="nav-link"
+                            [ngClass]="{'active': location == 'inspections-job-review'}"
+                        >Confirm</a>
+                        <!-- <a id="tab-selectbyid11" href="{{old_site}}url/inspections_job_review/{{jobId}}" class="nav-link" [ngClass]="{'active': location == 'inspections-job-review'}">Confirm</a> -->
+                    </li>
+                    <li
+                        class="nav-item"
+                        *ngIf='inspector && tab'
+                    >
+                        <a
+                            id="tab-selectbyid12"
+                            routerLink="/inspections-completed-sheet/{{jobId}}"
+                            class="nav-link"
+                            [ngClass]="{'active': location == 'inspections-completed-sheet'}"
+                        >Overview</a>
+                        <!-- <a id="tab-selectbyid12" href="{{old_site}}url/inspections_completed_sheet/{{jobId}}" class="nav-link" [ngClass]="{'active': location == 'inspections-completed-sheet'}">Overview</a> -->
+                    </li>
+                    <li
+                        class="add_tab"
+                        *ngIf="jobId != '' && inspector"
+                    >
+                        <a
+                            (click)="displayTab(false)"
+                            *ngIf="tab"
+                        ><i
+                                class="fa fa-minus-circle"
+                                aria-hidden="true"
+                            ></i></a>
+                        <a
+                            (click)="displayTab(true)"
+                            *ngIf="!tab"
+                        ><i
+                                class="fa fa-plus-circle"
+                                aria-hidden="true"
+                            ></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

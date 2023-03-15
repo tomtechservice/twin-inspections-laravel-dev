@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{modal_title}}</h4>
+    <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="closeModal()"
+    >X
+    </button>
+</div>
+<div class="modal-body">
+    <form>
+        <div class="form-group">
+            <h5
+                [innerHTML]="lockoutSetting.message"
+                *ngIf="lockout_type == ''"
+            ></h5>
+            <h5
+                [innerHTML]="lockoutSetting.finding_message"
+                *ngIf="lockout_type == 'findings'"
+            ></h5>
+            <div class="form-group row">
+                <label class="col-sm-3 col-lg-3 control-label">Pin Code :</label>
+                <div class="col-sm-5 col-lg-5 controls">
+                    <input
+                        id="lockout_pin"
+                        name="lockout_pin"
+                        [(ngModel)]="lockout_pin"
+                        class="form-control"
+                        type="password"
+                        placeholder=""
+                    >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-12 offset-3 col-md-8">
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        (click)="verifyLockoutPin($event)"
+                    >Verify</button>
+                </div>
+            </div>
+
+            <div
+                *ngIf="verified_error"
+                class="text-danger"
+            >{{verified_error}}</div>
+
+        </div>
+        <!-- <button type="submit" class="btn btn-success">Save</button> -->
+
+    </form>
+
+</div>
+<div class="modal-footer">
+</div>

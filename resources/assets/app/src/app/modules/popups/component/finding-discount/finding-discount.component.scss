@@ -1,0 +1,13 @@
+span.input-group-addon {
+    width: 25px;
+    padding: 6px;
+    background-color: #373737;
+    border-radius: 2px;
+    color: #fff;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}

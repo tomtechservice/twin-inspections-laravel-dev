@@ -1,0 +1,105 @@
+<div class="alert alert-danger" *ngIf="error_message !=''">
+  <strong>Error!</strong>
+  {{error_message}}
+</div>
+<div class="alert alert-success" *ngIf="success_message !=''">
+  <strong>Succes!</strong>
+  {{success_message}}
+</div>
+<div class="row py-2 border ml-2" *ngFor="let card of cardList ; trackBy: trackByFn">
+  <div class="col-md-12">
+    <div class="">
+      <i class="text-muted">
+        Card:
+      </i>
+      {{card.card_number}}
+      <i class="text-muted  pl-3">
+        Exp Date:
+      </i>
+      {{card.exp_date}}
+      <i class="text-muted  pl-3">
+        ID (Authorize REF):
+      </i>
+      {{card.payment_profile_id}}
+      <span class="float-right">
+        <a class="btn btn-danger btn-sm" (click)="cardDelete(card.id)"><i class="fa fa-trash-o"></i></a>
+      </span>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-5">
+        <b>Billing Address</b><br><br>
+        <i class="text-muted pr-2">
+          First Name:
+        </i>
+        {{card.billing_first_name}}<br>
+        <i class="text-muted pr-2">
+          Last Name:
+        </i>
+        {{card.billing_last_name}}<br>
+        <i class="text-muted pr-2">
+          Company Name:
+        </i>
+        {{card.billing_company_name}}<br>
+        <i class="text-muted pr-2">
+          Address:
+        </i>
+        {{card.billing_address1}}<br>
+        <i class="text-muted pr-2">
+          City:
+        </i>
+        {{card.billing_city}}<br>
+        <i class="text-muted pr-2">
+          State:
+        </i>
+        {{card.billing_state}}<br>
+        <i class="text-muted pr-2">
+          Zip:
+        </i>
+        {{card.billing_zip}}<br>
+        <i class="text-muted pr-2">
+          Phone:
+        </i>
+        {{card.billing_phone}}<br>
+      </div>
+      <!-- <div class="col-md-5">
+        <b>Shipping Address</b><br><br>
+        <i class="text-muted pr-2">
+          First Name:
+        </i>
+        {{card.shipping_first_name}}<br>
+        <i class="text-muted pr-2">
+          Last Name:
+        </i>
+        {{card.shipping_last_name}}<br>
+        <i class="text-muted pr-2">
+          Company Name:
+        </i>
+        {{card.shipping_company_name}}<br>
+        <i class="text-muted pr-2">
+          Address:
+        </i>
+        {{card.shipping_address1}}<br>
+        <i class="text-muted pr-2">
+          City:
+        </i>
+        {{card.shipping_city}}<br>
+        <i class="text-muted pr-2">
+          State:
+        </i>
+        {{card.shipping_state}}<br>
+        <i class="text-muted pr-2">
+          Zip:
+        </i>
+        {{card.shipping_zip}}<br>
+        <i class="text-muted pr-2">
+          Phone:
+        </i>
+        {{card.shipping_phone}}<br>
+      </div> -->
+    </div>
+
+  </div>
+
+</div>

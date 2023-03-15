@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-12">
+    <p>
+      <strong>Property Address:</strong><br> 
+      <span *ngIf="job?.property_address1">{{job?.property_address1}},</span> {{job?.property_address2}}
+      <br>
+      <span *ngIf="job?.property_city">{{job?.property_city}},</span>  {{job?.property_state}}
+      {{job?.property_zip}}
+    </p>
+  </div>
+  <div class="col-md-4">
+    <br>
+    <h5 class="h5-heading">Property Details</h5>
+    <p><b>Property Type: </b>{{job?.property_type}}</p>
+    <p><b>Foundation: </b>{{job?.property_foundation}}</p>
+    <p><b>Year Built: </b>{{job?.property_year}}</p>
+    <p><b>Square Feet: </b>{{job?.property_square_feet}}</p>
+    <p><b>Notes: </b>{{job?.property_notes}}</p>
+  </div>
+  <div class="col-md-8">
+      <div id="panozz" [hidden]="map_status" style="height: 300px;"></div>
+  </div>
+  <div class="col-md-12">
+      <button class="btn btn-primary" (click)="onShowMap()">{{map_button_status}}</button>
+  </div>
+
+</div>
